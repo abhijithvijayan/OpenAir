@@ -2875,10 +2875,10 @@ eslint-config-airbnb@^18.0.1:
     object.assign "^4.1.0"
     object.entries "^1.1.0"
 
-eslint-config-onepass@1.3.4:
-  version "1.3.4"
-  resolved "https://registry.yarnpkg.com/eslint-config-onepass/-/eslint-config-onepass-1.3.4.tgz#a02fcc96154e95f48b3a8dd0093f30d0dee0c5c6"
-  integrity sha512-e1zAmBMviOkrxJ6FgdI8iM1+drovb5inJdHDo34wMHTTYRUPA1u+FbHQNbIXEc9pYs8/VbdfGZp76mMuzy+PAQ==
+eslint-config-onepass@1.3.5:
+  version "1.3.5"
+  resolved "https://registry.yarnpkg.com/eslint-config-onepass/-/eslint-config-onepass-1.3.5.tgz#932d2448b0a6185f631943af1b5d636c7bfac091"
+  integrity sha512-MBt5TfhVjenCl30J49fmaG8X1jewx+1r4wRA8IrZ02NA5LQBh9CtYKYzlvTC7uIUEEDUD//fvystWQimHBzp7w==
 
 eslint-config-prettier@^6.3.0:
   version "6.3.0"
@@ -3005,7 +3005,7 @@ eslint-visitor-keys@^1.0.0, eslint-visitor-keys@^1.1.0:
   resolved "https://registry.yarnpkg.com/eslint-visitor-keys/-/eslint-visitor-keys-1.1.0.tgz#e2a82cea84ff246ad6fb57f9bde5b46621459ec2"
   integrity sha512-8y9YjtM1JBJU/A9Kc+SbaOV4y29sSWckBwMHa+FGtVj5gN/sbnKDf6xJUl+8g7FAij9LVaP8C24DUiH/f/2Z9A==
 
-eslint@^6.4.0:
+eslint@^6.5.0:
   version "6.5.0"
   resolved "https://registry.yarnpkg.com/eslint/-/eslint-6.5.0.tgz#304623eec903969dd5c9f2d61c6ce3d6ecec8750"
   integrity sha512-IIbSW+vKOqMatPmS9ayyku4tvWxHY2iricSRtOz6+ZA5IPRlgXzEL0u/j6dr4eha0ugmhMwDTqxtmNu3kj9O4w==
