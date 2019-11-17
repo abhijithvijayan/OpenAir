@@ -5,6 +5,10 @@
   "private": true,
   "author": "abhijithvijayan",
   "license": "MIT",
+  "scripts": {
+    "start": "node broker.js",
+    "server": "nodemon ./broker.js"
+  },
   "dependencies": {
     "mosca": "^2.8.3"
   }

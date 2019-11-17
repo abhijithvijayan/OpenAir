@@ -11,7 +11,7 @@
     "nohoist": []
   },
   "scripts": {
-    "bootstrap": "yarn",
+    "mqtt:server": "yarn workspace @openair/rpi server",
     "dev:web": "yarn workspace @openair/server server",
     "build:web": "yarn workspace @openair/web build",
     "lint": "eslint .",
