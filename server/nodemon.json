@@ -1,6 +1,11 @@
 {
   "verbose": false,
-  "ignore": ["../client/.next", "../node_modules", "../client/node_modules"],
+  "ignore": [
+    "../packages/web/.next",
+    "../node_modules",
+    "../packages/rpi/node_modules",
+    "../packages/web/node_modules"
+  ],
   "watch": ["../server/**/*"],
   "ext": "js json"
 }
