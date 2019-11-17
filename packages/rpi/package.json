@@ -6,11 +6,13 @@
   "author": "abhijithvijayan",
   "license": "MIT",
   "scripts": {
-    "start": "node broker.js",
-    "server": "nodemon ./broker.js"
+    "server": "nodemon ./broker.js",
+    "subscriber": "nodemon ./subscriber.js",
+    "publisher": "nodemon ./publisher.js"
   },
   "dependencies": {
-    "mosca": "^2.8.3"
+    "mosca": "^2.8.3",
+    "mqtt": "^3.0.0"
   },
   "devDependencies": {
     "nodemon": "^1.19.4"
