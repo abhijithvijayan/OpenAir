@@ -8,5 +8,5 @@ const moscaSettings = {
 const server = new mosca.Server(moscaSettings);
 
 server.on('ready', () => {
-    console.log(`> MQTT server running on http://localhost:${moscaSettings.port}`); // eslint-disable-line no-console
+    console.log(`> MQTT server running on mqtt://localhost:${moscaSettings.port}`); // eslint-disable-line no-console
 });
