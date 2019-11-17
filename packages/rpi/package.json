@@ -1,0 +1,8 @@
+{
+  "name": "@openair/rpi",
+  "version": "1.0.0",
+  "node": ">=8 <11",
+  "private": true,
+  "author": "abhijithvijayan",
+  "license": "MIT"
+}
