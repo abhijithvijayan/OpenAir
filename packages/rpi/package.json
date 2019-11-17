@@ -4,5 +4,8 @@
   "node": ">=8 <11",
   "private": true,
   "author": "abhijithvijayan",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "mosca": "^2.8.3"
+  }
 }
