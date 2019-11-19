@@ -4,7 +4,8 @@
 // Update these with values suitable for your network.
 const char *ssid = "xxxxxx";
 const char *password = "xxxxxx";
-IPAddress mqtt_server(xxx, xxx, xxx, xxx); // local IP of RPi
+// local IP of RPi
+IPAddress mqtt_server(xxx, xxx, xxx, xxx);
 
 // Initialize the client object
 WiFiClient espClient;
