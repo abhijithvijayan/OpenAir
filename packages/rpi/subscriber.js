@@ -3,7 +3,7 @@ const mqtt = require('mqtt');
 const serverIP = process.env.MQTT_SERVER_IP;
 
 // Connect to mqtt server
-const mqttClient = mqtt.connect(serverIP);
+const mqttClient = mqtt.connect(serverIP, { clientId: 'OpenAir' });
 
 mqttClient.on('connect', function() {
     mqttClient.subscribe('sensors');
