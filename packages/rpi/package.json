@@ -6,7 +6,7 @@
   "author": "abhijithvijayan",
   "license": "MIT",
   "scripts": {
-    "server": "nodemon ./broker.js",
+    "broker": "nodemon ./broker.js",
     "subscriber": "nodemon ./subscriber.js",
     "publisher": "nodemon ./publisher.js"
   },
