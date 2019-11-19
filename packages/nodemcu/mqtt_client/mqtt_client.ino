@@ -1,36 +1,12 @@
-/*
- Basic ESP8266 MQTT example
-
- This sketch demonstrates the capabilities of the pubsub library in combination
- with the ESP8266 board/library.
-
- It connects to an MQTT server then:
-  - publishes "hello world" to the topic "sensors" every two seconds
-  - subscribes to the topic "testing", printing out any messages
-    it receives. NB - it assumes the received payloads are strings not binary
-  - If the first character of the topic "testing" is an 1, switch ON the ESP Led,
-    else switch it off
-
- It will reconnect to the server if the connection is lost using a blocking
- reconnect function. See the 'mqtt_reconnect_nonblocking' example for how to
- achieve the same result without blocking the main loop.
-
- To install the ESP8266 board, (using Arduino 1.6.4+):
-  - Add the following 3rd party board manager under "File -> Preferences -> Additional Boards Manager URLs":
-       http://arduino.esp8266.com/stable/package_esp8266com_index.json
-  - Open the "Tools -> Board -> Board Manager" and click install for the ESP8266"
-  - Select your ESP8266 in "Tools -> Board"
-
-*/
-
 #include <ESP8266WiFi.h>
 #include <PubSubClient.h>
 
 // Update these with values suitable for your network.
-const char *ssid = "Inception_nomap";
-const char *password = "wireless";
-const char *mqtt_server = "mqqt://localhost";
+const char *ssid = "xxxxxx";
+const char *password = "xxxxxx";
+IPAddress mqtt_server(xxx, xxx, xxx, xxx); // local IP of RPi
 
+// Initialize the client object
 WiFiClient espClient;
 PubSubClient client(espClient);
 
@@ -38,11 +14,14 @@ long lastMsg = 0;
 char msg[50];
 int value = 0;
 
+/**
+ *  Handle WiFi Connectivity
+ */
 void setup_wifi()
 {
   delay(10);
 
-  // We start by connecting to a WiFi network
+  // attempt to connect to a WiFi network
   Serial.println();
   Serial.print("Connecting to ");
   Serial.println(ssid);
@@ -63,6 +42,9 @@ void setup_wifi()
   Serial.println(WiFi.localIP());
 }
 
+/**
+ *  Print any message received for subscribed topic
+ */
 void callback(char *topic, byte *payload, unsigned int length)
 {
   Serial.print("Message arrived [");
@@ -88,6 +70,9 @@ void callback(char *topic, byte *payload, unsigned int length)
   }
 }
 
+/**
+ *  MQTT Reconnector
+ */
 void reconnect()
 {
   // Loop until we're reconnected
@@ -98,6 +83,7 @@ void reconnect()
     // Create a random client ID
     String clientId = "OpenAirClient-";
     clientId += String(random(0xffff), HEX);
+
     // Attempt to connect
     if (client.connect(clientId.c_str()))
     {
@@ -119,15 +105,27 @@ void reconnect()
   }
 }
 
+/**
+ *  Driver Function
+ */
 void setup()
 {
   pinMode(BUILTIN_LED, OUTPUT); // Initialize the BUILTIN_LED pin as an output
+
+  // initialize serial for debugging
   Serial.begin(115200);
+
+  // connect to WiFi
   setup_wifi();
+
+  //connect to MQTT server
   client.setServer(mqtt_server, 1883);
   client.setCallback(callback);
 }
 
+/**
+ *  Iterating Function
+ */
 void loop()
 {
 
@@ -138,7 +136,7 @@ void loop()
   client.loop();
 
   long now = millis();
-  if (now - lastMsg > 2000)
+  if (now - lastMsg > 5000)
   {
     lastMsg = now;
     ++value;
