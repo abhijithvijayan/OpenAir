@@ -13,7 +13,27 @@ server.on('clientConnected', function(client) {
 
 // fired when a message is received
 server.on('published', function(packet, client) {
-    console.log('Published', packet.payload); // eslint-disable-line no-console
+    console.log(packet.payload.toString('utf-8')); // eslint-disable-line no-console
+});
+
+// fired when a client subscribes to a topic
+server.on('subscribed', function(topic, client) {
+    console.log('subscribed : ', topic); // eslint-disable-line no-console
+});
+
+// fired when a client unsubscribes to a topic
+server.on('unsubscribed', function(topic, client) {
+    console.log('unsubscribed : ', topic); // eslint-disable-line no-console
+});
+
+// fired when a client is disconnecting
+server.on('clientDisconnecting', function(client) {
+    console.log('clientDisconnecting : ', client.id); // eslint-disable-line no-console
+});
+
+// fired when a client is disconnected
+server.on('clientDisconnected', function(client) {
+    console.log('clientDisconnected : ', client.id); // eslint-disable-line no-console
 });
 
 server.on('ready', () => {
