@@ -1,7 +1,7 @@
 {
   "name": "@openair/rpi",
   "version": "1.0.0",
-  "node": ">=8 <11",
+  "node": ">=8 <=12",
   "private": true,
   "author": "abhijithvijayan",
   "license": "MIT",
@@ -15,6 +15,6 @@
     "mqtt": "^3.0.0"
   },
   "devDependencies": {
-    "nodemon": "^1.19.4"
+    "nodemon": "^2.0.1"
   }
 }
