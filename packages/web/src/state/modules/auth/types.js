@@ -1,2 +1,0 @@
-export const USER_SIGNUP_SUCCEEDED = '@signup/USER_SIGNUP_SUCCEEDED';
-export const USER_AUTH_SUCCEEDED = '@auth/USER_AUTH_SUCCEEDED';
