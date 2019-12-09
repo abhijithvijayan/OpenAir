@@ -1,11 +1,23 @@
 #include <ESP8266WiFi.h>
 #include <PubSubClient.h>
 
+#define MUX_A D0
+#define MUX_B D1
+#define MUX_C D2
+
+#define ANALOG_INPUT A0
+#define sig 0
+
+// Mux channel select pins
+#define setPin0 16 //GPIO 16 (D0 on NodeMCU)
+#define setPin1 5  //GPIO 5 (D1 on NodeMCU)
+#define setPin2 4  //GPIO 4 (D2 on NodeMCU)
+
 // Update these with values suitable for your network.
-const char *ssid = "xxxxxx";
-const char *password = "xxxxxx";
+const char *ssid = "F.R.I.E.N.D.S";
+const char *password = "F.R.I.E.N.D.S";
 // local IP of RPi
-IPAddress mqtt_server(xxx, xxx, xxx, xxx);
+IPAddress mqtt_server(192, 168, 1, 172);
 
 // Initialize the client object
 WiFiClient espClient;
@@ -122,6 +134,25 @@ void setup()
   //connect to MQTT server
   client.setServer(mqtt_server, 1883);
   client.setCallback(callback);
+
+  //Define output pins for Mux
+  pinMode(MUX_A, OUTPUT);
+  pinMode(MUX_B, OUTPUT);
+  pinMode(MUX_C, OUTPUT);
+}
+
+int readSig(int channel)
+{
+  // use the first three bits of the channel number to set the channel select pins
+  digitalWrite(setPin0, bitRead(channel, 0));
+  digitalWrite(setPin1, bitRead(channel, 1));
+  digitalWrite(setPin2, bitRead(channel, 2));
+
+  // read from the selected mux channel
+  int sigValue = analogRead(sig);
+
+  // return the received analog value
+  return sigValue;
 }
 
 /**
@@ -140,10 +171,24 @@ void loop()
   if (now - lastMsg > 5000)
   {
     lastMsg = now;
+
+    for (int i = 0; i < 3; i++)
+    {
+      int sigValue = readSig(i);
+
+      // print the analog / digital value to the serial monitor
+
+      Serial.print("Value at channel ");
+      Serial.print(i);
+      Serial.print(" is : ");
+      Serial.println(readSig(i));
+    }
+    Serial.println();
+
     ++value;
     snprintf(msg, 75, "hello world #%ld", value);
     Serial.print("Publish message: ");
     Serial.println(msg);
-    client.publish("sensors", msg);
+    // client.publish("sensors", msg);
   }
 }
