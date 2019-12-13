@@ -1,6 +1,6 @@
-const startServer = require('./server');
+const startSubscriber = require('./subscriber');
 
 /**
- *  Start Socket.io server
+ *  Start mqtt broker
  */
-startServer();
+startSubscriber();

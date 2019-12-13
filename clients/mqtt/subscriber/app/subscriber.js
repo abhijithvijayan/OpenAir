@@ -1,17 +1,11 @@
 const mqtt = require('mqtt');
-const io = require('socket.io');
 
-const { SOCKET_SERVER_PORT, MQTT_SERVER_ADDRESS } = require('./config/secrets');
+const { MQTT_SERVER_ADDRESS, MQTT_AUTH_ID, MQTT_AUTH_PASSWORD } = require('./config/secrets');
 
-const startServer = () => {
+const startSubscriber = () => {
     const subscriberId = `SUBSCRIBER_${Math.random()
         .toString(16)
         .substr(2, 8)}`;
-
-    /**
-     *  Socket Sever: Listen to port
-     */
-    const eventSocket = io.listen(SOCKET_SERVER_PORT);
 
     /**
      *  Connection Options
@@ -46,26 +40,8 @@ const startServer = () => {
 
         /**
          *  ToDo: based on type of topic
-         *  1. Communicate to IoT Server
-         *  2. Push to websocket clients
+         *  Communicate to IoT Server
          */
-
-        // Sending to all clients
-        eventSocket.emit('hello', 'can you hear me?', 1, 2, 'abc');
-    });
-
-    /**
-     *  Emitted on socket connection with client
-     */
-    eventSocket.on('connect', ioClient => {
-        // send something to the client
-        eventSocket.to(ioClient.id).emit('nice game', "let's play a game");
-
-        ioClient.on('some-event', data => {
-            console.log(data); // eslint-disable-line no-console
-
-            mqttClient.publish('topic', 'value');
-        });
     });
 
     /**
@@ -104,4 +80,4 @@ const startServer = () => {
     });
 };
 
-module.exports = startServer;
+module.exports = startSubscriber;

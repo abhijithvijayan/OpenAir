@@ -8,11 +8,13 @@
   "author": "abhijithvijayan",
   "license": "MIT",
   "scripts": {
-    "broker": "nodemon app/broker.js"
+    "broker": "nodemon app"
   },
   "dependencies": {
     "aedes": "^0.39.0",
-    "dotenv": "^8.2.0"
+    "dotenv": "^8.2.0",
+    "socket.io": "^2.3.0",
+    "winston": "^3.2.1"
   },
   "devDependencies": {
     "nodemon": "^2.0.2"
