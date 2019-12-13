@@ -1,7 +1,35 @@
-const broker = require('aedes')();
-const server = require('net').createServer(broker.handle);
+require('dotenv').config({ path: '.env' });
+const aedes = require('aedes');
+const net = require('net');
 
 const port = 1883;
+const broker = aedes();
+const server = net.createServer(broker.handle);
+
+/**
+ *  called when a new client connects
+ *
+ *  Return codes
+ *   1 - Unacceptable protocol version
+ *   2 - Identifier rejected
+ *   3 - Server unavailable
+ *   4 - Bad user name or password
+ */
+broker.authenticate = function(client, userId, password, callback) {
+    const mqttAuthId = process.env.MQTT_AUTH_ID;
+    const mqttAuthPassword = process.env.MQTT_AUTH_PASSWORD;
+
+    const authorized = userId === mqttAuthId && password === mqttAuthPassword;
+
+    if (authorized) {
+        client.user = userId;
+    }
+
+    const error = new Error('Auth error');
+    error.returnCode = 4;
+
+    callback(authorized ? null : error, authorized);
+};
 
 /**
  *  fired when a client connects
