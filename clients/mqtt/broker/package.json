@@ -2,7 +2,7 @@
   "name": "@openair/broker",
   "version": "1.0.0",
   "engines": {
-    "node": "<=8"
+    "node": ">=8 <=12"
   },
   "private": true,
   "author": "abhijithvijayan",
@@ -11,7 +11,8 @@
     "broker": "nodemon app/broker.js"
   },
   "dependencies": {
-    "aedes": "^0.39.0"
+    "aedes": "^0.39.0",
+    "dotenv": "^8.2.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.2"
