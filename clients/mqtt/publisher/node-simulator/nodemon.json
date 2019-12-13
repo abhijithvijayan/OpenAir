@@ -6,6 +6,6 @@
     "../../subscriber",
     "../../broker"
   ],
-  "watch": ["../node-simulator/**/*"],
+  "watch": ["./app/**/*"],
   "ext": "js json"
 }

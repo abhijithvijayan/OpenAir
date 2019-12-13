@@ -1,4 +1,5 @@
 const mqtt = require('mqtt');
+require('dotenv').config();
 
 const serverIP = process.env.MQTT_SERVER_IP;
 

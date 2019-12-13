@@ -5,9 +5,10 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "subscriber": "nodemon ./subscriber.js"
+    "subscriber": "nodemon app/subscriber.js"
   },
   "dependencies": {
+    "dotenv": "^8.2.0",
     "mqtt": "^3.0.0"
   },
   "devDependencies": {

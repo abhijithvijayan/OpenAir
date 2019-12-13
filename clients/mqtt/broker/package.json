@@ -12,5 +12,8 @@
   },
   "dependencies": {
     "aedes": "^0.39.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.2"
   }
 }

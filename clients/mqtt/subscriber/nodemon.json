@@ -1,6 +1,6 @@
 {
   "verbose": false,
   "ignore": ["node_modules", "../../web", "../broker", "../publisher"],
-  "watch": ["../subscriber/**/*"],
+  "watch": ["./app/**/*"],
   "ext": "js json"
 }

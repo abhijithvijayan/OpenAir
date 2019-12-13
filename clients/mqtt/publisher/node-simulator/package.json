@@ -1,13 +1,14 @@
 {
-  "name": "@openair/publisher-simulator",
+  "name": "@openair/publisher",
   "version": "1.0.0",
   "author": "abhijithvijayan",
   "license": "MIT",
   "private": true,
   "scripts": {
-    "publisher": "nodemon ./publisher.js"
+    "publisher": "nodemon app/publisher.js"
   },
   "dependencies": {
+    "dotenv": "^8.2.0",
     "mqtt": "^3.0.0"
   },
   "devDependencies": {

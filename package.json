@@ -17,7 +17,7 @@
   },
   "scripts": {
     "broker": "yarn workspace @openair/broker broker",
-    "publisher": "yarn workspace @openair/publisher-simulator publisher",
+    "publisher": "yarn workspace @openair/publisher publisher",
     "subscriber": "yarn workspace @openair/subscriber subscriber",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
