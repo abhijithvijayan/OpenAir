@@ -1,10 +1,24 @@
+require('dotenv').config({ path: '../.env' });
 const mqtt = require('mqtt');
-require('dotenv').config();
 
-const serverIP = process.env.MQTT_SERVER_IP;
+const mqttServerAddress = process.env.MQTT_SERVER_ADDRESS;
 
-// Connect to mqtt server
-const mqttPublisher = mqtt.connect(serverIP);
+const publisherId = `PUBLISHER_${Math.random()
+    .toString(16)
+    .substr(2, 8)}`;
+
+/**
+ *  Connection Options
+ */
+const mqttOptions = {
+    clientId: publisherId,
+};
+
+/**
+ *  Connect to mqtt server
+ *  ToDo: Pass auth options
+ */
+const mqttPublisher = mqtt.connect(mqttServerAddress, mqttOptions);
 
 /**
  *  Emitted on successful (re)connection (i.e. connack rc=0).
