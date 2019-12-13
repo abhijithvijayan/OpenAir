@@ -1,11 +1,9 @@
-require('dotenv').config({ path: '../.env' });
 const mqtt = require('mqtt');
 const io = require('socket.io');
 
-const startServer = () => {
-    const socketPort = process.env.SOCKET_SERVER_PORT;
-    const mqttServerAddress = process.env.MQTT_SERVER_ADDRESS;
+const { SOCKET_SERVER_PORT, MQTT_SERVER_ADDRESS } = require('./config/secrets');
 
+const startServer = () => {
     const subscriberId = `SUBSCRIBER_${Math.random()
         .toString(16)
         .substr(2, 8)}`;
@@ -13,7 +11,7 @@ const startServer = () => {
     /**
      *  Socket Sever: Listen to port
      */
-    const eventSocket = io.listen(socketPort);
+    const eventSocket = io.listen(SOCKET_SERVER_PORT);
 
     /**
      *  Connection Options
@@ -26,7 +24,7 @@ const startServer = () => {
      *  Connect to mqtt server
      *  ToDo: Pass auth options
      */
-    const mqttClient = mqtt.connect(mqttServerAddress, mqttOptions);
+    const mqttClient = mqtt.connect(MQTT_SERVER_ADDRESS, mqttOptions);
 
     /**
      *  Emitted on successful mqtt (re)connection

@@ -1,4 +1,4 @@
-require('dotenv').config({ path: '../.env' });
+require('dotenv').config();
 const mqtt = require('mqtt');
 
 const mqttServerAddress = process.env.MQTT_SERVER_ADDRESS;
