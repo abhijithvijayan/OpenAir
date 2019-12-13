@@ -5,7 +5,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "subscriber": "nodemon app/subscriber.js"
+    "subscriber": "nodemon app"
   },
   "dependencies": {
     "dotenv": "^8.2.0",
