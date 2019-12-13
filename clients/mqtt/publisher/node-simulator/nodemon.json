@@ -1,0 +1,11 @@
+{
+  "verbose": false,
+  "ignore": [
+    "node_modules",
+    "../../../web",
+    "../../subscriber",
+    "../../broker"
+  ],
+  "watch": ["../node-simulator/**/*"],
+  "ext": "js json"
+}

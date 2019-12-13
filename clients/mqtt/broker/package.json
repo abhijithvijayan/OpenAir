@@ -1,0 +1,19 @@
+{
+  "name": "@openair/broker",
+  "version": "1.0.0",
+  "engines": {
+    "node": "<=8"
+  },
+  "private": true,
+  "author": "abhijithvijayan",
+  "license": "MIT",
+  "scripts": {
+    "broker": "nodemon app/broker.js"
+  },
+  "dependencies": {
+    "mosca": "^2.8.3"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.2"
+  }
+}

@@ -1,20 +1,16 @@
 {
-  "name": "@openair/rpi",
+  "name": "@openair/publisher-simulator",
   "version": "1.0.0",
-  "node": ">=8 <=12",
-  "private": true,
   "author": "abhijithvijayan",
   "license": "MIT",
+  "private": true,
   "scripts": {
-    "broker": "nodemon ./broker.js",
-    "subscriber": "nodemon ./subscriber.js",
     "publisher": "nodemon ./publisher.js"
   },
   "dependencies": {
-    "mosca": "^2.8.3",
     "mqtt": "^3.0.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.1"
+    "nodemon": "^2.0.2"
   }
 }

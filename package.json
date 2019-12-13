@@ -3,21 +3,27 @@
   "version": "1.0.0",
   "private": true,
   "author": "abhijithvijayan",
+  "engines": {
+    "node": ">=8 <=12"
+  },
   "workspaces": {
     "packages": [
-      "clients/rpi",
+      "clients/mqtt/publisher/node-simulator",
+      "clients/mqtt/subscriber",
       "clients/web"
     ],
     "nohoist": []
   },
   "scripts": {
-    "mqtt:broker": "yarn workspace @openair/rpi broker",
+    "publisher": "yarn workspace @openair/publisher-simulator publisher",
+    "subscriber": "yarn workspace @openair/subscriber subscriber",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix"
+    "lint:fix": "eslint . --fix",
+    "clean-up": "rm -rf node_modules clients/mqtt/broker/node_modules clients/mqtt/publisher/node-simulator/node_modules clients/mqtt/subscriber/node_modules yarn.lock"
   },
   "devDependencies": {
     "babel-eslint": "10.0.3",
-    "concurrently": "^5.0.0",
+    "concurrently": "^5.0.1",
     "eslint": "^6.7.2",
     "eslint-config-airbnb": "^18.0.1",
     "eslint-config-onepass": "1.5.0",

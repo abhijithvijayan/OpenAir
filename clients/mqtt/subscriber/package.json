@@ -1,0 +1,16 @@
+{
+  "name": "@openair/subscriber",
+  "version": "1.0.0",
+  "author": "abhijithvijayan",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "subscriber": "nodemon ./subscriber.js"
+  },
+  "dependencies": {
+    "mqtt": "^3.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.2"
+  }
+}

@@ -1,4 +1,4 @@
-## ESP8266 MQTT Client
+## ESP8266 MQTT Publisher
 
 This sketch demonstrates the capabilities of the pubsub library in combination
 with the ESP8266 board/library.

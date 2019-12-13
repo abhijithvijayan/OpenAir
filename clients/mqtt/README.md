@@ -1,5 +1,9 @@
 ## MQTT Broker / Client
 
+### Prerequisites
+
+- Docker
+
 The Raspberry Pi will act as
 
 - a **mqtt broker** (server)
