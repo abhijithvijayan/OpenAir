@@ -9,7 +9,8 @@
   },
   "dependencies": {
     "dotenv": "^8.2.0",
-    "mqtt": "^3.0.0"
+    "mqtt": "^3.0.0",
+    "socket.io": "^2.3.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.2"
