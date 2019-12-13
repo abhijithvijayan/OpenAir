@@ -1,69 +1,110 @@
-const mosca = require('mosca');
+const broker = require('aedes')();
+const server = require('net').createServer(broker.handle);
 
-const { authenticate, authorizePublish, authorizeSubscribe } = require('./auth');
+const port = 1883;
 
-const moscaSettings = {
-    port: 1883, // PORT to run mosca on
-};
+/**
+ *  fired when a client connects
+ */
+broker.on('client', function(client) {
+    const cId = client ? client.id : null;
+    console.log(`> Client Connected: \x1b[33m${cId}\x1b[0m`); // eslint-disable-line no-console
+});
 
-// Start mosca
-const server = new mosca.Server(moscaSettings);
+/**
+ *  fired when client receives all offline messages
+ */
+broker.on('clientReady', function(client) {
+    const cId = client ? client.id : null;
+    console.log(`> Client Ready: \x1b[33m${cId}\x1b[0m`); // eslint-disable-line no-console
+});
 
-server.on('clientConnected', function(client) {
-    console.log(`client connected: ${client.id}`); // eslint-disable-line no-console
+/**
+ *  fired when a client disconnects
+ */
+broker.on('clientDisconnect', function(client) {
+    const cId = client ? client.id : null;
+    console.log(`> Client Disconnected: \x1b[33m${cId}\x1b[0m`); // eslint-disable-line no-console
+});
+
+/**
+ *  fired when client errors
+ */
+broker.on('clientError', function(client, err) {
+    const cId = client ? client.id : null;
+    console.log(`> Client Errored: \x1b[33m${cId}\x1b[0m`); // eslint-disable-line no-console
+});
+
+/**
+ *  fired when client-connection errors & no clientId attached
+ */
+broker.on('connectionError', function(client, err) {
+    const cId = client ? client.id : null;
+    console.log(`> Connection Errored: \x1b[33m${cId}\x1b[0m`); // eslint-disable-line no-console
+});
+
+/**
+ *  fired when client keepalive times out
+ */
+broker.on('keepaliveTimeout', function(client) {
+    const cId = client ? client.id : null;
+    console.log(`> Client Timed out: \x1b[33m${cId}\x1b[0m`); // eslint-disable-line no-console
 });
 
 /**
  *  fired when a message is received
  */
-server.on('published', function(packet, client) {
-    // console.log('Why is this called on subscribing!!');
-    console.log(packet.payload.toString('utf-8')); // eslint-disable-line no-console
+broker.on('publish', async function(packet, client) {
+    // eslint-disable-next-line no-console
+    console.log(
+        `> Client \x1b[31m${client ? client.id : `BROKER_${broker.id}`}\x1b[0m has published`,
+        packet.payload.toString(),
+        'on',
+        packet.topic
+    );
 });
 
 /**
- *  fired when a client subscribes to a topic
+ *  fired when client ping
  */
-server.on('subscribed', function(topic, client) {
-    console.log(`${client.id} subscribed to ${topic}`); // eslint-disable-line no-console
+broker.on('ping', async function(packet, client) {
+    const cId = client ? client.id : null;
+    console.log(`> Client Pings: \x1b[33m${cId}\x1b[0m`); // eslint-disable-line no-console
 });
 
 /**
- *  fired when a client unsubscribes to a topic
+ *  fired when client subscribes to topic
  */
-server.on('unsubscribed', function(topic, client) {
-    console.log(`${client.id} unsubscribed to ${topic}`); // eslint-disable-line no-console
+broker.on('subscribe', function(subscriptions, client) {
+    // eslint-disable-next-line no-console
+    console.log(
+        `> MQTT client \x1b[32m${client ? client.id : client}\x1b[0m subscribed to topics: ${subscriptions
+            .map(s => {
+                return s.topic;
+            })
+            .join('\n')}`
+    );
 });
 
 /**
- *  fired when a client is disconnecting
+ *  fired when client unsubscribes to topic
  */
-server.on('clientDisconnecting', function(client) {
-    console.log('clientDisconnecting : ', client.id); // eslint-disable-line no-console
+broker.on('unsubscribe', function(subscriptions, client) {
+    // eslint-disable-next-line no-console
+    console.log(
+        `> MQTT client \x1b[32m${client ? client.id : client}\x1b[0m unsubscribed to topics: ${subscriptions.join(
+            '\n'
+        )}`
+    );
 });
 
-/**
- *  fired when a client is disconnected
- */
-server.on('clientDisconnected', function(client) {
-    console.log('clientDisconnected : ', client.id); // eslint-disable-line no-console
+broker.on('closed', function() {
+    console.log(`> Broker Closed:`); // eslint-disable-line no-console
 });
-
-/**
- *  ToDo: Use Custom auth handler
- *  https://github.com/mcollina/mosca/wiki/Authentication-&-Authorization#using-moscas-standalone-authorizer-with-an-embedded-mosca
- */
-function setupAuth() {
-    server.authenticate = authenticate;
-    server.authorizePublish = authorizePublish;
-    server.authorizeSubscribe = authorizeSubscribe;
-}
 
 /**
  *  fired when the mqtt server is ready
  */
-server.on('ready', () => {
-    console.log(`> MQTT server running on mqtt://localhost:${moscaSettings.port}`); // eslint-disable-line no-console
-
-    // setupAuth();
+server.listen(port, function() {
+    console.log(`> MQTT server running on mqtt://localhost:${port}`); // eslint-disable-line no-console
 });

@@ -11,6 +11,6 @@
     "broker": "nodemon app/broker.js"
   },
   "dependencies": {
-    "mosca": "^2.8.3"
+    "aedes": "^0.39.0"
   }
 }

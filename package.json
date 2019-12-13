@@ -8,6 +8,7 @@
   },
   "workspaces": {
     "packages": [
+      "clients/mqtt/broker",
       "clients/mqtt/publisher/node-simulator",
       "clients/mqtt/subscriber",
       "clients/web"
@@ -15,6 +16,7 @@
     "nohoist": []
   },
   "scripts": {
+    "broker": "yarn workspace @openair/broker broker",
     "publisher": "yarn workspace @openair/publisher-simulator publisher",
     "subscriber": "yarn workspace @openair/subscriber subscriber",
     "lint": "eslint .",
