@@ -1,5 +1,14 @@
 # flask app
 
+## Prerequisites
+
+- Postgresql
+
+```
+sudo apt update
+sudo apt install postgresql postgresql-contrib postgresql-10-postgis-scripts
+```
+
 ### Install dependencies
 
 ```
