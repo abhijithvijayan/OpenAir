@@ -10,6 +10,8 @@ flask = "*"
 python-dotenv = "*"
 flask-sqlalchemy = "*"
 flask-migrate = "*"
+psycopg2-binary = "*"
+geoalchemy2 = "*"
 
 [requires]
 python_version = "3.6"
