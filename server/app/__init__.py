@@ -19,3 +19,6 @@ def create_app():
         return 'hello world'
 
     return app
+
+
+from app import models
