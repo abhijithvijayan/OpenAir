@@ -16,12 +16,14 @@
     "nohoist": []
   },
   "scripts": {
+    "dev:web": "yarn workspace @openair/web dev",
+    "build:web": "yarn workspace @openair/web build",
     "broker": "yarn workspace @openair/broker broker",
     "publisher": "yarn workspace @openair/publisher publisher",
     "subscriber": "yarn workspace @openair/subscriber subscriber",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "clean-up": "rm -rf node_modules clients/mqtt/broker/node_modules clients/mqtt/publisher/node-simulator/node_modules clients/mqtt/subscriber/node_modules yarn.lock"
+    "clean-up": "rm -rf node_modules clients/web/node_modules clients/mqtt/broker/node_modules clients/mqtt/publisher/node-simulator/node_modules clients/mqtt/subscriber/node_modules yarn.lock"
   },
   "devDependencies": {
     "babel-eslint": "10.0.3",
