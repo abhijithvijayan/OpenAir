@@ -2,7 +2,7 @@ from datetime import datetime
 from geoalchemy2 import Geometry
 from sqlalchemy import text
 from sqlalchemy.sql import func
-from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy.dialects.postgresql import UUID, JSON
 
 from app import db
 
@@ -16,6 +16,10 @@ class Location(db.Model):
     created_at = db.Column(db.DateTime, server_default=func.now())
     updated_at = db.Column(db.DateTime, server_default=func.now())
     aqi = db.Column(db.Integer, nullable=False)
-    coordinates = db.Column(
+    # For Near Location Querying
+    geometric_point = db.Column(
         Geometry(geometry_type='POINT', srid=4326), nullable=False)
-    ref_id = db.Column(db.String(40))
+    # Raw Coordinates
+    coordinates = db.Column(JSON, nullable=False)
+    # History Data id: Can be null but must be unique
+    ref_id = db.Column(db.String(40), unique=True, nullable=True)

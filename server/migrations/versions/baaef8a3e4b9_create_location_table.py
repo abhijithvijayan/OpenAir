@@ -1,8 +1,8 @@
 """create location table
 
-Revision ID: 745a7fc412d9
+Revision ID: baaef8a3e4b9
 Revises: 
-Create Date: 2019-12-14 23:46:19.719993
+Create Date: 2019-12-15 09:18:12.894648
 
 """
 from alembic import op
@@ -11,7 +11,7 @@ from geoalchemy2 import Geometry
 from sqlalchemy.dialects import postgresql
 
 # revision identifiers, used by Alembic.
-revision = '745a7fc412d9'
+revision = 'baaef8a3e4b9'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -29,10 +29,13 @@ def upgrade():
                     sa.Column('updated_at', sa.DateTime(),
                               server_default=sa.text('now()'), nullable=True),
                     sa.Column('aqi', sa.Integer(), nullable=False),
-                    sa.Column('coordinates', Geometry(
+                    sa.Column('geometric_point', Geometry(
                         geometry_type='POINT', srid=4326), nullable=False),
+                    sa.Column('coordinates', postgresql.JSON(
+                        astext_type=sa.Text()), nullable=False),
                     sa.Column('ref_id', sa.String(length=40), nullable=True),
-                    sa.PrimaryKeyConstraint('uuid')
+                    sa.PrimaryKeyConstraint('uuid'),
+                    sa.UniqueConstraint('ref_id')
                     )
     # ### end Alembic commands ###
 
