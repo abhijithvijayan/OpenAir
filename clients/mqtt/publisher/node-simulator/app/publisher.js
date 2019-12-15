@@ -2,6 +2,8 @@ require('dotenv').config();
 const mqtt = require('mqtt');
 
 const mqttServerAddress = process.env.MQTT_SERVER_ADDRESS;
+const username = process.env.MQTT_AUTH_ID;
+const password = process.env.MQTT_AUTH_PASSWORD;
 
 const publisherId = `PUBLISHER_${Math.random()
     .toString(16)
@@ -12,11 +14,16 @@ const publisherId = `PUBLISHER_${Math.random()
  */
 const mqttOptions = {
     clientId: publisherId,
+    username,
+    password,
+    keepalive: 60,
+    reconnectPeriod: 2000,
+    encoding: 'utf8',
+    clean: true,
 };
 
 /**
  *  Connect to mqtt server
- *  ToDo: Pass auth options
  */
 const mqttPublisher = mqtt.connect(mqttServerAddress, mqttOptions);
 

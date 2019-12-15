@@ -12,11 +12,16 @@ const startSubscriber = () => {
      */
     const mqttOptions = {
         clientId: subscriberId,
+        username: MQTT_AUTH_ID,
+        password: MQTT_AUTH_PASSWORD,
+        keepalive: 60,
+        reconnectPeriod: 1000,
+        encoding: 'utf8',
+        clean: true,
     };
 
     /**
      *  Connect to mqtt server
-     *  ToDo: Pass auth options
      */
     const mqttClient = mqtt.connect(MQTT_SERVER_ADDRESS, mqttOptions);
 
