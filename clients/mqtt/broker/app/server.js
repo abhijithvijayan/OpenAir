@@ -25,7 +25,7 @@ const startServer = () => {
      *  Return code: 4 - Bad user name or password
      */
     broker.authenticate = function(client, userId, password, callback) {
-        const authorized = userId === MQTT_AUTH_ID && password === MQTT_AUTH_PASSWORD;
+        const authorized = userId === MQTT_AUTH_ID && password.toString() === MQTT_AUTH_PASSWORD;
 
         if (authorized) {
             client.user = userId;
