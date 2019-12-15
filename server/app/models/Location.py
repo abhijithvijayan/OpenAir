@@ -18,4 +18,4 @@ class Location(db.Model):
     aqi = db.Column(db.Integer, nullable=False)
     coordinates = db.Column(
         Geometry(geometry_type='POINT', srid=4326), nullable=False)
-    ref_id = db.Column(db.String(25))
+    ref_id = db.Column(db.String(40))
