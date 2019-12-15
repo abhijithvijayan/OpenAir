@@ -1,8 +1,8 @@
-import React from 'react';
-import { Container } from 'react-bootstrap';
+import React, { useEffect } from 'react';
+import { Container, Button } from 'react-bootstrap';
 import styled from 'styled-components';
-
-import TestForm from './TestForm';
+import io from 'socket.io-client';
+import { useSelector, useDispatch } from 'react-redux';
 
 const StyledHome = styled.section`
     height: 80vh;
@@ -25,12 +25,42 @@ const StyledHome = styled.section`
 `;
 
 const HomePage = () => {
+    const socket = io('http://localhost:8000');
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        // console.dir(socket);
+        // dispatch loadInitialDataSocket
+    }, [socket]);
+
+    useEffect(() => {
+        socket.on('nice', payload => {
+            console.log(`Socket server: ${payload}`);
+        });
+
+        socket.on('echo', payload => {
+            console.log(`Socket server echoes: ${payload}`);
+        });
+    });
+
+    const handleClick = () => {
+        return socket.emit('some-event', {
+            msg: 'Hello broker',
+        });
+    };
+
     return (
         <Container>
             <StyledHome>
                 <div className="text-center">
-                    <p>Hello World!</p>
-                    <TestForm />
+                    <Button
+                        type="button"
+                        onClick={() => {
+                            return handleClick();
+                        }}
+                    >
+                        Emit Message
+                    </Button>
                 </div>
             </StyledHome>
         </Container>

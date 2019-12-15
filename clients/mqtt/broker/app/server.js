@@ -42,18 +42,19 @@ const startServer = () => {
      */
     broker.on('client', function(client) {
         const cId = client ? client.id : null;
-        console.log(`> Client Connected: \x1b[33m${cId}\x1b[0m`); // eslint-disable-line no-console
+        console.log(`> MQTT Client Connected: \x1b[33m${cId}\x1b[0m`); // eslint-disable-line no-console
 
         // Sending to all clients
-        eventSocket.emit('hello', 'can you hear me?', 1, 2, 'abc');
+        eventSocket.emit('echo', 'hello can you hear me?', 1, 2, 'abc');
     });
 
     /**
      *  Emitted on socket connection with client
      */
     eventSocket.on('connect', ioClient => {
+        console.log(`> Socket Client Connected: \x1b[33m$${ioClient.id}\x1b[0m`); // eslint-disable-line no-console
         // send something to the client
-        eventSocket.to(ioClient.id).emit('nice game', "let's play a game");
+        eventSocket.to(ioClient.id).emit('nice', "let's play a game");
 
         ioClient.on('some-event', data => {
             console.log(data); // eslint-disable-line no-console
@@ -73,7 +74,7 @@ const startServer = () => {
         );
 
         // Sending to all clients
-        eventSocket.emit('hello', 'can you hear me?', 1, 2, 'abc');
+        eventSocket.emit('echo', 'something is happening?', 1, 2, 'abc');
     });
 
     /**
