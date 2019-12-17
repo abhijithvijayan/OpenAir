@@ -1,8 +1,7 @@
 ## MQTT Broker / Client
 
-### Prerequisites
-
-- Docker
+### ToDo
+- collect and validate the payload from the MQTT devices
 
 The Raspberry Pi will act as
 
