@@ -14,9 +14,8 @@ def create_app():
     db.init_app(app)
     migrate.init_app(app, db)
 
-    @app.route('/')
-    def hello_world():
-        return 'hello world'
+    from app.api import bp as api_bp
+    app.register_blueprint(api_bp)
 
     return app
 
