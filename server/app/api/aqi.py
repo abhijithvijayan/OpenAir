@@ -20,6 +20,7 @@ def select_next_min_distant_point(distances, selected_step_pos):
     # Iterate through distances[] and return next position
     # with 3000m distance in between
     all_visited = None
+    is_selected = None
     cur_selected = selected_step_pos
     dist_from_selected = 0
 
@@ -27,21 +28,20 @@ def select_next_min_distant_point(distances, selected_step_pos):
         all_visited = True
 
     for pos in range(selected_step_pos, len(distances)):
-        print('pos', pos)
-
         dist_from_selected = distance_between_two_points(
             distances, selected_step_pos, pos + 1)
-
-        if (dist_from_selected >= 3000):
-            selected_step_pos = pos
-            print('selected', selected_step_pos)
-            break
 
         if (pos == len(distances) - 1):
             all_visited = True
 
+        if (dist_from_selected >= 3000):
+            is_selected = True
+            selected_step_pos = pos
+            break
+
     return {
         'all_visited': all_visited,
+        'is_selected': is_selected,
         'dist_from_selected': dist_from_selected,
         'next_distant_point_pos': selected_step_pos
     }
@@ -71,7 +71,6 @@ def getRoutesAQI():
             for current_route in map_routes:
                 legs = []
                 if current_route["legs"] is not None:
-                    # ToDo: There can be multiple legs
                     for leg in current_route["legs"]:
                         if leg["steps"] is not None:
                             distances = []
@@ -83,23 +82,18 @@ def getRoutesAQI():
                                 # store all distance between each point
                                 distances.append(step["distance"]["value"])
 
-                            print('distances', distances)
-
-                            for i in range(len(distances)):
+                            for _ in range(len(distances)):
                                 # Find the next step that has minimum of 3000m distance in between
                                 selected_response = select_next_min_distant_point(
                                     distances, next_distant_point_pos)
 
-                                print(selected_response)
-
-                                if (selected_response["all_visited"]):
+                                if (selected_response["all_visited"] and selected_response["is_selected"] is None):
                                     break
 
                                 # Found a 3000m distant location
                                 next_distant_point_pos = selected_response["next_distant_point_pos"]
 
                                 # Get selected leg from original data
-                                print(next_distant_point_pos)
                                 selected_step = leg["steps"][next_distant_point_pos]
                                 # Find nearest values within 1500m of this coordinates from database
                                 nearest_aqi_node = Location.get_nearby_aqi_node(
@@ -119,8 +113,12 @@ def getRoutesAQI():
                                 # Push to array of aqi points
                                 nearest_aqi_points.append(new_point_on_map)
 
-                                # move to next position & continue iteration
-                                next_distant_point_pos += 1
+                                # If last item was selected, stop iteration
+                                if (selected_response["all_visited"] and selected_response["is_selected"]):
+                                    break
+                                else:
+                                    # move to next position & continue iteration
+                                    next_distant_point_pos += 1
 
                             legs.append({
                                 'steps': nearest_aqi_points
