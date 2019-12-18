@@ -125,7 +125,8 @@ def getRoutesAQI():
                             })
 
                     routes.append({
-                        'legs': legs
+                        'legs': legs,
+                        'summary': current_route["summary"]
                     })
 
     return jsonify({
