@@ -36,7 +36,8 @@ class Location(db.Model):
         #
         point = db.session.query(Location.name,
                                  Location.aqi,
-                                 Location.ref_id).\
+                                 Location.coordinates,
+                                 Location.updated_at).\
             order_by(
             Comparator.distance_centroid(Location.geometric_point,
                                          func.Geometry(func.ST_GeographyFromText(
@@ -47,10 +48,17 @@ class Location(db.Model):
         #
         # point = db.session.query(Location.name,
         #                          Location.aqi,
-        #                          Location.ref_id).\
+        #                          Location.coordinates).\
         #     order_by(
         #     func.ST_Distance(Location.geometric_point,
         #                      func.Geometry(func.ST_GeographyFromText(
         #                          'POINT({} {})'.format(longitude, latitude))))).limit(1).first()
 
-        return point
+        point_object = {
+            'name': point[0],
+            'aqi': point[1],
+            'coordinates': point[2],
+            'updated_at': point[3]
+        }
+
+        return point_object
