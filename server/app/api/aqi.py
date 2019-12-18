@@ -21,7 +21,6 @@ def select_next_min_distant_point(distances, selected_step_pos):
     # with 3000m distance in between
     all_visited = None
     is_selected = None
-    cur_selected = selected_step_pos
     dist_from_selected = 0
 
     if (selected_step_pos >= len(distances) - 1):

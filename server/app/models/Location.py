@@ -34,14 +34,18 @@ class Location(db.Model):
         #
         # The PostGIS <-> operator that translates into distance_centroid in geoalchemy2, will do an index based Nearest Neighbour (NN) search.
         #
+
+        geo_element = func.Geometry(func.ST_GeographyFromText(
+            'POINT({} {})'.format(longitude, latitude)))
+        distance_in_meters = 1500
+
         point = db.session.query(Location.name,
                                  Location.aqi,
                                  Location.coordinates,
                                  Location.updated_at).\
+            filter(func.ST_DFullyWithin(Location.geometric_point, geo_element, distance_in_meters)).\
             order_by(
-            Comparator.distance_centroid(Location.geometric_point,
-                                         func.Geometry(func.ST_GeographyFromText(
-                                             'POINT({} {})'.format(longitude, latitude))))).limit(1).first()
+            Comparator.distance_centroid(Location.geometric_point, geo_element)).limit(1).first()
 
         #
         # ST_Distance forces the database to calculate the distance between the query Point and every location in the table, then sort them all and take the first result.
@@ -50,9 +54,7 @@ class Location(db.Model):
         #                          Location.aqi,
         #                          Location.coordinates).\
         #     order_by(
-        #     func.ST_Distance(Location.geometric_point,
-        #                      func.Geometry(func.ST_GeographyFromText(
-        #                          'POINT({} {})'.format(longitude, latitude))))).limit(1).first()
+        #     func.ST_Distance(Location.geometric_point, geo_element)).limit(1).first()
 
         point_object = {
             'name': point[0],
