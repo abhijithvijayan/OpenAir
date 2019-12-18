@@ -2,12 +2,12 @@ from flask import Flask
 from app.extensions import db, migrate
 
 from app import models
-from config import Config
+from config import ProdConfig
 
 
-def create_app():
+def create_app(config_object=ProdConfig):
     flask_app = Flask(__name__)
-    flask_app.config.from_object(Config)
+    flask_app.config.from_object(config_object)
 
     register_extensions(flask_app)
     register_blueprints(flask_app)
