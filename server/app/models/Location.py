@@ -1,7 +1,8 @@
 from datetime import datetime
 from geoalchemy2 import Geometry
+from geoalchemy2.comparator import Comparator
 from sqlalchemy import text
-from sqlalchemy.sql import func
+from sqlalchemy.sql import func, cast
 from sqlalchemy.dialects.postgresql import UUID, JSON
 
 from app import db
@@ -23,3 +24,33 @@ class Location(db.Model):
     coordinates = db.Column(JSON, nullable=False)
     # History Data id: Can be null but must be unique
     ref_id = db.Column(db.String(40), unique=True, nullable=True)
+
+    # method tells Python how to print objects of this class
+    def __repr__(self):
+        return '<Location {}>'.format(self.name)
+
+    # ToDo: Refactor to get nearest within specified distance
+    def get_nearby_aqi_node(latitude, longitude):
+        #
+        # The PostGIS <-> operator that translates into distance_centroid in geoalchemy2, will do an index based Nearest Neighbour (NN) search.
+        #
+        point = db.session.query(Location.name,
+                                 Location.aqi,
+                                 Location.ref_id).\
+            order_by(
+            Comparator.distance_centroid(Location.geometric_point,
+                                         func.Geometry(func.ST_GeographyFromText(
+                                             'POINT({} {})'.format(longitude, latitude))))).limit(1).first()
+
+        #
+        # ST_Distance forces the database to calculate the distance between the query Point and every location in the table, then sort them all and take the first result.
+        #
+        # point = db.session.query(Location.name,
+        #                          Location.aqi,
+        #                          Location.ref_id).\
+        #     order_by(
+        #     func.ST_Distance(Location.geometric_point,
+        #                      func.Geometry(func.ST_GeographyFromText(
+        #                          'POINT({} {})'.format(longitude, latitude))))).limit(1).first()
+
+        return point
