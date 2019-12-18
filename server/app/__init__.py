@@ -1,7 +1,7 @@
 from flask import Flask
 from app.extensions import db, migrate
 
-from app import models
+from app import models, api
 from config import ProdConfig
 
 
@@ -24,8 +24,7 @@ def register_extensions(flask_app):
 
 def register_blueprints(flask_app):
     """Register Flask blueprints."""
-    from app.api import bp as api_bp
-    flask_app.register_blueprint(api_bp)
+    flask_app.register_blueprint(api.bp)
 
 
 def register_shellcontext(flask_app):

@@ -17,10 +17,11 @@ class Config(object):
 
 
 class ProdConfig(Config):
-     """Production configuration."""
+    """Production configuration."""
 
     ENV = 'prod'
     DEBUG = False
+
 
 class DevConfig(Config):
     """Development configuration."""
