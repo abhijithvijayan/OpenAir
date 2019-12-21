@@ -1,1 +1,1 @@
-from app.models.Location import Location
+from app.models.Places import Places

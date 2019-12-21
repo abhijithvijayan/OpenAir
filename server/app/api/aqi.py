@@ -3,7 +3,7 @@ import requests
 from flask import request, current_app as flask_app, jsonify
 
 from app.api import bp
-from app.models import Location
+from app.models import Places
 
 
 def distance_between_two_points(distance, start, destination):
@@ -84,7 +84,7 @@ def getRoutesAQI():
                             # Manually find nearby point of starting point of route
                             start_point = leg["steps"][0]
                             # Find nearest values within 1500m of the first leg(start location) coordinates from database
-                            nearest_aqi_node = Location.get_nearby_aqi_node(
+                            nearest_aqi_node = Places.get_nearby_aqi_node(
                                 start_point["start_location"]["lat"], start_point["start_location"]["lng"])
                             start_point_on_map = {
                                 'aqi': nearest_aqi_node["aqi"],
@@ -112,7 +112,7 @@ def getRoutesAQI():
                                 # Get selected leg from original data
                                 selected_step = leg["steps"][next_distant_point_pos]
                                 # Find nearest values within 1500m of this coordinate from database
-                                nearest_aqi_node = Location.get_nearby_aqi_node(
+                                nearest_aqi_node = Places.get_nearby_aqi_node(
                                     selected_step["end_location"]["lat"], selected_step["end_location"]["lng"])
 
                                 # Leg to draw on map with aqi values of 1500m near node

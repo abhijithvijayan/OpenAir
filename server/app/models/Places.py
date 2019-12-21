@@ -8,7 +8,7 @@ from sqlalchemy.dialects.postgresql import UUID, JSON
 from app import db
 
 
-class Location(db.Model):
+class Places(db.Model):
     uuid = db.Column(UUID(as_uuid=True),
                      primary_key=True,
                      server_default=text("uuid_generate_v4()"))
@@ -39,24 +39,24 @@ class Location(db.Model):
             'POINT({} {})'.format(lng, lat)))
         distance_in_meters = 1500
 
-        point = db.session.query(Location.name,
-                                 Location.aqi,
-                                 Location.location,
-                                 Location.updated_at).\
-            filter(func.ST_DFullyWithin(Location.geometric_point, geo_element, distance_in_meters)).\
+        point = db.session.query(Places.name,
+                                 Places.aqi,
+                                 Places.location,
+                                 Places.updated_at).\
+            filter(func.ST_DFullyWithin(Places.geometric_point, geo_element, distance_in_meters)).\
             order_by(
-            Comparator.distance_centroid(Location.geometric_point, geo_element)).limit(1).first()
+            Comparator.distance_centroid(Places.geometric_point, geo_element)).limit(1).first()
 
         #
         # ST_Distance forces the database to calculate the distance between the query Point and every location in the table, then sort them all and take the first result.
         #
-        # point = db.session.query(Location.name,
-        #                          Location.aqi,
-        #                          Location.location,
-        #                          Location.updated_at).\
-        #     filter(func.ST_DFullyWithin(Location.geometric_point, geo_element, distance_in_meters)).\
+        # point = db.session.query(Places.name,
+        #                          Places.aqi,
+        #                          Places.location,
+        #                          Places.updated_at).\
+        #     filter(func.ST_DFullyWithin(Places.geometric_point, geo_element, distance_in_meters)).\
         #     order_by(
-        #     func.ST_Distance(Location.geometric_point, geo_element)).limit(1).first()
+        #     func.ST_Distance(Places.geometric_point, geo_element)).limit(1).first()
 
         point_object = {
             'name': point[0],
