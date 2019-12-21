@@ -20,8 +20,8 @@ class Location(db.Model):
     # For Near Location Querying
     geometric_point = db.Column(
         Geometry(geometry_type='POINT', srid=4326), nullable=False)
-    # Raw Coordinates
-    coordinates = db.Column(JSON, nullable=False)
+    # Raw location
+    location = db.Column(JSON, nullable=False)
     # History Data id: Can be null but must be unique
     ref_id = db.Column(db.String(40), unique=True, nullable=True)
 
@@ -30,18 +30,18 @@ class Location(db.Model):
         return '<Location {}>'.format(self.name)
 
     # ToDo: Refactor to get nearest within specified distance
-    def get_nearby_aqi_node(latitude, longitude):
+    def get_nearby_aqi_node(lat, lng):
         #
         # The PostGIS <-> operator that translates into distance_centroid in geoalchemy2, will do an index based Nearest Neighbour (NN) search.
         #
 
         geo_element = func.Geometry(func.ST_GeographyFromText(
-            'POINT({} {})'.format(longitude, latitude)))
+            'POINT({} {})'.format(lng, lat)))
         distance_in_meters = 1500
 
         point = db.session.query(Location.name,
                                  Location.aqi,
-                                 Location.coordinates,
+                                 Location.location,
                                  Location.updated_at).\
             filter(func.ST_DFullyWithin(Location.geometric_point, geo_element, distance_in_meters)).\
             order_by(
@@ -52,14 +52,16 @@ class Location(db.Model):
         #
         # point = db.session.query(Location.name,
         #                          Location.aqi,
-        #                          Location.coordinates).\
+        #                          Location.location,
+        #                          Location.updated_at).\
+        #     filter(func.ST_DFullyWithin(Location.geometric_point, geo_element, distance_in_meters)).\
         #     order_by(
         #     func.ST_Distance(Location.geometric_point, geo_element)).limit(1).first()
 
         point_object = {
             'name': point[0],
             'aqi': point[1],
-            'coordinates': point[2],
+            'location': point[2],
             'updated_at': point[3]
         }
 

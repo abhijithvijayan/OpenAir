@@ -55,7 +55,7 @@ def getRoutesAQI():
     # GOOGLE_MAPS_API_KEY = flask_app.config["GOOGLE_MAPS_API_KEY"]
 
     # r = requests.get('https://maps.googleapis.com/maps/api/directions/json?origin={},{}&destination={},{}&sensor=false&units=metric&alternatives=true&key={}'.format(
-    #     start_location["latitude"], start_location["longitude"], end_location["latitude"], end_location["longitude"],
+    #     start_location["lat"], start_location["lng"], end_location["lat"], end_location["lng"],
     #     GOOGLE_MAPS_API_KEY))
     # map_data = json.loads(r.content.decode('utf-8-sig'))
 
