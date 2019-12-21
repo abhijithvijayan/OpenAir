@@ -1,7 +1,7 @@
 from datetime import datetime
 from geoalchemy2 import Geometry
 from geoalchemy2.comparator import Comparator
-from sqlalchemy import text
+from sqlalchemy import text, exc
 from sqlalchemy.sql import func, cast
 from sqlalchemy.dialects.postgresql import UUID, JSON
 
@@ -17,7 +17,7 @@ class Places(db.Model):
     created_at = db.Column(db.DateTime, server_default=func.now())
     updated_at = db.Column(db.DateTime, server_default=func.now())
     aqi = db.Column(db.Integer, nullable=False)
-    # For Near Location Querying
+    # 4326: projection defines lat/long coordinate system
     geometric_point = db.Column(
         Geometry(geometry_type='POINT', srid=4326), nullable=False)
     # Raw location
@@ -29,40 +29,40 @@ class Places(db.Model):
     def __repr__(self):
         return '<Location {}>'.format(self.name)
 
-    # ToDo: Refactor to get nearest within specified distance
     def get_nearby_aqi_node(lat, lng):
-        #
-        # The PostGIS <-> operator that translates into distance_centroid in geoalchemy2, will do an index based Nearest Neighbour (NN) search.
-        #
+        # ToDo: Refactor to be more precise: https://stackoverflow.com/a/20936147
+        dist_in_meters = 1500
+        dist_in_miles = dist_in_meters * 0.621371192 / 1000
+        dist_in_degree_radius = dist_in_miles * 0.014472
 
-        geo_element = func.Geometry(func.ST_GeographyFromText(
-            'POINT({} {})'.format(lng, lat)))
-        distance_in_meters = 1500
+        # load longitude & latitude
+        geo_point = func.ST_GeographyFromText('POINT({} {})'.format(lng, lat))
+        # Well-Known Binary format
+        geo_wkb = func.Geometry(geo_point)
 
-        point = db.session.query(Places.name,
-                                 Places.aqi,
-                                 Places.location,
-                                 Places.updated_at).\
-            filter(func.ST_DFullyWithin(Places.geometric_point, geo_element, distance_in_meters)).\
-            order_by(
-            Comparator.distance_centroid(Places.geometric_point, geo_element)).limit(1).first()
+        # get closest point
+        try:
+            # `distance_centroid` will do an index based Nearest Neighbour (NN) search.
+            nearby_point = db.session.query(Places.name,
+                                            Places.aqi,
+                                            Places.location,
+                                            Places.updated_at).\
+                filter(func.ST_DFullyWithin(Places.geometric_point, geo_wkb, dist_in_degree_radius)).\
+                order_by(
+                Comparator.distance_centroid(Places.geometric_point, geo_wkb)).limit(1).first()
 
-        #
-        # ST_Distance forces the database to calculate the distance between the query Point and every location in the table, then sort them all and take the first result.
-        #
-        # point = db.session.query(Places.name,
-        #                          Places.aqi,
-        #                          Places.location,
-        #                          Places.updated_at).\
-        #     filter(func.ST_DFullyWithin(Places.geometric_point, geo_element, distance_in_meters)).\
-        #     order_by(
-        #     func.ST_Distance(Places.geometric_point, geo_element)).limit(1).first()
+            if (nearby_point is not None):
+                place_object = {
+                    'name': nearby_point[0],
+                    'aqi': nearby_point[1],
+                    'location': nearby_point[2],
+                    'updated_at': nearby_point[3]
+                }
 
-        point_object = {
-            'name': point[0],
-            'aqi': point[1],
-            'location': point[2],
-            'updated_at': point[3]
-        }
-
-        return point_object
+                return place_object
+            return None
+        except exc.SQLAlchemyError:
+            return None
+        except Exception as err:
+            print('Unknown error', err)
+            return None
