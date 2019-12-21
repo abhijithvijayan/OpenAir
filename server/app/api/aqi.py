@@ -81,6 +81,24 @@ def getRoutesAQI():
                                 # store all distance between each point
                                 distances.append(step["distance"]["value"])
 
+                            # Manually find nearby point of starting point of route
+                            start_point = leg["steps"][0]
+                            # Find nearest values within 1500m of the first leg(start location) coordinates from database
+                            nearest_aqi_node = Location.get_nearby_aqi_node(
+                                start_point["start_location"]["lat"], start_point["start_location"]["lng"])
+                            start_point_on_map = {
+                                'aqi': nearest_aqi_node["aqi"],
+                                'updated_at': nearest_aqi_node["updated_at"],
+                                'location': start_point["start_location"],
+                                'distance': {
+                                    'value': 0,
+                                },
+                                'polyline': {},
+                            }
+                            # Push start_point to array of aqi points
+                            nearest_aqi_points.append(start_point_on_map)
+
+                            # Find the next subsequent points(including end_point)
                             for _ in range(len(distances)):
                                 # Find the next step that has minimum of 3000m distance in between
                                 selected_response = select_next_min_distant_point(
@@ -89,21 +107,19 @@ def getRoutesAQI():
                                 if (selected_response["all_visited"] and selected_response["is_selected"] is None):
                                     break
 
-                                # Found a 3000m distant location
+                                # 3000m distant location Found!
                                 next_distant_point_pos = selected_response["next_distant_point_pos"]
-
                                 # Get selected leg from original data
                                 selected_step = leg["steps"][next_distant_point_pos]
-                                # Find nearest values within 1500m of this coordinates from database
+                                # Find nearest values within 1500m of this coordinate from database
                                 nearest_aqi_node = Location.get_nearby_aqi_node(
-                                    selected_step["start_location"]["lat"], selected_step["start_location"]["lng"])
+                                    selected_step["end_location"]["lat"], selected_step["end_location"]["lng"])
 
                                 # Leg to draw on map with aqi values of 1500m near node
                                 new_point_on_map = {
                                     'aqi': nearest_aqi_node["aqi"],
                                     'updated_at': nearest_aqi_node["updated_at"],
-                                    'start_location': selected_step["start_location"],
-                                    'end_location': selected_step["end_location"],
+                                    'location': selected_step["end_location"],
                                     'distance': {
                                         'value': selected_response["dist_from_selected"],
                                     },
