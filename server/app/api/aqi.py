@@ -77,33 +77,40 @@ def getRoutesAQI():
                             next_distant_point_pos = 0
 
                             # iterate through each step
-                            for step in leg["steps"]:
-                                # store all distance between each point
+                            # store distance between each point (except destination)
+                            for cur_step in range(len(leg["steps"]) - 1):
+                                step = leg["steps"][cur_step]
                                 distances.append(step["distance"]["value"])
 
-                            # Manually find nearby point of starting point of route
-                            start_point = leg["steps"][0]
-                            # Find nearest values within 1500m of the first leg(start location) coordinates from database
-                            nearest_aqi_node = Places.get_nearby_aqi_node(
-                                start_point["start_location"]["lat"], start_point["start_location"]["lng"])
-                            start_point_on_map = {
-                                'aqi': nearest_aqi_node["aqi"],
-                                'updated_at': nearest_aqi_node["updated_at"],
-                                'location': start_point["start_location"],
-                                'distance': {
-                                    'value': 0,
-                                },
-                                'polyline': {},
-                            }
-                            # Push start_point to array of aqi points
-                            nearest_aqi_points.append(start_point_on_map)
+                            # Manually find nearby points of source & destination of route
+                            for pos in [0, -1]:
+                                static_point = leg["steps"][pos]
+                                lat = static_point["start_location" if pos ==
+                                                   0 else "end_location"]["lat"]
+                                lng = static_point["start_location" if pos ==
+                                                   0 else "end_location"]["lng"]
+                                # Find nearest node_aqi from the point
+                                nearest_aqi_node = Places.get_nearby_aqi_node(
+                                    lat, lng)
+                                point_on_map = {
+                                    'aqi': nearest_aqi_node["aqi"] if (nearest_aqi_node is not None) else None,
+                                    'updated_at': nearest_aqi_node["updated_at"] if (nearest_aqi_node is not None) else None,
+                                    'location': static_point["start_location" if pos ==
+                                                             0 else "end_location"],
+                                    'distance':
+                                        {'value': 0} if pos == 0 else leg["distance"],
+                                    'polyline': {},
+                                }
+                                # Push point to array of aqi points
+                                nearest_aqi_points.append(point_on_map)
 
-                            # Find the next subsequent points(including end_point)
+                            # Find the next subsequent points(excluding destination)
                             for _ in range(len(distances)):
                                 # Find the next step that has minimum of 3000m distance in between
                                 selected_response = select_next_min_distant_point(
                                     distances, next_distant_point_pos)
 
+                                # Exit if all visited
                                 if (selected_response["all_visited"] and selected_response["is_selected"] is None):
                                     break
 
@@ -115,18 +122,21 @@ def getRoutesAQI():
                                 nearest_aqi_node = Places.get_nearby_aqi_node(
                                     selected_step["end_location"]["lat"], selected_step["end_location"]["lng"])
 
-                                # Leg to draw on map with aqi values of 1500m near node
-                                new_point_on_map = {
-                                    'aqi': nearest_aqi_node["aqi"],
-                                    'updated_at': nearest_aqi_node["updated_at"],
-                                    'location': selected_step["end_location"],
-                                    'distance': {
-                                        'value': selected_response["dist_from_selected"],
-                                    },
-                                    'polyline': selected_step["polyline"],
-                                }
-                                # Push to array of aqi points
-                                nearest_aqi_points.append(new_point_on_map)
+                                # Push value if aqi_node found
+                                if (nearest_aqi_node is not None):
+                                    # Leg to draw on map with aqi values of 1500m near node
+                                    new_point_on_map = {
+                                        'aqi': nearest_aqi_node["aqi"] if (nearest_aqi_node is not None) else None,
+                                        'updated_at': nearest_aqi_node["updated_at"] if (nearest_aqi_node is not None) else None,
+                                        'location': selected_step["end_location"],
+                                        'distance': {
+                                            'value': selected_response["dist_from_selected"],
+                                        },
+                                        'polyline': selected_step["polyline"],
+                                    }
+                                    # Push to array of aqi points (before the last entry)
+                                    nearest_aqi_points.insert(
+                                        len(nearest_aqi_points) - 1, new_point_on_map)
 
                                 # If last item was selected, stop iteration
                                 if (selected_response["all_visited"] and selected_response["is_selected"]):
