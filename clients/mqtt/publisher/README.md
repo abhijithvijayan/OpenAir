@@ -47,15 +47,19 @@ Download from http://workswithweb.com/html/mqttbox/downloads.html
 
 ### 3. Arduino Client for MQTT
 
-Downloade latest release from https://github.com/knolleary/pubsubclient/releases/latest
+1. Download latest release from https://github.com/knolleary/pubsubclient/releases/latest
+2. Go to `Sketch -> Include Library -> Add .zip library` and chose the .zip file
 
 ### 4. ESP8266 Addon for IDE
 
 1. In your Arduino IDE, go to File> Preferences
 2. Enter `https://arduino.esp8266.com/stable/package_esp8266com_index.json` into the `Additional Boards Manager URLs` field. Then, click the `OK` button
 3. Open the Boards Manager. Go to `Tools > Board > Boards Manager`
-4. Search for `ESP8266` and press install button for the `SP8266 by ESP8266 Community`
-5. That’s it. It should be installed after a few seconds.
+4. Search for `ESP8266` and press install button for the `ESP8266 by ESP8266 Community`
+5. Search for `CD74HC4067` and press install
+6. Search for `thinger.io` and press install
+7. It should be installed after a few seconds.
+8. Choose board as `NodeMCU 1.0` and set erase to `ALL FLASH CONTENTS`. That’s it.
 
 ### 5. Allow Port on Firewall
 
@@ -68,5 +72,9 @@ sudo ufw allow 1883
 ### 6. Fix Permissions
 
 https://playground.arduino.cc/Linux/All/#Permission
+
+### 7. VSCODE
+1. Install `arduino` extension
+2. Follow [this](https://github.com/microsoft/vscode-arduino/issues/791#issuecomment-476089760) instruction to fix arduino path
 
 <hr />
