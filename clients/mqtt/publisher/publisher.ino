@@ -45,9 +45,9 @@ long lastMsg = 0;
 char msg[50];
 int value = 0;
 
-// Initialize the client object
-WiFiClient espClient;
-PubSubClient client(espClient);
+// Creates an uninitialised client instance.
+WiFiClient wifiClient;
+PubSubClient client;
 
 /**
  *  Handle WiFi Connectivity
@@ -152,8 +152,10 @@ void setup()
   // connect to WiFi
   setup_wifi();
 
-  // connect to MQTT server
+  // configure client instance
+  client.setClient(wifiClient);
   client.setServer(mqtt_server, 1883);
+  // client is now configured for use
   client.setCallback(callback);
 
   // Define output pins for Mux
