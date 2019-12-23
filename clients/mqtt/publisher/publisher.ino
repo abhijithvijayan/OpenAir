@@ -55,7 +55,7 @@ PubSubClient mqttClient;
 /**
  *  Handle WiFi Connectivity
  */
-void setup_wifi()
+void setupWiFi()
 {
   delay(10);
 
@@ -72,8 +72,6 @@ void setup_wifi()
     Serial.print(".");
   }
 
-  randomSeed(micros());
-
   Serial.println("");
   Serial.println("WiFi connected");
   Serial.println("IP address: ");
@@ -81,33 +79,27 @@ void setup_wifi()
 }
 
 /**
- *  MQTT Reconnector
+ *  Handle MQTT Server Connectivity
  */
-void reconnect()
+void setup_mqtt_connection()
 {
-  // Loop until we're reconnected
+  // Loop until client is connected
   while (!mqttClient.connected())
   {
     Serial.print("Attempting MQTT connection...");
 
-    // Create a random client ID
-    String clientId = "OpenAirClient-";
-    clientId += String(random(0xffff), HEX);
-
     // Attempt to connect
     if (mqttClient.connect(MQTT_DEVICE_ID, CLIENT_AUTH_ID, CLIENT_AUTH_CREDENTIAL))
     {
-      Serial.println("connected");
+      Serial.println("Success: Connected to server");
       // Once connected, publish an announcement...
-      mqttClient.publish("sensors", "hello world");
-      // ... and resubscribe
-      mqttClient.subscribe("testing");
+      mqttClient.publish("echo", "hello world");
     }
     else
     {
-      Serial.print("failed, rc=");
+      Serial.print("Failed: rc=");
       Serial.print(mqttClient.state());
-      Serial.println(" try again in 5 seconds");
+      Serial.println(" trying again in 5 seconds");
 
       // Wait 5 seconds before retrying
       delay(5000);
@@ -118,7 +110,7 @@ void reconnect()
 /**
  *  Get sensor reading
  */
-int readSig(int channel)
+int getSensorReading(int channel)
 {
   /**
    *  use the first three bits of the channel number to set the channel select pins
@@ -131,10 +123,10 @@ int readSig(int channel)
   digitalWrite(setPin2, bitRead(channel, 2));
 
   // read from the selected mux channel
-  int sigValue = analogRead(ANALOG_INPUT);
+  int sensorValue = analogRead(ANALOG_INPUT);
 
   // return the received analog value
-  return sigValue;
+  return sensorValue;
 }
 
 /**
@@ -150,7 +142,7 @@ void setup()
   Serial.begin(115200);
 
   // connect to WiFi
-  setup_wifi();
+  setupWiFi();
 
   // configure client instance
   mqttClient.setClient(wifiClient);
@@ -161,6 +153,8 @@ void setup()
   pinMode(MUX_A, OUTPUT);
   pinMode(MUX_B, OUTPUT);
   pinMode(MUX_C, OUTPUT);
+
+  // ToDo: delay for 5min before initial sensor reading
 }
 
 /**
@@ -168,11 +162,11 @@ void setup()
  */
 void loop()
 {
-
   if (!mqttClient.connected())
   {
-    reconnect();
+    setup_mqtt_connection();
   }
+  // should be called regularly to maintain its connection to the server
   mqttClient.loop();
 
   long now = millis();
@@ -180,29 +174,32 @@ void loop()
   {
     lastMsg = now;
     digitalWrite(BUILTIN_LED, LOW); // Turn the LED on (Note that LOW is the voltage level
-    // but actually the LED is on; this is because it is acive low on the ESP-01)
+    // but actually the LED is on; this is because it is active low on the ESP-01)
 
+    // Iterate through all used channels
     for (int channel = 0; channel < 3; ++channel)
     {
-      // read sensor output value
-      int sigValue = readSig(channel);
+      // Get sensor reading
+      int sensorValue = getSensorReading(channel);
 
       // print the analog / digital value to the serial monitor
       Serial.print("Value at channel ");
       Serial.print(channel);
       Serial.print(" is : ");
-      Serial.println(sigValue);
+      Serial.println(sensorValue);
 
-      // delay next read by 1sec
+      // delay next channel read by 1sec
       delay(1000);
     }
     Serial.println();
 
     ++value;
+    // Write formatted output to sized buffer
     snprintf(msg, 75, "hello world #%ld", value);
     Serial.print("Publish message: ");
     Serial.println(msg);
     mqttClient.publish("sensors", msg);
+
     digitalWrite(BUILTIN_LED, HIGH); // Turn the LED off by making the voltage HIGH
   }
 }

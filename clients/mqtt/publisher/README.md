@@ -49,6 +49,7 @@ Download from http://workswithweb.com/html/mqttbox/downloads.html
 
 1. Download latest release from https://github.com/knolleary/pubsubclient/releases/latest
 2. Go to `Sketch -> Include Library -> Add .zip library` and chose the .zip file
+3. Read Documentation [here](https://pubsubclient.knolleary.net/api.html)
 
 ### 4. ESP8266 Addon for IDE
 
