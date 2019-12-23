@@ -1,31 +1,53 @@
+/**
+ *  author:       abhijithvijayan
+ *  created:      23 Dec 2019
+ *  title:        CD74HC4051 Analog / Digital Multiplexing with MQTT Publisher Client
+ *
+ *  This sketch reads analog values from 3 of the 8 multiplexer pins
+ *  and publish the sensor data to a topic using mqtt protocol with PubSubClient
+ *
+ *  The following pins must be connected:
+ *
+ *  Digital Pin 0 -> S0
+ *  Digital Pin 1 -> S1
+ *  Digital Pin 2 -> S2
+ *  Digital Pin 4 -> E
+ *  Analog Pin A0 -> SIG(Z)
+ *  Output Pins Y0, Y1, Y1
+ */
+
 #include <ESP8266WiFi.h>
 #include <PubSubClient.h>
 
+#define MQTT_DEVICE_ID "........";
+#define CLIENT_AUTH_ID "........";
+#define CLIENT_AUTH_CREDENTIAL "........";
+
+// Update these with values suitable for your network.
+const char *ssid = "........";
+const char *password = "........";
+IPAddress mqtt_server(0, 0, 0, 0);
+
+// Output Pins
 #define MUX_A D0
 #define MUX_B D1
 #define MUX_C D2
 
-#define ANALOG_INPUT A0
-#define sig 0
+// Mux analog / digital signal pin
+#define ANALOG_INPUT 0
 
 // Mux channel select pins
-#define setPin0 16 //GPIO 16 (D0 on NodeMCU)
-#define setPin1 5  //GPIO 5 (D1 on NodeMCU)
-#define setPin2 4  //GPIO 4 (D2 on NodeMCU)
-
-// Update these with values suitable for your network.
-const char *ssid = "F.R.I.E.N.D.S";
-const char *password = "F.R.I.E.N.D.S";
-// local IP of RPi
-IPAddress mqtt_server(192, 168, 1, 172);
-
-// Initialize the client object
-WiFiClient espClient;
-PubSubClient client(espClient);
+#define setPin0 16 // GPIO 16 (D0 on NodeMCU)
+#define setPin1 5  // GPIO 5 (D1 on NodeMCU)
+#define setPin2 4  // GPIO 4 (D2 on NodeMCU)
 
 long lastMsg = 0;
 char msg[50];
 int value = 0;
+
+// Initialize the client object
+WiFiClient espClient;
+PubSubClient client(espClient);
 
 /**
  *  Handle WiFi Connectivity
@@ -74,8 +96,7 @@ void callback(char *topic, byte *payload, unsigned int length)
   if ((char)payload[0] == '1')
   {
     digitalWrite(BUILTIN_LED, LOW); // Turn the LED on (Note that LOW is the voltage level
-    // but actually the LED is on; this is because
-    // it is acive low on the ESP-01)
+    // but actually the LED is on; this is because it is acive low on the ESP-01)
   }
   else
   {
@@ -98,7 +119,7 @@ void reconnect()
     clientId += String(random(0xffff), HEX);
 
     // Attempt to connect
-    if (client.connect(clientId.c_str()))
+    if (client.connect(MQTT_DEVICE_ID, CLIENT_AUTH_ID, CLIENT_AUTH_CREDENTIAL))
     {
       Serial.println("connected");
       // Once connected, publish an announcement...
@@ -131,25 +152,33 @@ void setup()
   // connect to WiFi
   setup_wifi();
 
-  //connect to MQTT server
+  // connect to MQTT server
   client.setServer(mqtt_server, 1883);
   client.setCallback(callback);
 
-  //Define output pins for Mux
+  // Define output pins for Mux
   pinMode(MUX_A, OUTPUT);
   pinMode(MUX_B, OUTPUT);
   pinMode(MUX_C, OUTPUT);
 }
 
+/**
+ *  Get sensor reading
+ */
 int readSig(int channel)
 {
-  // use the first three bits of the channel number to set the channel select pins
+  /**
+   *  use the first three bits of the channel number to set the channel select pins
+   *
+   *  channel 2 -> bits 0 1 0
+   *  S0 -> 0, S1 -> 1, S2 -> 0 => Y2
+   */
   digitalWrite(setPin0, bitRead(channel, 0));
   digitalWrite(setPin1, bitRead(channel, 1));
   digitalWrite(setPin2, bitRead(channel, 2));
 
   // read from the selected mux channel
-  int sigValue = analogRead(sig);
+  int sigValue = analogRead(ANALOG_INPUT);
 
   // return the received analog value
   return sigValue;
@@ -172,16 +201,19 @@ void loop()
   {
     lastMsg = now;
 
-    for (int i = 0; i < 3; i++)
+    for (int channel = 0; channel < 3; ++channel)
     {
-      int sigValue = readSig(i);
+      // read sensor output value
+      int sigValue = readSig(channel);
 
       // print the analog / digital value to the serial monitor
-
       Serial.print("Value at channel ");
-      Serial.print(i);
+      Serial.print(channel);
       Serial.print(" is : ");
-      Serial.println(readSig(i));
+      Serial.println(sigValue);
+
+      // delay next read by 1sec
+      delay(1000);
     }
     Serial.println();
 
@@ -189,6 +221,6 @@ void loop()
     snprintf(msg, 75, "hello world #%ld", value);
     Serial.print("Publish message: ");
     Serial.println(msg);
-    // client.publish("sensors", msg);
+    client.publish("sensors", msg);
   }
 }
