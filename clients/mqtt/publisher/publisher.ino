@@ -67,7 +67,7 @@ IPAddress mqtt_server_ip(0, 0, 0, 0);
 // ----------------------------------------------------- //
 // ----------------------------------------------------- //
 
-long lastMsg = 0;
+long lastReconnectAttempt = 0;
 
 // Creates an uninitialised client instance.
 WiFiClient wifiClient;
@@ -171,9 +171,9 @@ void loop()
   mqttClient.loop();
 
   long now = millis();
-  if (now - lastMsg > SENSORS_DATA_READING_DELAY)
+  if (now - lastReconnectAttempt > SENSORS_DATA_READING_DELAY)
   {
-    lastMsg = now;
+    lastReconnectAttempt = now;
 
     // Turn the LED on by making the voltage LOW
     digitalWrite(BUILTIN_LED, LOW);
@@ -261,7 +261,7 @@ String generateAirQualityDataBody()
     // sensorObject["type"] = "mq2"; // switch according to channel#
     sensorObject["value"] = sensorValue;
 
-    // delay next channel read by 1sec
+    // delay next channel read
     delay(SENSOR_SWITCH_DELAY);
   }
 
