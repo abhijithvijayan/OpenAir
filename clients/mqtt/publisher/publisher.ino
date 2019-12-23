@@ -20,17 +20,30 @@
 #include <PubSubClient.h> // https://github.com/knolleary/pubsubclient
 #include <ArduinoJson.h>  // https://github.com/bblanchon/ArduinoJson
 
+// MQTT Device Credentials
 #define MQTT_DEVICE_ID "........"
 #define CLIENT_AUTH_ID "........"
 #define CLIENT_AUTH_CREDENTIAL "........"
+#define LATITUDE "........"
+#define LONGITUDE "........"
+#define LOCATION_NAME "........"
+#define LOCATION_TYPE "........"
 
-// Update these with values suitable for your network.
+// Network
 const char *ssid = "........";
 const char *password = "........";
 
-// mqtt server credentials
+// MQTT Server Credentials
 IPAddress mqtt_server_ip(0, 0, 0, 0);
 #define MQTT_SERVER_PORT 1883
+
+// General
+#define WIFI_INITIAL_CONN_DELAY 10
+#define WIFI_CONN_RETRY_DELAY 500
+#define MQTT_CONN_RETRY_DELAY 5000
+#define SENSOR_DATA_READING_DELAY 10000
+#define SENSOR_SWITCH_DELAY 1000
+#define SERIAL_DEBUG_PORT 115200
 
 // Output Pins
 #define MUX_A D0
@@ -45,9 +58,13 @@ IPAddress mqtt_server_ip(0, 0, 0, 0);
 #define setPin1 5  // GPIO 5 (D1 on NodeMCU)
 #define setPin2 4  // GPIO 4 (D2 on NodeMCU)
 
+// ----------------------------------------------------- //
+// ----------------------------------------------------- //
+// ----------------------------------------------------- //
+
 long lastMsg = 0;
 char msg[50];
-int value = 0;
+int iteration = 0;
 
 // Creates an uninitialised client instance.
 WiFiClient wifiClient;
@@ -58,7 +75,7 @@ PubSubClient mqttClient;
  */
 void setupWiFi()
 {
-  delay(10);
+  delay(WIFI_INITIAL_CONN_DELAY);
 
   // attempt to connect to a WiFi network
   Serial.println();
@@ -69,7 +86,7 @@ void setupWiFi()
 
   while (WiFi.status() != WL_CONNECTED)
   {
-    delay(500);
+    delay(WIFI_CONN_RETRY_DELAY);
     Serial.print(".");
   }
 
@@ -102,8 +119,8 @@ void setup_mqtt_connection()
       Serial.print(mqttClient.state());
       Serial.println(" trying again in 5 seconds");
 
-      // Wait 5 seconds before retrying
-      delay(5000);
+      // Wait before retrying
+      delay(MQTT_CONN_RETRY_DELAY);
     }
   }
 }
@@ -140,7 +157,7 @@ void setup()
   pinMode(BUILTIN_LED, OUTPUT); // Initialize the BUILTIN_LED pin as an output
 
   // initialize serial for debugging
-  Serial.begin(115200);
+  Serial.begin(SERIAL_DEBUG_PORT);
 
   // connect to WiFi
   setupWiFi();
@@ -163,9 +180,6 @@ void setup()
  */
 void loop()
 {
-  // ToDo: https://arduinojson.org/v6/api/jsondocument/ for dynamic allocation
-  StaticJsonDocument<300> doc;
-
   if (!mqttClient.connected())
   {
     setup_mqtt_connection();
@@ -173,8 +187,23 @@ void loop()
   // should be called regularly to maintain its connection to the server
   mqttClient.loop();
 
+  // compute the required size for json data
+  const size_t CAPACITY = JSON_OBJECT_SIZE(4) + JSON_OBJECT_SIZE(2) + JSON_ARRAY_SIZE(3) + 3 * JSON_OBJECT_SIZE(3);
+  StaticJsonDocument<CAPACITY> encodedJsonData;
+
+  // push static location info
+  encodedJsonData["name"] = LOCATION_NAME;
+  encodedJsonData["type"] = LOCATION_TYPE;
+
+  // creates an object with key `coordinates`
+  JsonObject coordinates = encodedJsonData.createNestedObject("coordinates");
+  coordinates["lat"] = LATITUDE;
+  coordinates["lng"] = LONGITUDE;
+  // create empty nested array
+  JsonArray air_data = encodedJsonData.createNestedArray("air");
+
   long now = millis();
-  if (now - lastMsg > 5000)
+  if (now - lastMsg > SENSOR_DATA_READING_DELAY)
   {
     lastMsg = now;
     digitalWrite(BUILTIN_LED, LOW); // Turn the LED on (Note that LOW is the voltage level
@@ -186,23 +215,35 @@ void loop()
       // Get sensor reading
       int sensorValue = getSensorReading(channel);
 
-      // print the analog / digital value to the serial monitor
+      // write back the analog / digital value to the serial monitor
       Serial.print("Value at channel ");
       Serial.print(channel);
       Serial.print(" is : ");
       Serial.println(sensorValue);
 
+      // create an object
+      JsonObject sensor_data = air_data.createNestedObject();
+      // set sensor fields to object
+      sensor_data["id"] = channel;
+      // sensor_data["type"] = "mq2"; // switch according to channel#
+      sensor_data["value"] = sensorValue;
+
       // delay next channel read by 1sec
-      delay(1000);
+      delay(SENSOR_SWITCH_DELAY);
     }
     Serial.println();
 
-    ++value;
+    ++iteration;
     // Write formatted output to sized buffer
-    snprintf(msg, 75, "hello world #%ld", value);
+    snprintf(msg, 75, "Publish #%ld", iteration);
     Serial.print("Publish message: ");
-    Serial.println(msg);
-    mqttClient.publish("sensors", msg);
+
+    // write back json to serial
+    serializeJson(encodedJsonData, Serial);
+    // Cast Json to a String
+    // String output = encodedJsonData.as<String>();
+    // publish data
+    // mqttClient.publish("location", output);
 
     digitalWrite(BUILTIN_LED, HIGH); // Turn the LED off by making the voltage HIGH
   }

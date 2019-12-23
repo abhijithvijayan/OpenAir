@@ -85,3 +85,35 @@ https://playground.arduino.cc/Linux/All/#Permission
 2. Follow [this](https://github.com/microsoft/vscode-arduino/issues/791#issuecomment-476089760) instruction to fix arduino path
 
 <hr />
+
+
+### Sample JSON Output
+
+```
+/**
+{
+  "location": {
+    "lat": ...,
+    "lng": ...,
+  },
+  "name": "",
+  "type": "",
+  "air": [
+    {
+      "id": ...,
+      "type": ...,
+      "value": ...,
+    },
+    {
+      "id": ...,
+      "type": ...,
+      "value": ...,
+    },
+    {
+      "id": ...,
+      "type": ...,
+      "value": ...,
+    }
+  ]
+}
+```
