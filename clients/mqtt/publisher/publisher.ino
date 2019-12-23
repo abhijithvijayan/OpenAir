@@ -50,7 +50,7 @@ int value = 0;
 
 // Creates an uninitialised client instance.
 WiFiClient wifiClient;
-PubSubClient client;
+PubSubClient mqttClient;
 
 /**
  *  Handle WiFi Connectivity
@@ -86,7 +86,7 @@ void setup_wifi()
 void reconnect()
 {
   // Loop until we're reconnected
-  while (!client.connected())
+  while (!mqttClient.connected())
   {
     Serial.print("Attempting MQTT connection...");
 
@@ -95,48 +95,24 @@ void reconnect()
     clientId += String(random(0xffff), HEX);
 
     // Attempt to connect
-    if (client.connect(MQTT_DEVICE_ID, CLIENT_AUTH_ID, CLIENT_AUTH_CREDENTIAL))
+    if (mqttClient.connect(MQTT_DEVICE_ID, CLIENT_AUTH_ID, CLIENT_AUTH_CREDENTIAL))
     {
       Serial.println("connected");
       // Once connected, publish an announcement...
-      client.publish("sensors", "hello world");
+      mqttClient.publish("sensors", "hello world");
       // ... and resubscribe
-      client.subscribe("testing");
+      mqttClient.subscribe("testing");
     }
     else
     {
       Serial.print("failed, rc=");
-      Serial.print(client.state());
+      Serial.print(mqttClient.state());
       Serial.println(" try again in 5 seconds");
 
       // Wait 5 seconds before retrying
       delay(5000);
     }
   }
-}
-
-/**
- *  Driver Function
- */
-void setup()
-{
-  pinMode(BUILTIN_LED, OUTPUT); // Initialize the BUILTIN_LED pin as an output
-
-  // initialize serial for debugging
-  Serial.begin(115200);
-
-  // connect to WiFi
-  setup_wifi();
-
-  // configure client instance
-  client.setClient(wifiClient);
-  client.setServer(mqtt_server_ip, MQTT_SERVER_PORT);
-  // client is now configured for use
-
-  // Define output pins for Mux
-  pinMode(MUX_A, OUTPUT);
-  pinMode(MUX_B, OUTPUT);
-  pinMode(MUX_C, OUTPUT);
 }
 
 /**
@@ -162,16 +138,42 @@ int readSig(int channel)
 }
 
 /**
+ *  setup() function
+ *
+ *  will only run once, after each powerup or reset of the board.
+ */
+void setup()
+{
+  pinMode(BUILTIN_LED, OUTPUT); // Initialize the BUILTIN_LED pin as an output
+
+  // initialize serial for debugging
+  Serial.begin(115200);
+
+  // connect to WiFi
+  setup_wifi();
+
+  // configure client instance
+  mqttClient.setClient(wifiClient);
+  mqttClient.setServer(mqtt_server_ip, MQTT_SERVER_PORT);
+  // client is now configured for use
+
+  // Define output pins for MUX
+  pinMode(MUX_A, OUTPUT);
+  pinMode(MUX_B, OUTPUT);
+  pinMode(MUX_C, OUTPUT);
+}
+
+/**
  *  Iterating Function
  */
 void loop()
 {
 
-  if (!client.connected())
+  if (!mqttClient.connected())
   {
     reconnect();
   }
-  client.loop();
+  mqttClient.loop();
 
   long now = millis();
   if (now - lastMsg > 5000)
@@ -200,7 +202,7 @@ void loop()
     snprintf(msg, 75, "hello world #%ld", value);
     Serial.print("Publish message: ");
     Serial.println(msg);
-    client.publish("sensors", msg);
+    mqttClient.publish("sensors", msg);
     digitalWrite(BUILTIN_LED, HIGH); // Turn the LED off by making the voltage HIGH
   }
 }
