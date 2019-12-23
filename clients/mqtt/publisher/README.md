@@ -50,9 +50,31 @@ Download from http://workswithweb.com/html/mqttbox/downloads.html
 ### 3. Arduino IDE Addon Clients & Libraries
 
 #### 1. PubSubClient
-1. Download latest release from https://github.com/knolleary/pubsubclient/releases/latest
-2. Go to `Sketch -> Include Library -> Add .zip library` and chose the downloaded `.zip` file
-3. Read the documentation [here](https://pubsubclient.knolleary.net/api.html)
+1. Read the documentation [here](https://pubsubclient.knolleary.net/api.html)
+2.  Download latest release from https://github.com/knolleary/pubsubclient/releases/latest
+3. Go to `Sketch -> Include Library -> Add .zip library` and chose the downloaded `.zip` file
+4. Edit `/home/$USER/Arduino/libaries/pubsubclient-2.7/src/PubSubClient.cpp`
+
+	1. Add under `Line#460`
+		```
+		// custom
+		boolean PubSubClient::publish(const char *topic, const char *payload, unsigned int length)
+		{
+				return publish(topic, (const uint8_t *)payload, length, false);
+		}
+		```
+5. Edit `/home/$USER/Arduino/libaries/pubsubclient-2.7/src/PubSubClient.h`
+
+	1. Edit `Line#30`
+		```
+		// custom
+		#define MQTT_MAX_PACKET_SIZE 512
+		```
+	2. Add under `Line#153`
+		```
+		// custom
+		boolean publish(const char *topic, const char *payload, unsigned int length);
+		```
 
 #### 2. ESP8266 Addon
 1. In your Arduino IDE, go to `File > Preferences`
@@ -89,31 +111,32 @@ https://playground.arduino.cc/Linux/All/#Permission
 
 ### Sample JSON Output
 
+How to compute the JsonDocument size?
+https://arduinojson.org/v6/assistant/
+
 ```
-/**
 {
-  "location": {
-    "lat": ...,
-    "lng": ...,
-  },
-  "name": "",
-  "type": "",
-  "air": [
-    {
-      "id": ...,
-      "type": ...,
-      "value": ...,
-    },
-    {
-      "id": ...,
-      "type": ...,
-      "value": ...,
-    },
-    {
-      "id": ...,
-      "type": ...,
-      "value": ...,
-    }
-  ]
+	"location": {
+		"lat": "41.1575516563445",
+		"lng": "-8.4637882545675"
+	},
+	"name": "Worlds Largest National Park of Tigers",
+	"type": "station",
+	"air": [{
+			"id": 1,
+			"type": "mq2",
+			"value": 1023
+		},
+		{
+			"id": 2,
+			"type": "mq7",
+			"value": 1023
+		},
+		{
+			"id": 3,
+			"type": "mq135",
+			"value": 1023
+		}
+	]
 }
 ```
