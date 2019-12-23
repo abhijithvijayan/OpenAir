@@ -49,6 +49,10 @@ Download from http://workswithweb.com/html/mqttbox/downloads.html
 
 ### 3. Arduino IDE Addon Clients & Libraries
 
+#### 1. AsyncMqttClient
+
+http://marvinroger.viewdocs.io/async-mqtt-client/1.-Getting-started/
+<!-- 
 #### 1. PubSubClient
 1. Read the documentation [here](https://pubsubclient.knolleary.net/api.html)
 2.  Download latest release from https://github.com/knolleary/pubsubclient/releases/latest
@@ -74,7 +78,7 @@ Download from http://workswithweb.com/html/mqttbox/downloads.html
 		```
 		// custom
 		boolean publish(const char *topic, const char *payload, unsigned int length);
-		```
+		``` -->
 
 #### 2. ESP8266 Addon
 1. In your Arduino IDE, go to `File > Preferences`

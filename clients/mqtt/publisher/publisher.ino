@@ -4,7 +4,7 @@
  *  title:        CD74HC4051 Analog / Digital Multiplexing with MQTT Publisher Client
  *
  *  This sketch reads analog values from 3 of the 8 multiplexer pins
- *  and publish the sensor data to a topic using mqtt protocol with PubSubClient
+ *  and publish the sensor data as JSON to a topic using mqtt protocol with async-mqtt-client
  *
  *  The following pins must be connected:
  *
@@ -18,8 +18,9 @@
 
 #include <ESP8266WiFi.h>
 #include <string.h>
-#include <PubSubClient.h> // https://github.com/knolleary/pubsubclient
-#include <ArduinoJson.h>  // https://github.com/bblanchon/ArduinoJson
+#include <Ticker.h>          // https://github.com/me-no-dev/ESPAsyncTCP
+#include <AsyncMqttClient.h> // https://github.com/marvinroger/async-mqtt-client
+#include <ArduinoJson.h>     // https://github.com/bblanchon/ArduinoJson
 
 // MQTT Device Credentials
 #define MQTT_DEVICE_ID "........"
@@ -34,12 +35,12 @@
 #define TOPIC_ECHO "echo"
 
 // Network
-const char *ssid = "........";
-const char *password = "........";
+#define WIFI_SSID "........"
+#define WIFI_PASSWORD "........"
 
 // MQTT Server Credentials
-IPAddress mqtt_server_ip(0, 0, 0, 0);
-#define MQTT_SERVER_PORT 1883
+#define MQTT_HOST IPAddress(0, 0, 0, 0)
+#define MQTT_PORT 1883
 
 // General
 #define SERIAL_DEBUG_PORT 115200
@@ -67,138 +68,81 @@ IPAddress mqtt_server_ip(0, 0, 0, 0);
 // ----------------------------------------------------- //
 // ----------------------------------------------------- //
 
+AsyncMqttClient mqttClient;
+Ticker mqttReconnectTimer;
+
+WiFiEventHandler wifiConnectHandler;
+WiFiEventHandler wifiDisconnectHandler;
+Ticker wifiReconnectTimer;
+
 long lastReconnectAttempt = 0;
 
-// Creates an uninitialised client instance.
-WiFiClient wifiClient;
-PubSubClient mqttClient;
-
-/**
- *  Handle WiFi Connectivity
- */
-void setupWiFi()
+void connectToWifi()
 {
-  delay(WIFI_INITIAL_CONN_DELAY);
-
-  // attempt to connect to a WiFi network
   Serial.println();
   Serial.print("[WiFi] Connecting to ");
-  Serial.println(ssid);
+  Serial.println(WIFI_SSID);
 
-  WiFi.begin(ssid, password);
+  WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
+}
 
-  while (WiFi.status() != WL_CONNECTED)
-  {
-    delay(WIFI_CONN_RETRY_DELAY);
-    Serial.print(".");
-  }
-  Serial.println();
-
-  Serial.println("[WiFi] Connection established");
-  Serial.print("[WiFi] IP address assigned by DHCP is ");
+void onWifiConnect(const WiFiEventStationModeGotIP &event)
+{
+  Serial.println("");
+  Serial.println("[WiFi] Connected.");
+  Serial.println("IP address: ");
   Serial.println(WiFi.localIP());
+  // initialize mqtt connection
+  connectToMqtt();
+}
+
+void onWifiDisconnect(const WiFiEventStationModeDisconnected &event)
+{
+  Serial.println("[WiFi] Disconnected.");
+  // ensure to not reconnect to MQTT while reconnecting to Wi-Fi
+  mqttReconnectTimer.detach();
+  wifiReconnectTimer.once(2, connectToWifi);
 }
 
 /**
  *  Handle MQTT Server Connectivity
  */
-void setup_mqtt_connection()
+void connectToMqtt()
 {
-  // Loop until client is connected
-  while (!mqttClient.connected())
+  Serial.print("[MQTT] Attempting MQTT connection...");
+  Serial.println();
+  // ToDo: Use ESP.getChipId() & authentication
+
+  mqttClient.connect();
+}
+
+void onMqttConnect(bool sessionPresent)
+{
+  Serial.println("[MQTT] Connected to server");
+  Serial.print("[MQTT] Session present: ");
+  Serial.println(sessionPresent);
+
+  // Once connected, publish an announcement...
+  uint16_t packetIdPub1 = mqttClient.publish(TOPIC_ECHO, 1, true, "hello world");
+  Serial.print("[MQTT] Publishing at QoS 1, packetId: ");
+  Serial.println(packetIdPub1);
+}
+
+void onMqttDisconnect(AsyncMqttClientDisconnectReason reason)
+{
+  Serial.println("[MQTT] Disconnected from MQTT.");
+
+  if (WiFi.isConnected())
   {
-    Serial.print("[MQTT] Attempting MQTT connection...");
-    Serial.println();
-    // ToDo: Use ESP.getChipId()
-
-    // Attempt to connect
-    if (mqttClient.connect(MQTT_DEVICE_ID, CLIENT_AUTH_ID, CLIENT_AUTH_CREDENTIAL))
-    {
-      Serial.println("[MQTT] Connected to server");
-      // Once connected, publish an announcement...
-      mqttClient.publish(TOPIC_ECHO, "hello world");
-    }
-    else
-    {
-      Serial.print("Failed: rc=");
-      Serial.print(mqttClient.state());
-      Serial.println(" trying again in 5 seconds");
-
-      // Wait before retrying
-      delay(MQTT_CONN_RETRY_DELAY);
-    }
+    mqttReconnectTimer.once(2, connectToMqtt);
   }
 }
 
-/**
- *  setup() function
- *
- *  will only run once, after each powerup or reset of the board.
- */
-void setup()
+void onMqttPublish(uint16_t packetId)
 {
-  pinMode(BUILTIN_LED, OUTPUT); // Initialize the BUILTIN_LED pin as an output
-
-  // initialize serial for debugging
-  Serial.begin(SERIAL_DEBUG_PORT);
-
-  // connect to WiFi
-  setupWiFi();
-
-  // configure client instance
-  mqttClient.setClient(wifiClient);
-  mqttClient.setServer(mqtt_server_ip, MQTT_SERVER_PORT);
-  // client is now configured for use
-
-  // Define output pins for MUX
-  pinMode(MUX_A, OUTPUT);
-  pinMode(MUX_B, OUTPUT);
-  pinMode(MUX_C, OUTPUT);
-
-  // ToDo: delay for 5min before initial sensor reading
-}
-
-/**
- *  Iterating Function
- */
-void loop()
-{
-  if (!mqttClient.connected())
-  {
-    setup_mqtt_connection();
-  }
-  // should be called regularly to maintain its connection to the server
-  mqttClient.loop();
-
-  long now = millis();
-  if (now - lastReconnectAttempt > SENSORS_DATA_READING_DELAY)
-  {
-    lastReconnectAttempt = now;
-
-    // Turn the LED on by making the voltage LOW
-    digitalWrite(BUILTIN_LED, LOW);
-
-    Serial.println();
-    Serial.print("Publish message: ");
-
-    String airData = generateAirQualityDataBody();
-    char *rawDataString = generateDataFormat(airData);
-    unsigned int jsonStrLength = strlen(rawDataString);
-
-    // publish data
-    if (mqttClient.publish(TOPIC_LOCATION, rawDataString, jsonStrLength))
-    {
-      Serial.println("Success. Published gas readings");
-    }
-    else
-    {
-      Serial.println("Error. Failed to publish gas readings");
-    }
-    Serial.println();
-
-    // Turn the LED off by making the voltage HIGH
-    digitalWrite(BUILTIN_LED, HIGH);
-  }
+  Serial.println("[MQTT] Publish acknowledged.");
+  Serial.print("  packetId: ");
+  Serial.println(packetId);
 }
 
 /**
@@ -308,4 +252,73 @@ char *generateDataFormat(String airDataBufferString)
   serializeJson(rawJsonData, dataString);
 
   return dataString;
+}
+
+/**
+ *  `setup()` function
+ *  will only run once, after each powerup or reset of the board.
+ */
+void setup()
+{
+  pinMode(BUILTIN_LED, OUTPUT); // Initialize the BUILTIN_LED pin as an output
+
+  // initialize serial for debugging
+  Serial.begin(SERIAL_DEBUG_PORT);
+
+  wifiConnectHandler = WiFi.onStationModeGotIP(onWifiConnect);
+  wifiDisconnectHandler = WiFi.onStationModeDisconnected(onWifiDisconnect);
+
+  // configure client instance
+  mqttClient.onConnect(onMqttConnect);
+  mqttClient.onDisconnect(onMqttDisconnect);
+  mqttClient.onPublish(onMqttPublish);
+  // mqttClient.setClientId(MQTT_DEVICE_ID);
+  mqttClient.setCredentials(CLIENT_AUTH_ID, CLIENT_AUTH_CREDENTIAL);
+  mqttClient.setServer(MQTT_HOST, MQTT_PORT);
+
+  // Define output pins for MUX
+  pinMode(MUX_A, OUTPUT);
+  pinMode(MUX_B, OUTPUT);
+  pinMode(MUX_C, OUTPUT);
+
+  // initialize & connect to WiFi
+  connectToWifi();
+
+  // ToDo: delay for 5min before initial sensor reading
+}
+
+/**
+ *  Iterating Function
+ */
+void loop()
+{
+  long now = millis();
+  if (now - lastReconnectAttempt > SENSORS_DATA_READING_DELAY)
+  {
+    lastReconnectAttempt = now;
+
+    // Turn the LED on by making the voltage LOW
+    digitalWrite(BUILTIN_LED, LOW);
+
+    Serial.println();
+    Serial.print("Publish message: ");
+
+    String airData = generateAirQualityDataBody();
+    char *rawDataString = generateDataFormat(airData);
+    unsigned int jsonStrLength = strlen(rawDataString);
+
+    // publish data
+    if (mqttClient.publish(TOPIC_LOCATION, 1, true, rawDataString, jsonStrLength))
+    {
+      Serial.println("Success. Published gas readings");
+    }
+    else
+    {
+      Serial.println("Error. Failed to publish gas readings");
+    }
+    Serial.println();
+
+    // Turn the LED off by making the voltage HIGH
+    digitalWrite(BUILTIN_LED, HIGH);
+  }
 }
