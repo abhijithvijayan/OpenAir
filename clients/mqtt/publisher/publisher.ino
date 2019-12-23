@@ -42,12 +42,13 @@ IPAddress mqtt_server_ip(0, 0, 0, 0);
 #define MQTT_SERVER_PORT 1883
 
 // General
+#define SERIAL_DEBUG_PORT 115200
 #define WIFI_INITIAL_CONN_DELAY 10
 #define WIFI_CONN_RETRY_DELAY 500
 #define MQTT_CONN_RETRY_DELAY 5000
-#define SENSOR_DATA_READING_DELAY 10000
+#define SENSORS_DATA_READING_DELAY 10000
 #define SENSOR_SWITCH_DELAY 10000
-#define SERIAL_DEBUG_PORT 115200
+#define SINGLE_SENSOR_CONSECUTIVE_READING_DELAY 1000
 
 // Output Pins
 #define MUX_A D0
@@ -170,7 +171,7 @@ void loop()
   mqttClient.loop();
 
   long now = millis();
-  if (now - lastMsg > SENSOR_DATA_READING_DELAY)
+  if (now - lastMsg > SENSORS_DATA_READING_DELAY)
   {
     lastMsg = now;
 
@@ -223,6 +224,23 @@ int getSensorReading(int channel)
 }
 
 /**
+ *  Read 10 consecutive values & return average
+ */
+int getSensorAverageReading(int channel)
+{
+  int readingValue = 0;
+
+  for (int j = 0; j < 10; ++j)
+  {
+    delay(SINGLE_SENSOR_CONSECUTIVE_READING_DELAY);
+    // sum up analog reading
+    readingValue += getSensorReading(channel);
+  }
+
+  return readingValue / 10;
+}
+
+/**
  *  Get Readings and Store as array of objects (as String)
  */
 String generateAirQualityDataBody()
@@ -234,8 +252,7 @@ String generateAirQualityDataBody()
   for (int channel = 0; channel < 3; ++channel)
   {
     // Get sensor reading
-    int sensorValue = getSensorReading(channel);
-    // ToDo: Get average for many values for precision
+    int sensorValue = getSensorAverageReading(channel);
 
     // create an object
     JsonObject sensorObject = doc.createNestedObject();
