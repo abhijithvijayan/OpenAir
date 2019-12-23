@@ -32,7 +32,7 @@
 #define LOCATION_TYPE "........"
 
 #define TOPIC_LOCATION "location"
-#define TOPIC_ECHO "echo"
+#define TOPIC_ECHO "test/echo"
 
 // Network
 #define WIFI_SSID "........"
@@ -44,7 +44,6 @@
 
 // General
 #define SERIAL_DEBUG_PORT 115200
-#define WIFI_INITIAL_CONN_DELAY 10
 #define WIFI_CONN_RETRY_DELAY 500
 #define MQTT_CONN_RETRY_DELAY 5000
 #define SENSORS_DATA_READING_DELAY 10000
@@ -77,6 +76,9 @@ Ticker wifiReconnectTimer;
 
 long lastReconnectAttempt = 0;
 
+/**
+ *  Handle WiFi Connectivity
+ */
 void connectToWifi()
 {
   Serial.println();
@@ -86,19 +88,27 @@ void connectToWifi()
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
 }
 
+/**
+ *  WiFi Connect event handler
+ */
 void onWifiConnect(const WiFiEventStationModeGotIP &event)
 {
   Serial.println("");
   Serial.println("[WiFi] Connected.");
   Serial.println("IP address: ");
   Serial.println(WiFi.localIP());
+
   // initialize mqtt connection
   connectToMqtt();
 }
 
+/**
+ *  WiFi Disconnect event handler
+ */
 void onWifiDisconnect(const WiFiEventStationModeDisconnected &event)
 {
   Serial.println("[WiFi] Disconnected.");
+
   // ensure to not reconnect to MQTT while reconnecting to Wi-Fi
   mqttReconnectTimer.detach();
   wifiReconnectTimer.once(2, connectToWifi);
@@ -111,11 +121,13 @@ void connectToMqtt()
 {
   Serial.print("[MQTT] Attempting MQTT connection...");
   Serial.println();
-  // ToDo: Use ESP.getChipId() & authentication
 
   mqttClient.connect();
 }
 
+/**
+ *  MQTT Connect event handler
+ */
 void onMqttConnect(bool sessionPresent)
 {
   Serial.println("[MQTT] Connected to server");
@@ -128,6 +140,9 @@ void onMqttConnect(bool sessionPresent)
   Serial.println(packetIdPub1);
 }
 
+/**
+ *  MQTT Disconnect event handler
+ */
 void onMqttDisconnect(AsyncMqttClientDisconnectReason reason)
 {
   Serial.println("[MQTT] Disconnected from MQTT.");
@@ -138,6 +153,9 @@ void onMqttDisconnect(AsyncMqttClientDisconnectReason reason)
   }
 }
 
+/**
+ *  MQTT Publish acknowledged event handler
+ */
 void onMqttPublish(uint16_t packetId)
 {
   Serial.println("[MQTT] Publish acknowledged.");
@@ -202,7 +220,8 @@ String generateAirQualityDataBody()
     JsonObject sensorObject = doc.createNestedObject();
     // set sensor fields to object
     sensorObject["id"] = channel;
-    // sensorObject["type"] = "mq2"; // switch according to channel#
+    // ToDo: Switch according to channel#
+    // sensorObject["type"] = "mq2";
     sensorObject["value"] = sensorValue;
 
     // delay next channel read
@@ -256,7 +275,7 @@ char *generateDataFormat(String airDataBufferString)
 
 /**
  *  `setup()` function
- *  will only run once, after each powerup or reset of the board.
+ *   will only run once, after each powerup or reset of the board.
  */
 void setup()
 {
@@ -273,6 +292,8 @@ void setup()
   mqttClient.onDisconnect(onMqttDisconnect);
   mqttClient.onPublish(onMqttPublish);
   // mqttClient.setClientId(MQTT_DEVICE_ID);
+  // mqttClient.setKeepAlive(120);
+  // mqttClient.setCleanSession(true);
   mqttClient.setCredentials(CLIENT_AUTH_ID, CLIENT_AUTH_CREDENTIAL);
   mqttClient.setServer(MQTT_HOST, MQTT_PORT);
 
@@ -300,13 +321,11 @@ void loop()
     // Turn the LED on by making the voltage LOW
     digitalWrite(BUILTIN_LED, LOW);
 
-    Serial.println();
-    Serial.print("Publish message: ");
-
     String airData = generateAirQualityDataBody();
     char *rawDataString = generateDataFormat(airData);
     unsigned int jsonStrLength = strlen(rawDataString);
 
+    Serial.println();
     // publish data
     if (mqttClient.publish(TOPIC_LOCATION, 1, true, rawDataString, jsonStrLength))
     {
