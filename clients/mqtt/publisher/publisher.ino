@@ -26,7 +26,10 @@
 // Update these with values suitable for your network.
 const char *ssid = "........";
 const char *password = "........";
-IPAddress mqtt_server(0, 0, 0, 0);
+
+// mqtt server credentials
+IPAddress mqtt_server_ip(0, 0, 0, 0);
+#define MQTT_SERVER_PORT 1883
 
 // Output Pins
 #define MUX_A D0
@@ -75,33 +78,6 @@ void setup_wifi()
   Serial.println("WiFi connected");
   Serial.println("IP address: ");
   Serial.println(WiFi.localIP());
-}
-
-/**
- *  Print any message received for subscribed topic
- */
-void callback(char *topic, byte *payload, unsigned int length)
-{
-  Serial.print("Message arrived [");
-  Serial.print(topic);
-  Serial.print("] ");
-
-  for (int i = 0; i < length; i++)
-  {
-    Serial.print((char)payload[i]);
-  }
-  Serial.println();
-
-  // Switch on the LED if an 1 was received as first character
-  if ((char)payload[0] == '1')
-  {
-    digitalWrite(BUILTIN_LED, LOW); // Turn the LED on (Note that LOW is the voltage level
-    // but actually the LED is on; this is because it is acive low on the ESP-01)
-  }
-  else
-  {
-    digitalWrite(BUILTIN_LED, HIGH); // Turn the LED off by making the voltage HIGH
-  }
 }
 
 /**
@@ -154,9 +130,8 @@ void setup()
 
   // configure client instance
   client.setClient(wifiClient);
-  client.setServer(mqtt_server, 1883);
+  client.setServer(mqtt_server_ip, MQTT_SERVER_PORT);
   // client is now configured for use
-  client.setCallback(callback);
 
   // Define output pins for Mux
   pinMode(MUX_A, OUTPUT);
@@ -202,6 +177,8 @@ void loop()
   if (now - lastMsg > 5000)
   {
     lastMsg = now;
+    digitalWrite(BUILTIN_LED, LOW); // Turn the LED on (Note that LOW is the voltage level
+    // but actually the LED is on; this is because it is acive low on the ESP-01)
 
     for (int channel = 0; channel < 3; ++channel)
     {
@@ -224,5 +201,6 @@ void loop()
     Serial.print("Publish message: ");
     Serial.println(msg);
     client.publish("sensors", msg);
+    digitalWrite(BUILTIN_LED, HIGH); // Turn the LED off by making the voltage HIGH
   }
 }
