@@ -45,24 +45,30 @@ Download from https://www.arduino.cc/download_handler.php
 
 Download from http://workswithweb.com/html/mqttbox/downloads.html
 
-### 3. Arduino Client for MQTT
+<hr />
 
+### 3. Arduino IDE Addon Clients & Libraries
+
+#### 1. PubSubClient
 1. Download latest release from https://github.com/knolleary/pubsubclient/releases/latest
-2. Go to `Sketch -> Include Library -> Add .zip library` and chose the .zip file
-3. Read Documentation [here](https://pubsubclient.knolleary.net/api.html)
+2. Go to `Sketch -> Include Library -> Add .zip library` and chose the downloaded `.zip` file
+3. Read the documentation [here](https://pubsubclient.knolleary.net/api.html)
 
-### 4. ESP8266 Addon for IDE
-
-1. In your Arduino IDE, go to File> Preferences
+#### 2. ESP8266 Addon
+1. In your Arduino IDE, go to `File > Preferences`
 2. Enter `https://arduino.esp8266.com/stable/package_esp8266com_index.json` into the `Additional Boards Manager URLs` field. Then, click the `OK` button
 3. Open the Boards Manager. Go to `Tools > Board > Boards Manager`
 4. Search for `ESP8266` and press install button for the `ESP8266 by ESP8266 Community`
-5. Search for `CD74HC4067` and press install
-6. Search for `thinger.io` and press install
-7. It should be installed after a few seconds.
-8. Choose board as `NodeMCU 1.0` and set erase to `ALL FLASH CONTENTS`. That’s it.
+5. It should be installed after a few seconds.
+6. Choose board as `NodeMCU 1.0` and set erase to `ALL FLASH CONTENTS`. That’s it.
 
-### 5. Allow Port on Firewall
+#### 3. Other Libraries
+1. Open the Libraries Manager. Go to `Tools > Manage Libraries`
+2. Search for `ArduinoJson` and press install
+
+<hr />
+
+### 4. Allow Port on Firewall
 
 Open port TCP:1883 on firewall
 

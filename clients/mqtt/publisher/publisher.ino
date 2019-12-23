@@ -17,11 +17,12 @@
  */
 
 #include <ESP8266WiFi.h>
-#include <PubSubClient.h>
+#include <PubSubClient.h> // https://github.com/knolleary/pubsubclient
+#include <ArduinoJson.h>  // https://github.com/bblanchon/ArduinoJson
 
-#define MQTT_DEVICE_ID "........";
-#define CLIENT_AUTH_ID "........";
-#define CLIENT_AUTH_CREDENTIAL "........";
+#define MQTT_DEVICE_ID "........"
+#define CLIENT_AUTH_ID "........"
+#define CLIENT_AUTH_CREDENTIAL "........"
 
 // Update these with values suitable for your network.
 const char *ssid = "........";
@@ -162,6 +163,9 @@ void setup()
  */
 void loop()
 {
+  // ToDo: https://arduinojson.org/v6/api/jsondocument/ for dynamic allocation
+  StaticJsonDocument<300> doc;
+
   if (!mqttClient.connected())
   {
     setup_mqtt_connection();
