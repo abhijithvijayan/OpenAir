@@ -17,6 +17,7 @@
  */
 
 #include <ESP8266WiFi.h>
+#include <string.h>
 #include <PubSubClient.h> // https://github.com/knolleary/pubsubclient
 #include <ArduinoJson.h>  // https://github.com/bblanchon/ArduinoJson
 
@@ -28,6 +29,9 @@
 #define LONGITUDE "........"
 #define LOCATION_NAME "........"
 #define LOCATION_TYPE "........"
+
+#define TOPIC_LOCATION "location"
+#define TOPIC_ECHO "echo"
 
 // Network
 const char *ssid = "........";
@@ -63,8 +67,6 @@ IPAddress mqtt_server_ip(0, 0, 0, 0);
 // ----------------------------------------------------- //
 
 long lastMsg = 0;
-char msg[50];
-int iteration = 0;
 
 // Creates an uninitialised client instance.
 WiFiClient wifiClient;
@@ -105,13 +107,15 @@ void setup_mqtt_connection()
   while (!mqttClient.connected())
   {
     Serial.print("Attempting MQTT connection...");
+    Serial.println();
+    // ToDo: Use ESP.getChipId()
 
     // Attempt to connect
     if (mqttClient.connect(MQTT_DEVICE_ID, CLIENT_AUTH_ID, CLIENT_AUTH_CREDENTIAL))
     {
       Serial.println("Success: Connected to server");
       // Once connected, publish an announcement...
-      mqttClient.publish("echo", "hello world");
+      mqttClient.publish(TOPIC_ECHO, "hello world");
     }
     else
     {
@@ -187,14 +191,16 @@ void loop()
   // should be called regularly to maintain its connection to the server
   mqttClient.loop();
 
-  // compute the required size for json data
-  const size_t CAPACITY = JSON_OBJECT_SIZE(4) + JSON_OBJECT_SIZE(2) + JSON_ARRAY_SIZE(3) + 3 * JSON_OBJECT_SIZE(3);
+  /*
+   * compute the required size for json data
+   * https://arduinojson.org/v6/assistant/
+   */
+  const size_t CAPACITY = JSON_ARRAY_SIZE(3) + JSON_OBJECT_SIZE(2) + 3 * JSON_OBJECT_SIZE(3) + JSON_OBJECT_SIZE(4);
   StaticJsonDocument<CAPACITY> encodedJsonData;
 
   // push static location info
   encodedJsonData["name"] = LOCATION_NAME;
   encodedJsonData["type"] = LOCATION_TYPE;
-
   // creates an object with key `coordinates`
   JsonObject coordinates = encodedJsonData.createNestedObject("coordinates");
   coordinates["lat"] = LATITUDE;
@@ -232,18 +238,31 @@ void loop()
       delay(SENSOR_SWITCH_DELAY);
     }
     Serial.println();
-
-    ++iteration;
-    // Write formatted output to sized buffer
-    snprintf(msg, 75, "Publish #%ld", iteration);
     Serial.print("Publish message: ");
 
-    // write back json to serial
-    serializeJson(encodedJsonData, Serial);
-    // Cast Json to a String
-    // String output = encodedJsonData.as<String>();
+    // write back json to serial monitor
+    serializeJsonPretty(encodedJsonData, Serial);
+    Serial.println();
+
+    /*
+     * Cast Json to a String for publishing
+     * https://github.com/knolleary/pubsubclient/issues/258#issuecomment-379083118
+     */
+    char jsonMessageBuffer[500]; // limit 512 for mqtt publisher
+    // casting
+    serializeJson(encodedJsonData, jsonMessageBuffer);
+    unsigned int jsonStrLength = strlen(jsonMessageBuffer);
+
     // publish data
-    // mqttClient.publish("location", output);
+    if (mqttClient.publish(TOPIC_LOCATION, jsonMessageBuffer, jsonStrLength))
+    {
+      Serial.println("Success. Published gas readings");
+    }
+    else
+    {
+      Serial.println("Error. Failed to publish gas readings");
+    }
+    Serial.println();
 
     digitalWrite(BUILTIN_LED, HIGH); // Turn the LED off by making the voltage HIGH
   }
