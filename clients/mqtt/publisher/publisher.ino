@@ -81,7 +81,7 @@ void setupWiFi()
 
   // attempt to connect to a WiFi network
   Serial.println();
-  Serial.print("Connecting to ");
+  Serial.print("[WiFi] Connecting to ");
   Serial.println(ssid);
 
   WiFi.begin(ssid, password);
@@ -91,10 +91,10 @@ void setupWiFi()
     delay(WIFI_CONN_RETRY_DELAY);
     Serial.print(".");
   }
+  Serial.println();
 
-  Serial.println("");
-  Serial.println("WiFi connected");
-  Serial.println("IP address: ");
+  Serial.println("[WiFi] Connection established");
+  Serial.print("[WiFi] IP address assigned by DHCP is ");
   Serial.println(WiFi.localIP());
 }
 
@@ -106,14 +106,14 @@ void setup_mqtt_connection()
   // Loop until client is connected
   while (!mqttClient.connected())
   {
-    Serial.print("Attempting MQTT connection...");
+    Serial.print("[MQTT] Attempting MQTT connection...");
     Serial.println();
     // ToDo: Use ESP.getChipId()
 
     // Attempt to connect
     if (mqttClient.connect(MQTT_DEVICE_ID, CLIENT_AUTH_ID, CLIENT_AUTH_CREDENTIAL))
     {
-      Serial.println("Success: Connected to server");
+      Serial.println("[MQTT] Connected to server");
       // Once connected, publish an announcement...
       mqttClient.publish(TOPIC_ECHO, "hello world");
     }
@@ -127,28 +127,6 @@ void setup_mqtt_connection()
       delay(MQTT_CONN_RETRY_DELAY);
     }
   }
-}
-
-/**
- *  Get sensor reading
- */
-int getSensorReading(int channel)
-{
-  /**
-   *  use the first three bits of the channel number to set the channel select pins
-   *
-   *  channel 2 -> bits 0 1 0
-   *  S0 -> 0, S1 -> 1, S2 -> 0 => Y2
-   */
-  digitalWrite(setPin0, bitRead(channel, 0));
-  digitalWrite(setPin1, bitRead(channel, 1));
-  digitalWrite(setPin2, bitRead(channel, 2));
-
-  // read from the selected mux channel
-  int sensorValue = analogRead(ANALOG_INPUT);
-
-  // return the received analog value
-  return sensorValue;
 }
 
 /**
@@ -191,70 +169,23 @@ void loop()
   // should be called regularly to maintain its connection to the server
   mqttClient.loop();
 
-  /*
-   * compute the required size for json data
-   * https://arduinojson.org/v6/assistant/
-   */
-  const size_t CAPACITY = JSON_ARRAY_SIZE(3) + JSON_OBJECT_SIZE(2) + 3 * JSON_OBJECT_SIZE(3) + JSON_OBJECT_SIZE(4);
-  StaticJsonDocument<CAPACITY> encodedJsonData;
-
-  // push static location info
-  encodedJsonData["name"] = LOCATION_NAME;
-  encodedJsonData["type"] = LOCATION_TYPE;
-  // creates an object with key `coordinates`
-  JsonObject coordinates = encodedJsonData.createNestedObject("coordinates");
-  coordinates["lat"] = LATITUDE;
-  coordinates["lng"] = LONGITUDE;
-  // create empty nested array
-  JsonArray air_data = encodedJsonData.createNestedArray("air");
-
   long now = millis();
   if (now - lastMsg > SENSOR_DATA_READING_DELAY)
   {
     lastMsg = now;
-    digitalWrite(BUILTIN_LED, LOW); // Turn the LED on (Note that LOW is the voltage level
-    // but actually the LED is on; this is because it is active low on the ESP-01)
 
-    // Iterate through all used channels
-    for (int channel = 0; channel < 3; ++channel)
-    {
-      // Get sensor reading
-      int sensorValue = getSensorReading(channel);
+    // Turn the LED on by making the voltage LOW
+    digitalWrite(BUILTIN_LED, LOW);
 
-      // write back the analog / digital value to the serial monitor
-      Serial.print("Value at channel ");
-      Serial.print(channel);
-      Serial.print(" is : ");
-      Serial.println(sensorValue);
-
-      // create an object
-      JsonObject sensor_data = air_data.createNestedObject();
-      // set sensor fields to object
-      sensor_data["id"] = channel;
-      // sensor_data["type"] = "mq2"; // switch according to channel#
-      sensor_data["value"] = sensorValue;
-
-      // delay next channel read by 1sec
-      delay(SENSOR_SWITCH_DELAY);
-    }
     Serial.println();
     Serial.print("Publish message: ");
 
-    // write back json to serial monitor
-    serializeJsonPretty(encodedJsonData, Serial);
-    Serial.println();
-
-    /*
-     * Cast Json to a String for publishing
-     * https://github.com/knolleary/pubsubclient/issues/258#issuecomment-379083118
-     */
-    char jsonMessageBuffer[500]; // limit 512 for mqtt publisher
-    // casting
-    serializeJson(encodedJsonData, jsonMessageBuffer);
-    unsigned int jsonStrLength = strlen(jsonMessageBuffer);
+    String airData = generateAirQualityDataBody();
+    char *rawDataString = generateDataFormat(airData);
+    unsigned int jsonStrLength = strlen(rawDataString);
 
     // publish data
-    if (mqttClient.publish(TOPIC_LOCATION, jsonMessageBuffer, jsonStrLength))
+    if (mqttClient.publish(TOPIC_LOCATION, rawDataString, jsonStrLength))
     {
       Serial.println("Success. Published gas readings");
     }
@@ -264,6 +195,100 @@ void loop()
     }
     Serial.println();
 
-    digitalWrite(BUILTIN_LED, HIGH); // Turn the LED off by making the voltage HIGH
+    // Turn the LED off by making the voltage HIGH
+    digitalWrite(BUILTIN_LED, HIGH);
   }
+}
+
+/**
+ *  Get sensor reading
+ */
+int getSensorReading(int channel)
+{
+  /**
+   *  use the first three bits of the channel number to set the channel select pins
+   *
+   *  channel 2 -> bits 0 1 0
+   *  S0 -> 0, S1 -> 1, S2 -> 0 => Y2
+   */
+  digitalWrite(setPin0, bitRead(channel, 0));
+  digitalWrite(setPin1, bitRead(channel, 1));
+  digitalWrite(setPin2, bitRead(channel, 2));
+
+  // read from the selected mux channel
+  int sensorValue = analogRead(ANALOG_INPUT);
+
+  // return the received analog value
+  return sensorValue;
+}
+
+/**
+ *  Get Readings and Store as array of objects (as String)
+ */
+String generateAirQualityDataBody()
+{
+  const size_t CAPACITY = JSON_ARRAY_SIZE(3) + 3 * JSON_OBJECT_SIZE(3);
+  StaticJsonDocument<CAPACITY> doc;
+
+  // Iterate through all used channels
+  for (int channel = 0; channel < 3; ++channel)
+  {
+    // Get sensor reading
+    int sensorValue = getSensorReading(channel);
+    // ToDo: Get average for many values for precision
+
+    // create an object
+    JsonObject sensorObject = doc.createNestedObject();
+    // set sensor fields to object
+    sensorObject["id"] = channel;
+    // sensorObject["type"] = "mq2"; // switch according to channel#
+    sensorObject["value"] = sensorValue;
+
+    // delay next channel read by 1sec
+    delay(SENSOR_SWITCH_DELAY);
+  }
+
+  // write back json to serial monitor
+  serializeJsonPretty(doc, Serial);
+  Serial.println();
+
+  //  Cast JSON to a String
+  String airDataBufferString = doc.as<String>();
+
+  // string
+  return airDataBufferString;
+}
+
+/**
+ *  Append Air Data to Static GeoData
+ */
+char *generateDataFormat(String airDataBufferString)
+{
+  const size_t CAPACITY = JSON_ARRAY_SIZE(3) + JSON_OBJECT_SIZE(2) + 3 * JSON_OBJECT_SIZE(3) + JSON_OBJECT_SIZE(4);
+  StaticJsonDocument<CAPACITY> rawJsonData;
+
+  // push static location info
+  rawJsonData["name"] = LOCATION_NAME;
+  rawJsonData["type"] = LOCATION_TYPE;
+  // creates an object with key `coordinates`
+  JsonObject coordinates = rawJsonData.createNestedObject("coordinates");
+  coordinates["lat"] = LATITUDE;
+  coordinates["lng"] = LONGITUDE;
+
+  // parse JSON to store array of objects
+  const size_t STR_ARR_CAPACITY = JSON_ARRAY_SIZE(3) + 3 * JSON_OBJECT_SIZE(3);
+  StaticJsonDocument<STR_ARR_CAPACITY> jsonAirData;
+  deserializeJson(jsonAirData, airDataBufferString);
+
+  // store air data(array of objects) into `air` key
+  rawJsonData["air"] = jsonAirData;
+
+  /*
+   * Cast Json to a String for publishing
+   * https://github.com/knolleary/pubsubclient/issues/258#issuecomment-379083118
+   */
+  char dataString[500]; // limit 512 for mqtt publisher
+  serializeJson(rawJsonData, dataString);
+
+  return dataString;
 }
