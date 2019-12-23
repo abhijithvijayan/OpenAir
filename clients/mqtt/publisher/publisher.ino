@@ -43,12 +43,11 @@
 #define MQTT_PORT 1883
 
 // General
+#define INITIAL_PRE_HEAT_TIME 318000                 // 5.3min
+#define DATA_PUBLISHING_DELAY 180000                 // 3min
+#define SENSOR_SWITCH_DELAY 10000                    // 10sec
+#define SINGLE_SENSOR_CONSECUTIVE_READING_DELAY 1000 // 1sec
 #define SERIAL_DEBUG_PORT 115200
-#define WIFI_CONN_RETRY_DELAY 500
-#define MQTT_CONN_RETRY_DELAY 5000
-#define SENSORS_DATA_READING_DELAY 10000
-#define SENSOR_SWITCH_DELAY 10000
-#define SINGLE_SENSOR_CONSECUTIVE_READING_DELAY 1000
 
 // Output Pins
 #define MUX_A D0
@@ -60,8 +59,8 @@
 
 // Mux channel select pins
 #define setPin0 16 // GPIO 16 (D0 on NodeMCU)
-#define setPin1 5  // GPIO 5 (D1 on NodeMCU)
-#define setPin2 4  // GPIO 4 (D2 on NodeMCU)
+#define setPin1 5  // GPIO 5  (D1 on NodeMCU)
+#define setPin2 4  // GPIO 4  (D2 on NodeMCU)
 
 // ----------------------------------------------------- //
 // ----------------------------------------------------- //
@@ -305,7 +304,8 @@ void setup()
   // initialize & connect to WiFi
   connectToWifi();
 
-  // ToDo: delay for 5min before initial sensor reading
+  // delay before initial sensor reading
+  delay(INITIAL_PRE_HEAT_TIME);
 }
 
 /**
@@ -314,7 +314,7 @@ void setup()
 void loop()
 {
   long now = millis();
-  if (now - lastReconnectAttempt > SENSORS_DATA_READING_DELAY)
+  if (now - lastReconnectAttempt > DATA_PUBLISHING_DELAY)
   {
     lastReconnectAttempt = now;
 
