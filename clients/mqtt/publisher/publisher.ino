@@ -361,32 +361,35 @@ void setup()
  */
 void loop()
 {
-  // ToDo: Don't read data if failed to establish mqtt connection
-  long now = millis();
-  if (now - lastReconnectAttempt > DATA_PUBLISHING_DELAY)
+  if (mqttClient.connected())
   {
-    lastReconnectAttempt = now;
+    long now = millis();
 
-    // Turn the LED on by making the voltage LOW
-    digitalWrite(BUILTIN_LED, LOW);
-
-    String airData = generateAirQualityDataBody();
-    char *rawDataString = generateDataFormat(airData);
-    unsigned int jsonStrLength = strlen(rawDataString);
-
-    Serial.println();
-    // publish data
-    if (mqttClient.publish(TOPIC_LOCATION, 1, true, rawDataString, jsonStrLength))
+    if (now - lastReconnectAttempt > DATA_PUBLISHING_DELAY)
     {
-      Serial.println("Success. Published gas readings");
-    }
-    else
-    {
-      Serial.println("Error. Failed to publish gas readings");
-    }
-    Serial.println();
+      lastReconnectAttempt = now;
 
-    // Turn the LED off by making the voltage HIGH
-    digitalWrite(BUILTIN_LED, HIGH);
+      // Turn the LED on by making the voltage LOW
+      digitalWrite(BUILTIN_LED, LOW);
+
+      String airData = generateAirQualityDataBody();
+      char *rawDataString = generateDataFormat(airData);
+      unsigned int jsonStrLength = strlen(rawDataString);
+
+      Serial.println();
+      // publish json data to topic
+      if (mqttClient.publish(TOPIC_LOCATION, 1, true, rawDataString, jsonStrLength))
+      {
+        Serial.println("Success. Published sensor readings");
+      }
+      else
+      {
+        Serial.println("Error. Failed to publish sensor readings");
+      }
+      Serial.println();
+
+      // Turn the LED off by making the voltage HIGH
+      digitalWrite(BUILTIN_LED, HIGH);
+    }
   }
 }
