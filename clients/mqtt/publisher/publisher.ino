@@ -55,6 +55,7 @@
 #define SENSOR_1 "MQ-2"
 #define SENSOR_2 "MQ-7"
 #define SENSOR_3 "MQ-135"
+#define UNKNOWN "unknown"
 
 // Output Pins
 #define MUX_A D0
@@ -137,7 +138,7 @@ void connectToMqtt()
 void onMqttConnect(bool sessionPresent)
 {
   Serial.println("[MQTT] Connected to server");
-  Serial.print("[MQTT] Session present: ");
+  Serial.print("Session present: ");
   Serial.println(sessionPresent);
 
   // Once connected, publish an announcement...
@@ -165,7 +166,7 @@ void onMqttDisconnect(AsyncMqttClientDisconnectReason reason)
 void onMqttPublish(uint16_t packetId)
 {
   Serial.println("[MQTT] Publish acknowledged.");
-  Serial.print("  packetId: ");
+  Serial.print("[MQTT] packetId: ");
   Serial.println(packetId);
 }
 
@@ -211,7 +212,7 @@ int getSensorAverageReading(int channel)
 /**
  *  Return Sensor name
  */
-String getSensorName(int id)
+char *getSensorName(int id)
 {
   if (id == 0)
   {
@@ -219,10 +220,14 @@ String getSensorName(int id)
   }
   if (id == 1)
   {
+    return SENSOR_2;
+  }
+  if (id == 2)
+  {
     return SENSOR_3;
   }
 
-  return SENSOR_3;
+  return UNKNOWN;
 }
 
 /**
@@ -230,20 +235,22 @@ String getSensorName(int id)
  */
 String generateAirQualityDataBody()
 {
-  const size_t CAPACITY = JSON_ARRAY_SIZE(3) + 3 * JSON_OBJECT_SIZE(3);
-  StaticJsonDocument<CAPACITY> jsonDoc;
+  StaticJsonDocument<300> json_doc;
 
   // Iterate through all used channels
   for (int channel = 0; channel < 3; ++channel)
   {
+    // char sensorName[10];
+
     // Get sensor reading
     int sensorValue = getSensorAverageReading(channel);
+    char *sensorName = getSensorName(channel);
 
     // create an object
-    JsonObject sensorObject = jsonDoc.createNestedObject();
+    JsonObject sensorObject = json_doc.createNestedObject();
     // set sensor fields to object
     sensorObject["id"] = channel;
-    // sensorObject["type"] = getSensorName(channel);
+    sensorObject["type"] = sensorName;
     sensorObject["value"] = sensorValue;
 
     // delay next channel read
@@ -251,15 +258,15 @@ String generateAirQualityDataBody()
   }
 
   // write back json to serial monitor
-  serializeJsonPretty(jsonDoc, Serial);
+  serializeJsonPretty(json_doc, Serial);
   Serial.println();
 
   // Cast minified json to buffer
-  String airDataBuffer = jsonDoc.as<String>();
+  String airDataBuffer = json_doc.as<String>();
 
   // Print the memory usage
-  Serial.print("Gas Data Memory Usage: ");
-  Serial.println(jsonDoc.memoryUsage());
+  Serial.print("Gas Data Packet Size: ");
+  Serial.println(json_doc.memoryUsage());
 
   return airDataBuffer;
 }
@@ -280,16 +287,11 @@ char *generateDataFormat(String airDataBuffer)
   {
     Serial.print(F("Error. Failed to parse json. deserializeJson() returned "));
     Serial.println(err.c_str());
-    Serial.println(airDataBuffer);
     // return;
   }
 
   // json to store message to be published
-  const size_t JSON_CAPACITY = JSON_ARRAY_SIZE(3) + 3 * JSON_OBJECT_SIZE(3) + JSON_OBJECT_SIZE(2) + JSON_OBJECT_SIZE(4);
-  StaticJsonDocument<JSON_CAPACITY> raw_json_data;
-
-  // store air data(array of objects) into `air` key
-  raw_json_data["air"] = json_str_arr.as<JsonArray>();
+  StaticJsonDocument<592> raw_json_data;
 
   // push static location info
   raw_json_data["name"] = LOCATION_NAME;
@@ -299,7 +301,14 @@ char *generateDataFormat(String airDataBuffer)
   coordinates["lat"] = LATITUDE;
   coordinates["lng"] = LONGITUDE;
 
-  // Print the memory usage
+  // Print the memory usage for metadata
+  Serial.print("Metadata Packet Size: ");
+  Serial.println(raw_json_data.memoryUsage());
+
+  // store air data(array of objects) into `air` key
+  raw_json_data["air"] = json_str_arr.as<JsonArray>();
+
+  // Print the memory usage for message packet
   Serial.print("Message Packet Size: ");
   Serial.println(raw_json_data.memoryUsage());
 
@@ -352,6 +361,7 @@ void setup()
  */
 void loop()
 {
+  // ToDo: Don't read data if failed to establish mqtt connection
   long now = millis();
   if (now - lastReconnectAttempt > DATA_PUBLISHING_DELAY)
   {
