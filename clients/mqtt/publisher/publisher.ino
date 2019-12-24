@@ -13,7 +13,9 @@
  *  Digital Pin 2 -> S2
  *  Digital Pin 4 -> E
  *  Analog Pin A0 -> SIG(Z)
- *  Output Pins Y0, Y1, Y1
+ *  Output Pin Y0 -> a0(mq-2)
+ *  Output Pin Y1 -> a1(mq-7)
+ *  Output Pin Y2 -> a2(mq-135)
  */
 
 #include <ESP8266WiFi.h>
@@ -31,7 +33,7 @@
 #define LOCATION_NAME "........"
 #define LOCATION_TYPE "........"
 
-#define TOPIC_LOCATION "location"
+#define TOPIC_LOCATION "openair/location"
 #define TOPIC_ECHO "test/echo"
 
 // Network
@@ -48,6 +50,11 @@
 #define SENSOR_SWITCH_DELAY 10000                    // 10sec
 #define SINGLE_SENSOR_CONSECUTIVE_READING_DELAY 1000 // 1sec
 #define SERIAL_DEBUG_PORT 115200
+
+// Sensors
+#define SENSOR_1 "MQ-2"
+#define SENSOR_2 "MQ-7"
+#define SENSOR_3 "MQ-135"
 
 // Output Pins
 #define MUX_A D0
@@ -202,12 +209,29 @@ int getSensorAverageReading(int channel)
 }
 
 /**
+ *  Return Sensor name
+ */
+String getSensorName(int id)
+{
+  if (id == 0)
+  {
+    return SENSOR_1;
+  }
+  if (id == 1)
+  {
+    return SENSOR_3;
+  }
+
+  return SENSOR_3;
+}
+
+/**
  *  Get Readings and Store as array of objects (as String)
  */
 String generateAirQualityDataBody()
 {
   const size_t CAPACITY = JSON_ARRAY_SIZE(3) + 3 * JSON_OBJECT_SIZE(3);
-  StaticJsonDocument<CAPACITY> doc;
+  StaticJsonDocument<CAPACITY> jsonDoc;
 
   // Iterate through all used channels
   for (int channel = 0; channel < 3; ++channel)
@@ -216,11 +240,10 @@ String generateAirQualityDataBody()
     int sensorValue = getSensorAverageReading(channel);
 
     // create an object
-    JsonObject sensorObject = doc.createNestedObject();
+    JsonObject sensorObject = jsonDoc.createNestedObject();
     // set sensor fields to object
     sensorObject["id"] = channel;
-    // ToDo: Switch according to channel#
-    // sensorObject["type"] = "mq2";
+    // sensorObject["type"] = getSensorName(channel);
     sensorObject["value"] = sensorValue;
 
     // delay next channel read
@@ -228,46 +251,62 @@ String generateAirQualityDataBody()
   }
 
   // write back json to serial monitor
-  serializeJsonPretty(doc, Serial);
+  serializeJsonPretty(jsonDoc, Serial);
   Serial.println();
 
-  //  Cast JSON to a String
-  String airDataBufferString = doc.as<String>();
+  // Cast minified json to buffer
+  String airDataBuffer = jsonDoc.as<String>();
 
-  // string
-  return airDataBufferString;
+  // Print the memory usage
+  Serial.print("Gas Data Memory Usage: ");
+  Serial.println(jsonDoc.memoryUsage());
+
+  return airDataBuffer;
 }
 
 /**
  *  Append Air Data to Static GeoData
  */
-char *generateDataFormat(String airDataBufferString)
+char *generateDataFormat(String airDataBuffer)
 {
-  const size_t CAPACITY = JSON_ARRAY_SIZE(3) + JSON_OBJECT_SIZE(2) + 3 * JSON_OBJECT_SIZE(3) + JSON_OBJECT_SIZE(4);
-  StaticJsonDocument<CAPACITY> rawJsonData;
+  // parse JSON to store array of objects
+  const size_t STR_ARR_CAPACITY = JSON_ARRAY_SIZE(3) + 3 * JSON_OBJECT_SIZE(3) + 70;
+  StaticJsonDocument<STR_ARR_CAPACITY> json_str_arr;
+
+  // Parse the air data input JSON
+  DeserializationError err = deserializeJson(json_str_arr, airDataBuffer);
+
+  if (err)
+  {
+    Serial.print(F("Error. Failed to parse json. deserializeJson() returned "));
+    Serial.println(err.c_str());
+    Serial.println(airDataBuffer);
+    // return;
+  }
+
+  // json to store message to be published
+  const size_t JSON_CAPACITY = JSON_ARRAY_SIZE(3) + 3 * JSON_OBJECT_SIZE(3) + JSON_OBJECT_SIZE(2) + JSON_OBJECT_SIZE(4);
+  StaticJsonDocument<JSON_CAPACITY> raw_json_data;
+
+  // store air data(array of objects) into `air` key
+  raw_json_data["air"] = json_str_arr.as<JsonArray>();
 
   // push static location info
-  rawJsonData["name"] = LOCATION_NAME;
-  rawJsonData["type"] = LOCATION_TYPE;
+  raw_json_data["name"] = LOCATION_NAME;
+  raw_json_data["type"] = LOCATION_TYPE;
   // creates an object with key `coordinates`
-  JsonObject coordinates = rawJsonData.createNestedObject("coordinates");
+  JsonObject coordinates = raw_json_data.createNestedObject("coordinates");
   coordinates["lat"] = LATITUDE;
   coordinates["lng"] = LONGITUDE;
 
-  // parse JSON to store array of objects
-  const size_t STR_ARR_CAPACITY = JSON_ARRAY_SIZE(3) + 3 * JSON_OBJECT_SIZE(3);
-  StaticJsonDocument<STR_ARR_CAPACITY> jsonAirData;
-  deserializeJson(jsonAirData, airDataBufferString);
+  // Print the memory usage
+  Serial.print("Message Packet Size: ");
+  Serial.println(raw_json_data.memoryUsage());
 
-  // store air data(array of objects) into `air` key
-  rawJsonData["air"] = jsonAirData;
-
-  /*
-   * Cast Json to a String for publishing
-   * https://github.com/knolleary/pubsubclient/issues/258#issuecomment-379083118
-   */
-  char dataString[500]; // limit 512 for mqtt publisher
-  serializeJson(rawJsonData, dataString);
+  // Declare a buffer to hold the result
+  char dataString[592];
+  // Cast json to buffer
+  serializeJson(raw_json_data, dataString, sizeof(dataString));
 
   return dataString;
 }
