@@ -49,12 +49,17 @@
 #define DATA_PUBLISHING_DELAY 180000                 // 3min
 #define SENSOR_SWITCH_DELAY 10000                    // 10sec
 #define SINGLE_SENSOR_CONSECUTIVE_READING_DELAY 1000 // 1sec
+#define SINGLE_SENSOR_CONSECUTIVE_READING_COUNT 10   // 10 readings per sensor
 #define SERIAL_DEBUG_PORT 115200
 
+// Data Packets Memory allocation
+#define MESSAGE_MAX_PACKET_SIZE 592
+#define SENSOR_DATA_MAX_PACKET_SIZE 300
+
 // Sensors
-#define SENSOR_1 "MQ-2"
-#define SENSOR_2 "MQ-7"
-#define SENSOR_3 "MQ-135"
+#define SENSOR_1_NAME "MQ-2"
+#define SENSOR_2_NAME "MQ-7"
+#define SENSOR_3_NAME "MQ-135"
 #define UNKNOWN "unknown"
 
 // Output Pins
@@ -62,13 +67,17 @@
 #define MUX_S1 D2
 #define MUX_S2 D3
 
-// Mux analog / digital signal pin
+// MUX analog / digital signal pin
 #define ANALOG_INPUT 0
 
-// Mux channel select pins
+// MUX channel select pins
 #define setPin0 5 // GPIO 5 (D1 on NodeMCU)
 #define setPin1 4 // GPIO 4 (D2 on NodeMCU)
 #define setPin2 0 // GPIO 0 (D3 on NodeMCU)
+
+// MUX Input (y0 - Y7)
+#define SENSOR_INPUT_START 0
+#define SENSOR_INPUT_END 2
 
 // ----------------------------------------------------- //
 // ----------------------------------------------------- //
@@ -179,7 +188,9 @@ int getSensorReading(int channel)
    *  use the first three bits of the channel number to set the channel select pins
    *
    *  channel 2 -> bits 0 1 0
-   *  S0 -> 0, S1 -> 1, S2 -> 0 => Y2
+   *  0 -> D1 => S0 -> 0  ---
+   *  1 -> D2 => S1 -> 1     |-> Y2(active)
+   *  0 -> D3 => S2 -> 0  ---
    */
   digitalWrite(setPin0, bitRead(channel, 0));
   digitalWrite(setPin1, bitRead(channel, 1));
@@ -199,7 +210,7 @@ int getSensorAverageReading(int channel)
 {
   int readingValue = 0;
 
-  for (int j = 0; j < 10; ++j)
+  for (int j = 0; j < SINGLE_SENSOR_CONSECUTIVE_READING_COUNT; ++j)
   {
     delay(SINGLE_SENSOR_CONSECUTIVE_READING_DELAY);
     // sum up analog reading
@@ -216,15 +227,15 @@ char *getSensorName(int id)
 {
   if (id == 0)
   {
-    return SENSOR_1;
+    return SENSOR_1_NAME;
   }
   if (id == 1)
   {
-    return SENSOR_2;
+    return SENSOR_2_NAME;
   }
   if (id == 2)
   {
-    return SENSOR_3;
+    return SENSOR_3_NAME;
   }
 
   return UNKNOWN;
@@ -235,13 +246,11 @@ char *getSensorName(int id)
  */
 String generateAirQualityDataBody()
 {
-  StaticJsonDocument<300> json_doc;
+  StaticJsonDocument<SENSOR_DATA_MAX_PACKET_SIZE> json_doc;
 
   // Iterate through all used channels
-  for (int channel = 0; channel < 3; ++channel)
+  for (int channel = SENSOR_INPUT_START; channel <= SENSOR_INPUT_END; ++channel)
   {
-    // char sensorName[10];
-
     // Get sensor reading
     int sensorValue = getSensorAverageReading(channel);
     char *sensorName = getSensorName(channel);
@@ -249,7 +258,7 @@ String generateAirQualityDataBody()
     // create an object
     JsonObject sensorObject = json_doc.createNestedObject();
     // set sensor fields to object
-    sensorObject["id"] = channel;
+    sensorObject["id"] = channel; // ToDo: Replace with sensor uuid
     sensorObject["type"] = sensorName;
     sensorObject["value"] = sensorValue;
 
@@ -291,7 +300,7 @@ char *generateDataFormat(String airDataBuffer)
   }
 
   // json to store message to be published
-  StaticJsonDocument<592> raw_json_data;
+  StaticJsonDocument<MESSAGE_MAX_PACKET_SIZE> raw_json_data;
 
   // push static location info
   raw_json_data["name"] = LOCATION_NAME;
@@ -313,7 +322,7 @@ char *generateDataFormat(String airDataBuffer)
   Serial.println(raw_json_data.memoryUsage());
 
   // Declare a buffer to hold the result
-  char dataString[592];
+  char dataString[MESSAGE_MAX_PACKET_SIZE];
   // Cast json to buffer
   serializeJson(raw_json_data, dataString, sizeof(dataString));
 
