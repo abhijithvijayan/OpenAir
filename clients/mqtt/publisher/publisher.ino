@@ -8,14 +8,14 @@
  *
  *  The following pins must be connected:
  *
- *  Digital Pin 0 -> S0
- *  Digital Pin 1 -> S1
- *  Digital Pin 2 -> S2
- *  Digital Pin 4 -> E
- *  Analog Pin A0 -> SIG(Z)
- *  Output Pin Y0 -> a0(mq-2)
- *  Output Pin Y1 -> a1(mq-7)
- *  Output Pin Y2 -> a2(mq-135)
+ *  Digital Pin 1 -> Mux S0
+ *  Digital Pin 2 -> Mux S1
+ *  Digital Pin 3 -> Mux S2
+ *  Digital Pin 4 -> Mux E
+ *  Analog Pin A0 -> Mux SIG(Z)
+ *  Mux Output Pin Y0 -> a0(mq-2)
+ *  Mux Output Pin Y1 -> a1(mq-7)
+ *  Mux Output Pin Y2 -> a2(mq-135)
  */
 
 #include <ESP8266WiFi.h>
@@ -58,17 +58,17 @@
 #define UNKNOWN "unknown"
 
 // Output Pins
-#define MUX_A D0
-#define MUX_B D1
-#define MUX_C D2
+#define MUX_S0 D1
+#define MUX_S1 D2
+#define MUX_S2 D3
 
 // Mux analog / digital signal pin
 #define ANALOG_INPUT 0
 
 // Mux channel select pins
-#define setPin0 16 // GPIO 16 (D0 on NodeMCU)
-#define setPin1 5  // GPIO 5  (D1 on NodeMCU)
-#define setPin2 4  // GPIO 4  (D2 on NodeMCU)
+#define setPin0 5 // GPIO 5 (D1 on NodeMCU)
+#define setPin1 4 // GPIO 4 (D2 on NodeMCU)
+#define setPin2 0 // GPIO 0 (D3 on NodeMCU)
 
 // ----------------------------------------------------- //
 // ----------------------------------------------------- //
@@ -345,9 +345,9 @@ void setup()
   mqttClient.setServer(MQTT_HOST, MQTT_PORT);
 
   // Define output pins for MUX
-  pinMode(MUX_A, OUTPUT);
-  pinMode(MUX_B, OUTPUT);
-  pinMode(MUX_C, OUTPUT);
+  pinMode(MUX_S0, OUTPUT);
+  pinMode(MUX_S1, OUTPUT);
+  pinMode(MUX_S2, OUTPUT);
 
   // initialize & connect to WiFi
   connectToWifi();
