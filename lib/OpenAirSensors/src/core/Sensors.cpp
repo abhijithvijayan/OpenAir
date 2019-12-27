@@ -1,7 +1,8 @@
 #include "Arduino.h"
 #include "OpenAirSensors.h"
 
-// constructor
+#define ANALOG_INPUT 0
+
 Sensor::Sensor(char *id, char *name, char *type)
 {
   _id = id;
@@ -28,23 +29,28 @@ void Sensor::setup() {}
 
 //-------------------------------------------
 
-AnalogSensor::AnalogSensor(int pin, char *id, char *name, char *type) : Sensor(id, name, type)
-{
-  _pin = pin;
-}
-
 int AnalogSensor::getPin() const
 {
   return _pin;
 }
 
-void AnalogSensor::setup()
-{
-  Serial.println('Setting up sensor');
-  pinMode(_pin, OUTPUT);
-}
-
 float AnalogSensor::read()
 {
-  return analogRead(_pin);
+  return analogRead(ANALOG_INPUT);
+}
+
+//-------------------------------------------
+
+Mux::Mux(int selector_pin_1, int selector_pin_2, int selector_pin_3)
+{
+  _selector_pin_1 = selector_pin_1;
+  _selector_pin_2 = selector_pin_2;
+  _selector_pin_3 = selector_pin_3;
+}
+
+void Mux::setup()
+{
+  pinMode(_selector_pin_1, OUTPUT);
+  pinMode(_selector_pin_2, OUTPUT);
+  pinMode(_selector_pin_3, OUTPUT);
 }
