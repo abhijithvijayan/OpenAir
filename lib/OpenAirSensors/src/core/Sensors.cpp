@@ -1,7 +1,7 @@
 #include "Arduino.h"
 #include "OpenAirSensors.h"
 
-#define ANALOG_INPUT 0
+#define ANALOG_INPUT_PIN 0
 #define MUX_SWITCH_DELAY 10000 // 10sec
 
 Sensor::Sensor(char *id, char *name, char *type, int pin)
@@ -44,7 +44,7 @@ AnalogSensor::AnalogSensor(char *id, char *name, char *type, int pin) : Sensor(i
 
 float AnalogSensor::read()
 {
-  return analogRead(ANALOG_INPUT);
+  return analogRead(ANALOG_INPUT_PIN);
 }
 
 //-------------------------------------------

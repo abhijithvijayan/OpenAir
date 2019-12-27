@@ -41,3 +41,17 @@ Sensor *SensorCollection::getSensor(int index)
 {
   return _sensors[index];
 }
+
+Sensor *SensorCollection::getSensor(char *id)
+{
+  for (int i = 0; i < _size; ++i)
+  {
+    Sensor *sensor = _sensors[i];
+
+    if (strcmp(id, sensor->getId()) == 0)
+    {
+      return sensor;
+    }
+  }
+  return NULL;
+}

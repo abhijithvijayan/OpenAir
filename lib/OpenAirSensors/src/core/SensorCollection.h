@@ -12,6 +12,7 @@ public:
   void addSensor(Sensor &sensor);
 
   Sensor *getSensor(int index);
+  Sensor *getSensor(char *id);
 
 private:
   Sensor *_sensors[MAX_SENSORS];
