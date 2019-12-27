@@ -1,6 +1,4 @@
-#include <Arduino.h>
-#include "SensorCollection.h"
-#include "Sensors.h"
+#include "OpenAirSensors.h"
 
 SensorCollection::SensorCollection(char *id, char *name)
 {

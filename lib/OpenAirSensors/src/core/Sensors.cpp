@@ -1,5 +1,5 @@
-#include <Arduino.h>
-#include "Sensors.h"
+#include "Arduino.h"
+#include "OpenAirSensors.h"
 
 // constructor
 Sensor::Sensor(char *id, char *name, char *type)
