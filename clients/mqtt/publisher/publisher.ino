@@ -55,6 +55,7 @@
 // Data Packets Memory allocation
 #define MESSAGE_MAX_PACKET_SIZE 592
 #define SENSOR_DATA_MAX_PACKET_SIZE 300
+#define STRING_DUPLICATION_PACKET_SIZE 150
 
 // MUX channel select pins
 #define SELECTOR_PIN_0 5 // GPIO 5 (D1 on NodeMCU)
@@ -238,7 +239,7 @@ String generateAirQualityDataBody()
 char *generatePubMessageBody(String airDataBuffer)
 {
   // parse JSON to store array of objects
-  const size_t STR_ARR_CAPACITY = JSON_ARRAY_SIZE(3) + 3 * JSON_OBJECT_SIZE(3) + 70;
+  const size_t STR_ARR_CAPACITY = JSON_ARRAY_SIZE(3) + 3 * JSON_OBJECT_SIZE(3) + STRING_DUPLICATION_PACKET_SIZE;
   StaticJsonDocument<STR_ARR_CAPACITY> json_str_arr;
 
   // Parse the air data input JSON
