@@ -3,10 +3,10 @@
  *  created:      23 Dec 2019
  *  title:        CD74HC4051 Analog / Digital Multiplexing with MQTT Publisher Client
  *
- *  This sketch reads analog values from 3 of the 8 multiplexer pins
- *  and publish the sensor data as JSON to a topic using mqtt protocol with async-mqtt-client
+ *  This sketch reads analog values from 3 sensors and publish
+ *  the sensor data as JSON to a topic using mqtt protocol with async-mqtt-client
  *
- *  The following pins must be connected:
+ *  The following pins must be connected(customize accordingly):
  *
  *  Digital Pin 1 -> Mux S0
  *  Digital Pin 2 -> Mux S1
@@ -18,6 +18,7 @@
  *  Mux Output Pin Y2 -> a2(mq-135)
  */
 
+#include <OpenAirSensors.h>
 #include <ESP8266WiFi.h>
 #include <string.h>
 #include <Ticker.h>          // https://github.com/me-no-dev/ESPAsyncTCP
@@ -47,7 +48,6 @@
 // General
 #define INITIAL_PRE_HEAT_TIME 318000                 // 5.3min
 #define DATA_PUBLISHING_DELAY 180000                 // 3min
-#define SENSOR_SWITCH_DELAY 10000                    // 10sec
 #define SINGLE_SENSOR_CONSECUTIVE_READING_DELAY 1000 // 1sec
 #define SINGLE_SENSOR_CONSECUTIVE_READING_COUNT 10   // 10 readings per sensor
 #define SERIAL_DEBUG_PORT 115200
@@ -56,32 +56,24 @@
 #define MESSAGE_MAX_PACKET_SIZE 592
 #define SENSOR_DATA_MAX_PACKET_SIZE 300
 
-// Sensors
-#define SENSOR_1_NAME "MQ-2"
-#define SENSOR_2_NAME "MQ-7"
-#define SENSOR_3_NAME "MQ-135"
-#define UNKNOWN "unknown"
-
-// Output Pins
-#define MUX_S0 D1
-#define MUX_S1 D2
-#define MUX_S2 D3
-
-// MUX analog / digital signal pin
-#define ANALOG_INPUT 0
-
 // MUX channel select pins
-#define setPin0 5 // GPIO 5 (D1 on NodeMCU)
-#define setPin1 4 // GPIO 4 (D2 on NodeMCU)
-#define setPin2 0 // GPIO 0 (D3 on NodeMCU)
-
-// MUX Input (y0 - Y7)
-#define SENSOR_INPUT_START 0
-#define SENSOR_INPUT_END 2
+#define SELECTOR_PIN_0 5 // GPIO 5 (D1 on NodeMCU)
+#define SELECTOR_PIN_1 4 // GPIO 4 (D2 on NodeMCU)
+#define SELECTOR_PIN_2 0 // GPIO 0 (D3 on NodeMCU)
 
 // ----------------------------------------------------- //
 // ----------------------------------------------------- //
 // ----------------------------------------------------- //
+
+Mux BREAKOUT_8_CHANNEL_MUX(SELECTOR_PIN_0, SELECTOR_PIN_1, SELECTOR_PIN_2);
+
+// channel number: y0, y1, y2
+AnalogSensor sensor1("GS_jk3DS8h", "mq2", "gas", 0);
+AnalogSensor sensor2("GS_4fFjSc4", "mq7", "gas", 1);
+AnalogSensor sensor3("GS_kgDD75h", "mq135", "gas", 2);
+
+// create collection
+SensorCollection gas_sensors("gas_sensors", "OpenAir Gas-Sensors Collection");
 
 AsyncMqttClient mqttClient;
 Ticker mqttReconnectTimer;
@@ -180,65 +172,21 @@ void onMqttPublish(uint16_t packetId)
 }
 
 /**
- *  Get sensor reading
- */
-int getSensorReading(int channel)
-{
-  /**
-   *  use the first three bits of the channel number to set the channel select pins
-   *
-   *  channel 2 -> bits 0 1 0
-   *  0 -> D1 => S0 -> 0  ---
-   *  1 -> D2 => S1 -> 1     |-> Y2(active)
-   *  0 -> D3 => S2 -> 0  ---
-   */
-  digitalWrite(setPin0, bitRead(channel, 0));
-  digitalWrite(setPin1, bitRead(channel, 1));
-  digitalWrite(setPin2, bitRead(channel, 2));
-
-  // read from the selected mux channel
-  int sensorValue = analogRead(ANALOG_INPUT);
-
-  // return the received analog value
-  return sensorValue;
-}
-
-/**
  *  Read 10 consecutive values & return average
  */
-int getSensorAverageReading(int channel)
+int getSensorAverageReading(Sensor *sensor)
 {
   int readingValue = 0;
 
   for (int j = 0; j < SINGLE_SENSOR_CONSECUTIVE_READING_COUNT; ++j)
   {
-    delay(SINGLE_SENSOR_CONSECUTIVE_READING_DELAY);
     // sum up analog reading
-    readingValue += getSensorReading(channel);
+    readingValue += sensor->read();
+
+    delay(SINGLE_SENSOR_CONSECUTIVE_READING_DELAY);
   }
 
   return readingValue / 10;
-}
-
-/**
- *  Return Sensor name
- */
-char *getSensorName(int id)
-{
-  if (id == 0)
-  {
-    return SENSOR_1_NAME;
-  }
-  if (id == 1)
-  {
-    return SENSOR_2_NAME;
-  }
-  if (id == 2)
-  {
-    return SENSOR_3_NAME;
-  }
-
-  return UNKNOWN;
 }
 
 /**
@@ -248,22 +196,26 @@ String generateAirQualityDataBody()
 {
   StaticJsonDocument<SENSOR_DATA_MAX_PACKET_SIZE> json_doc;
 
-  // Iterate through all used channels
-  for (int channel = SENSOR_INPUT_START; channel <= SENSOR_INPUT_END; ++channel)
+  int sensorsCount = gas_sensors.getSize();
+  for (int index = 0; index < sensorsCount; ++index)
   {
+    Sensor *sensor = gas_sensors.getSensor(index);
+
+    // switch channel
+    BREAKOUT_8_CHANNEL_MUX.switchChannel(sensor->getPin());
+
     // Get sensor reading
-    int sensorValue = getSensorAverageReading(channel);
-    char *sensorName = getSensorName(channel);
+    int sensorReading = getSensorAverageReading(sensor);
+    char *sensorName = sensor->getName();
+    char *sensorId = sensor->getId();
 
     // create an object
     JsonObject sensorObject = json_doc.createNestedObject();
-    // set sensor fields to object
-    sensorObject["id"] = channel; // ToDo: Replace with sensor uuid
-    sensorObject["type"] = sensorName;
-    sensorObject["value"] = sensorValue;
 
-    // delay next channel read
-    delay(SENSOR_SWITCH_DELAY);
+    // set sensor fields to object
+    sensorObject["id"] = sensorId;
+    sensorObject["type"] = sensorName;
+    sensorObject["value"] = sensorReading;
   }
 
   // write back json to serial monitor
@@ -283,7 +235,7 @@ String generateAirQualityDataBody()
 /**
  *  Append Air Data to Static GeoData
  */
-char *generateDataFormat(String airDataBuffer)
+char *generatePubMessageBody(String airDataBuffer)
 {
   // parse JSON to store array of objects
   const size_t STR_ARR_CAPACITY = JSON_ARRAY_SIZE(3) + 3 * JSON_OBJECT_SIZE(3) + 70;
@@ -309,6 +261,7 @@ char *generateDataFormat(String airDataBuffer)
   JsonObject coordinates = raw_json_data.createNestedObject("coordinates");
   coordinates["lat"] = LATITUDE;
   coordinates["lng"] = LONGITUDE;
+  // ToDo: attach timestamp
 
   // Print the memory usage for metadata
   Serial.print("Metadata Packet Size: ");
@@ -353,10 +306,13 @@ void setup()
   mqttClient.setCredentials(CLIENT_AUTH_ID, CLIENT_AUTH_CREDENTIAL);
   mqttClient.setServer(MQTT_HOST, MQTT_PORT);
 
-  // Define output pins for MUX
-  pinMode(MUX_S0, OUTPUT);
-  pinMode(MUX_S1, OUTPUT);
-  pinMode(MUX_S2, OUTPUT);
+  // add sensors to collection
+  gas_sensors.addSensor(sensor1);
+  gas_sensors.addSensor(sensor2);
+  gas_sensors.addSensor(sensor3);
+
+  // setup output pins for mux
+  BREAKOUT_8_CHANNEL_MUX.setup();
 
   // initialize & connect to WiFi
   connectToWifi();
@@ -382,12 +338,12 @@ void loop()
       digitalWrite(BUILTIN_LED, LOW);
 
       String airData = generateAirQualityDataBody();
-      char *rawDataString = generateDataFormat(airData);
+      char *rawDataString = generatePubMessageBody(airData);
       unsigned int jsonStrLength = strlen(rawDataString);
 
       Serial.println();
       // publish json data to topic
-      if (mqttClient.publish(TOPIC_LOCATION, 1, true, rawDataString, jsonStrLength))
+      if (mqttClient.connected() && mqttClient.publish(TOPIC_LOCATION, 1, true, rawDataString, jsonStrLength))
       {
         Serial.println("Success. Published sensor readings");
       }
