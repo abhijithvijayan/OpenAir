@@ -6,10 +6,10 @@
 
 Sensor::Sensor(char *id, char *name, char *category, int pin)
 {
-  _id = id;
-  _name = name;
-  _category = category;
-  _pin = pin;
+  this->_id = id;
+  this->_name = name;
+  this->_category = category;
+  this->_pin = pin;
 }
 
 char *Sensor::getId() const
@@ -39,7 +39,7 @@ void Sensor::setup() {}
 // constructor extends constructor of base class
 AnalogSensor::AnalogSensor(char *id, char *name, char *category, int pin) : Sensor(id, name, category, pin)
 {
-  _isAnalog = true;
+  this->_isAnalog = true;
 }
 
 float AnalogSensor::read()
@@ -51,23 +51,23 @@ float AnalogSensor::read()
 
 Mux::Mux(int selector_pin_0, int selector_pin_1, int selector_pin_2)
 {
-  _selector_pin_0 = selector_pin_0;
-  _selector_pin_1 = selector_pin_1;
-  _selector_pin_2 = selector_pin_2;
+  this->_selector_pin_0 = selector_pin_0;
+  this->_selector_pin_1 = selector_pin_1;
+  this->_selector_pin_2 = selector_pin_2;
 }
 
 void Mux::setup()
 {
-  pinMode(_selector_pin_0, OUTPUT);
-  pinMode(_selector_pin_1, OUTPUT);
-  pinMode(_selector_pin_2, OUTPUT);
+  pinMode(this->_selector_pin_0, OUTPUT);
+  pinMode(this->_selector_pin_1, OUTPUT);
+  pinMode(this->_selector_pin_2, OUTPUT);
 }
 
 void Mux::switchChannel(int channel)
 {
-  digitalWrite(_selector_pin_0, bitRead(channel, 0));
-  digitalWrite(_selector_pin_1, bitRead(channel, 1));
-  digitalWrite(_selector_pin_2, bitRead(channel, 2));
+  digitalWrite(this->_selector_pin_0, bitRead(channel, 0));
+  digitalWrite(this->_selector_pin_1, bitRead(channel, 1));
+  digitalWrite(this->_selector_pin_2, bitRead(channel, 2));
 
   delay(MUX_SWITCH_DELAY);
 }

@@ -2,16 +2,16 @@
 
 SensorCollection::SensorCollection(char *id, char *name)
 {
-  _id = id,
-  _name = name;
-  _size = 0;
+  this->_id = id,
+  this->_name = name;
+  this->_size = 0;
 }
 
 void SensorCollection::setup()
 {
   for (int i = 0; i < _size; i++)
   {
-    Sensor *sensor = _sensors[i];
+    Sensor *sensor = this->_sensors[i];
     sensor->setup();
   }
 }
@@ -33,8 +33,8 @@ int SensorCollection::getSize() const
 
 void SensorCollection::addSensor(Sensor &sensor)
 {
-  _sensors[_size] = &sensor;
-  _size++;
+  this->_sensors[_size] = &sensor;
+  this->_size++;
 }
 
 Sensor *SensorCollection::getSensor(int index)
@@ -44,14 +44,15 @@ Sensor *SensorCollection::getSensor(int index)
 
 Sensor *SensorCollection::getSensor(char *id)
 {
-  for (int i = 0; i < _size; ++i)
+  for (int i = 0; i < this->_size; ++i)
   {
-    Sensor *sensor = _sensors[i];
+    Sensor *sensor = this->_sensors[i];
 
     if (strcmp(id, sensor->getId()) == 0)
     {
       return sensor;
     }
   }
+
   return NULL;
 }
