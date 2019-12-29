@@ -4,11 +4,11 @@
 #define ANALOG_INPUT_PIN 0
 #define MUX_SWITCH_DELAY 10000 // 10sec
 
-Sensor::Sensor(char *id, char *name, char *type, int pin)
+Sensor::Sensor(char *id, char *name, char *category, int pin)
 {
   _id = id;
   _name = name;
-  _type = type;
+  _category = category;
   _pin = pin;
 }
 
@@ -22,9 +22,9 @@ char *Sensor::getName() const
   return _name;
 }
 
-char *Sensor::getType() const
+char *Sensor::getCategory() const
 {
-  return _type;
+  return _category;
 }
 
 int Sensor::getPin() const
@@ -37,7 +37,7 @@ void Sensor::setup() {}
 //-------------------------------------------
 
 // constructor extends constructor of base class
-AnalogSensor::AnalogSensor(char *id, char *name, char *type, int pin) : Sensor(id, name, type, pin)
+AnalogSensor::AnalogSensor(char *id, char *name, char *category, int pin) : Sensor(id, name, category, pin)
 {
   _isAnalog = true;
 }
