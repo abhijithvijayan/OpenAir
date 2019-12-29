@@ -6,6 +6,7 @@ public:
   MQSensor(char *id, char *name, char *category, int pin, int type);
 
   double getVoltage();
+  void setup();
 
 protected:
   int _type;

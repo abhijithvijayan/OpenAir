@@ -9,6 +9,11 @@ MQSensor::MQSensor(char *id, char *name, char *category, int pin, int type) : An
   this->_type = type;
 }
 
+void MQSensor::setup()
+{
+  this->_sensor_voltage = this->getVoltage();
+}
+
 double MQSensor::getVoltage()
 {
   double avg = 0.0, voltage;
