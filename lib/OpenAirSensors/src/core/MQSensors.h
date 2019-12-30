@@ -88,6 +88,7 @@ public:
 
   void setR0(double R0 = 10);
   float calibrate();
+  void setGasCompoundPairValue(String compound);
 
   double getR0();
   double getRL();
@@ -95,9 +96,14 @@ public:
 
 protected:
   int _type;
+
   double _sensor_voltage;
   double _ratioInCleanAir;
   float _VOLTAGE_RESOLUTION = 5.0; // if 3.3v use 3.3
   float _RLValue = 10;             // Load Resistance Value in KiloOhms
   float _R0;
+
+  double _a;
+  float _b;
+  String _compound;
 };
