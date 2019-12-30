@@ -9,8 +9,11 @@
  *  Equation: PPM = a*((x)^b)
  */
 /* ********************* MQ2 ***************************************************** */
-#define RatioMQ2CleanAir 9.83 // RS / R0 = 9.83 ppm
+// Datasheet: https://robokits.download/downloads/MQ-2.pdf
+
 #define defaultMQ2 "LPG"
+#define RatioMQ2CleanAir 9.83 // RS / R0 = 9.83 ppm
+#define R0_MQ2 9.659574468    // R0 after 48 hours pre-heating the sensor
 
 #define MQ2_H2_a 987.99
 #define MQ2_H2_b -2.162
@@ -28,8 +31,11 @@
 #define MQ2_Propane_b -2.168
 
 /* ********************* MQ7 ***************************************************** */
-#define RatioMQ7CleanAir 27.5 // RS / R0 = 27.5 ppm
+// Datasheet: https://robokits.download/downloads/MQ-7.pdf
+
 #define defaultMQ7 "CO"
+#define RatioMQ7CleanAir 27.5 // RS / R0 = 27.5 ppm
+#define R0_MQ7 4              // R0 after 48 hours pre-heating the sensor
 
 #define MQ7_H2_a 69.014
 #define MQ7_H2_b -1.374
@@ -47,8 +53,11 @@
 #define MQ7_Alcohol_b -12.35
 
 /* ********************* MQ135 ***************************************************** */
-#define RatioMQ135CleanAir 3.6 // RS / R0 = 3.6 ppm
+// Datasheet: https://robokits.download/downloads/MQ-135.pdf
+
 #define defaultMQ135 "NH4"
+#define RatioMQ135CleanAir 3.6 // RS / R0 = 3.6 ppm
+#define R0_MQ135 76.63         // R0 after 48 hours pre-heating the sensor
 
 #define MQ135_CO_a 605.18
 #define MQ135_CO_b -3.937
@@ -75,11 +84,17 @@ class MQSensor : public AnalogSensor
 public:
   MQSensor(char *id, char *name, char *category, int pin, int type);
 
-  double getVoltage();
   void setup();
+
+  double getR0();
+  double getRL();
+  double getVoltage();
 
 protected:
   int _type;
-  float _sensor_voltage;
-  float _VOLT_RESOLUTION = 5.0; // if 3.3v use 3.3
+  double _sensor_voltage;
+  double _ratioInCleanAir;
+  float _VOLTAGE_RESOLUTION = 5.0; // if 3.3v use 3.3
+  float _RLValue = 10;             // Load Resistance Value in KiloOhms
+  float _R0 = 10;
 };
