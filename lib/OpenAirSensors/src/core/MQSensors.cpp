@@ -259,5 +259,13 @@ float MQSensor::getSensorReading(String compound)
     this->_PPM = 9999; // Upper datasheet recomendation.
   }
 
+  Serial.println("***************************");
+  Serial.println("* Sensor: MQ-" + String(_type));
+  Serial.println("* Vcc: " + String(_VOLTAGE_RESOLUTION) + ", RS: " + String(_RS_Calc));
+  Serial.println("* RS/R0 = " + String(_ratio) + ", Voltage Read(ADC): " + String(_sensor_voltage));
+  Serial.println("* PPM = " + String(_a) + "*pow(" + String(_ratio) + "," + String(_b) + ")");
+  Serial.println("* Compound(" + compound + ") = " + String(_PPM) + " PPM");
+  Serial.println("***************************");
+
   return _PPM;
 }
