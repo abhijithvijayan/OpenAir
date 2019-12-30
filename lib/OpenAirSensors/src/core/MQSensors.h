@@ -86,6 +86,9 @@ public:
 
   void setup();
 
+  void setR0(double R0 = 10);
+  float calibrate();
+
   double getR0();
   double getRL();
   double getVoltage();
@@ -96,5 +99,5 @@ protected:
   double _ratioInCleanAir;
   float _VOLTAGE_RESOLUTION = 5.0; // if 3.3v use 3.3
   float _RLValue = 10;             // Load Resistance Value in KiloOhms
-  float _R0 = 10;
+  float _R0;
 };
