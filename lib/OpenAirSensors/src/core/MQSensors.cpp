@@ -221,3 +221,43 @@ void MQSensor::setGasCompoundPairValue(String compound)
     }
   }
 }
+
+float MQSensor::getSensorReading(String compound)
+{
+  /**
+   * https://jayconsystems.com/blog/understanding-a-gas-sensor
+   */
+
+  // updates _a and _b
+  setGasCompoundPairValue(compound);
+
+  // Get value of RS in a gas
+  this->_RS_Calc = ((_VOLTAGE_RESOLUTION * _RLValue) / _sensor_voltage) - _RLValue;
+
+  if (_RS_Calc < 0)
+  {
+    this->_RS_Calc = 0; // No negative values accepted.
+  }
+
+  //  Get ratio: RS_gas/RS_air
+  this->_ratio = _RS_Calc / this->_R0;
+
+  if (_ratio <= 0 || _ratio > 100)
+  {
+    this->_ratio = 0.01; // No negative values accepted or upper datasheet recomendation.
+  }
+
+  this->_PPM = _a * pow(_ratio, _b);
+
+  if (_PPM < 0)
+  {
+    this->_PPM = 0; // No negative values accepted
+  }
+
+  if (_PPM > 10000)
+  {
+    this->_PPM = 9999; // Upper datasheet recomendation.
+  }
+
+  return _PPM;
+}

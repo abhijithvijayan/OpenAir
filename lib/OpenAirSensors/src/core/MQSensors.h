@@ -93,6 +93,7 @@ public:
   double getR0();
   double getRL();
   double getVoltage();
+  float getSensorReading(String compound);
 
 protected:
   int _type;
@@ -102,6 +103,9 @@ protected:
   float _VOLTAGE_RESOLUTION = 5.0; // if 3.3v use 3.3
   float _RLValue = 10;             // Load Resistance Value in KiloOhms
   float _R0;
+  float _RS_Calc;
+  float _ratio;
+  float _PPM;
 
   double _a;
   float _b;
