@@ -10,6 +10,7 @@
 
 #include "core/Sensors.h"
 #include "core/SensorCollection.h"
+#include "core/Mux.h"
 #include "core/MQSensors.h"
 
 #endif
