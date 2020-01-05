@@ -33,6 +33,19 @@ target_metadata = current_app.extensions['migrate'].db.metadata
 # ... etc.
 
 
+def include_object(object, name, type_, reflected, compare_to):
+    """ Function which excludes the table(s)
+
+    make sure to pass it as a parameter to context.configure() in both functions.
+
+    reference: https://github.com/miguelgrinberg/Flask-Migrate/issues/18
+    """
+
+    if (type_ == "table" and name == 'spatial_ref_sys'):
+        return False
+    return True
+
+
 def run_migrations_offline():
     """Run migrations in 'offline' mode.
 
@@ -47,7 +60,7 @@ def run_migrations_offline():
     """
     url = config.get_main_option("sqlalchemy.url")
     context.configure(
-        url=url, target_metadata=target_metadata, literal_binds=True
+        url=url, target_metadata=target_metadata, include_object=include_object, literal_binds=True
     )
 
     with context.begin_transaction():
@@ -82,8 +95,9 @@ def run_migrations_online():
         context.configure(
             connection=connection,
             target_metadata=target_metadata,
+            include_object=include_object,
             process_revision_directives=process_revision_directives,
-            **current_app.extensions['migrate'].configure_args
+            **current_app.extensions['migrate'].configure_args,
         )
 
         with context.begin_transaction():
