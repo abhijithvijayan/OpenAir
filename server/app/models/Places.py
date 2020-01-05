@@ -6,6 +6,7 @@ from sqlalchemy.sql import func, cast
 from sqlalchemy.dialects.postgresql import UUID, JSON
 
 from app import db
+from flask import current_app as flask_app
 
 
 class Places(db.Model):
@@ -32,7 +33,8 @@ class Places(db.Model):
 
     def get_nearby_aqi_node(lat, lng):
         # ToDo: Refactor to be more precise: https://stackoverflow.com/a/20936147
-        dist_in_meters = 1500
+        dist_in_meters = int(
+            flask_app.config["CIRCULAR_COVERAGE_DISTANCE_FROM_NODE"])
         dist_in_miles = dist_in_meters * 0.621371192 / 1000
         dist_in_degree_radius = dist_in_miles * 0.014472
 

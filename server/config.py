@@ -15,6 +15,11 @@ class Config(object):
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
     GOOGLE_MAPS_API_KEY = os.environ.get('GOOGLE_MAPS_API_KEY')
 
+    CIRCULAR_COVERAGE_DISTANCE_FROM_NODE = os.environ.get(
+        'CIRCULAR_COVERAGE_DISTANCE_FROM_NODE')
+    THRESHOLD_DISTANCE_BETWEEN_LEGS = os.environ.get(
+        'THRESHOLD_DISTANCE_BETWEEN_LEGS')
+
 
 class ProdConfig(Config):
     """Production configuration."""

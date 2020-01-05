@@ -18,10 +18,12 @@ def distance_between_two_points(distance, start, destination):
 
 def select_next_min_distant_point(distances, selected_step_pos):
     # Iterate through distances[] and return next position
-    # with 3000m distance in between
+    # with min threshold distance in between
     all_visited = None
     is_selected = None
     dist_from_selected = 0
+    min_threshold_distance = int(
+        flask_app.config["THRESHOLD_DISTANCE_BETWEEN_LEGS"])
 
     if (selected_step_pos >= len(distances) - 1):
         all_visited = True
@@ -33,7 +35,7 @@ def select_next_min_distant_point(distances, selected_step_pos):
         if (pos == len(distances) - 1):
             all_visited = True
 
-        if (dist_from_selected >= 3000):
+        if (dist_from_selected >= min_threshold_distance):
             is_selected = True
             selected_step_pos = pos
             break
@@ -106,7 +108,7 @@ def getRoutesAQI():
 
                             # Find the next subsequent points(excluding destination)
                             for _ in range(len(distances)):
-                                # Find the next step that has minimum of 3000m distance in between
+                                # Find the next step that has minimum threshold distance in between
                                 selected_response = select_next_min_distant_point(
                                     distances, next_distant_point_pos)
 
@@ -114,7 +116,7 @@ def getRoutesAQI():
                                 if (selected_response["all_visited"] and selected_response["is_selected"] is None):
                                     break
 
-                                # 3000m distant location Found!
+                                # threshold distant location Found!
                                 next_distant_point_pos = selected_response["next_distant_point_pos"]
                                 # Get selected leg from original data
                                 selected_step = leg["steps"][next_distant_point_pos]
