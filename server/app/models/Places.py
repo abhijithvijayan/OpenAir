@@ -43,6 +43,9 @@ class Places(db.Model):
         # Well-Known Binary format
         geo_wkb = func.Geometry(geo_point)
 
+        # ToDo: split into functions to iterate through multiple points in one session
+        print("New session for this single query")
+
         # get closest point
         try:
             # `distance_centroid` will do an index based Nearest Neighbour (NN) search.
