@@ -9,6 +9,7 @@ from app import db
 
 
 class Places(db.Model):
+    __tablename__ = 'openair_places'
     uuid = db.Column(UUID(as_uuid=True),
                      primary_key=True,
                      server_default=text("uuid_generate_v4()"))

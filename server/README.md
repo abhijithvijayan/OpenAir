@@ -16,8 +16,8 @@ createdb db_name
 
 psql -d db_name
 
-CREATE EXTENSION postgis;
-CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+> CREATE EXTENSION IF NOT EXISTS "postgis";
+> CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 ```
 
 ### Install dependencies
