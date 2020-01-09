@@ -1,5 +1,5 @@
 import json
-import requests
+import googlemaps
 from flask import request, current_app as flask_app, jsonify
 
 from app.api import bp
@@ -51,21 +51,20 @@ def select_next_min_distant_point(distances, selected_step_pos):
 @bp.route('/api/v1/getRoutesData', methods=['POST'])
 def getRoutesAQI():
     data = request.get_json()
+    GOOGLE_MAPS_API_KEY = flask_app.config["GOOGLE_MAPS_API_KEY"]
+    gmaps = googlemaps.Client(key=GOOGLE_MAPS_API_KEY)
 
     start_location = data["start_location"]
     end_location = data["end_location"]
-    GOOGLE_MAPS_API_KEY = flask_app.config["GOOGLE_MAPS_API_KEY"]
 
-    r = requests.get('https://maps.googleapis.com/maps/api/directions/json?origin={},{}&destination={},{}&sensor=false&units=metric&alternatives=true&key={}'.format(
-        start_location["lat"], start_location["lng"], end_location["lat"], end_location["lng"],
-        GOOGLE_MAPS_API_KEY))
-    map_data = json.loads(r.content.decode('utf-8-sig'))
+    # get directions
+    map_routes = gmaps.directions('{},{}'.format(start_location["lat"], start_location["lng"]), '{},{}'.format(end_location["lat"], end_location["lng"]),
+                                  mode="driving", units="metric", alternatives=True)
 
     # ToDo: for development only
     # with open('sample.json') as sample_file:
     #     map_data = json.load(sample_file)
-
-    map_routes = map_data["routes"]
+    #     map_routes = map_data["routes"]
 
     routes = []
 
