@@ -15,6 +15,7 @@ flask-migrate = "*"
 psycopg2-binary = "*"
 geoalchemy2 = "*"
 requests = "*"
+googlemaps = "*"
 
 [requires]
 python_version = "3.6"
