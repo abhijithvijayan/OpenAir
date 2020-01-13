@@ -1723,41 +1723,42 @@ adjust-sourcemap-loader@2.0.0:
     object-path "0.11.4"
     regex-parser "2.2.10"
 
-aedes-packet@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/aedes-packet/-/aedes-packet-1.0.0.tgz#2eea46f97c925b0a1f4d03f4f1fe5ef887b100f1"
-  integrity sha1-LupG+XySWwofTQP08f5e+IexAPE=
+aedes-packet@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/aedes-packet/-/aedes-packet-2.1.0.tgz#c092c851e62c31db7657105e806626a86230e4d6"
+  integrity sha512-sbO2dLyZo/TY8UvYY5dvcDzcvYsMAEjYCYMmgGhy2+g1bno2OCGW2kSL0mr0dxUWOvTgzByczKfv4Cr/jWLwhw==
 
-aedes-persistence@^6.0.0:
-  version "6.0.0"
-  resolved "https://registry.yarnpkg.com/aedes-persistence/-/aedes-persistence-6.0.0.tgz#e9eb15288a3be1a8e9fc7f231df2237ca0978eb1"
-  integrity sha512-LVk80Mg6bCfQgbcyo16ipuFo5KdORVxtzFAMmaisE3Hkydwt5H9I02gmF5IPADF5zPk0RfYxumQ4IIV1+jEp7Q==
+aedes-persistence@^7.1.1:
+  version "7.2.1"
+  resolved "https://registry.yarnpkg.com/aedes-persistence/-/aedes-persistence-7.2.1.tgz#3c54c99ccff7b2fcdf24428109ac5dfb60a5bdfd"
+  integrity sha512-I3GKFC/aBfGBx2GX9e6KF0FmU6yGEXSB6j39NoGdwSjQbomsJ74ZIK5vISceoWT/MqVMN/mSit8a47L1l1vw4A==
   dependencies:
-    aedes-packet "^1.0.0"
-    from2 "^2.1.0"
-    qlobber "^3.0.2"
+    aedes-packet "^2.1.0"
+    from2 "^2.3.0"
+    qlobber "^3.1.0"
 
-aedes@^0.39.0:
-  version "0.39.0"
-  resolved "https://registry.yarnpkg.com/aedes/-/aedes-0.39.0.tgz#125e2f1e53a600f3a0bfde26431997deed27f117"
-  integrity sha512-AV7pN4Ogt4tNNgNNabKjsC7Cw7bMMNjQH1hua4zQV0TFf/QEBPVu1YDZMH3Lrrt2XziydQzmBrBc5aAQvAq5FQ==
+aedes@^0.40.0:
+  version "0.40.0"
+  resolved "https://registry.yarnpkg.com/aedes/-/aedes-0.40.0.tgz#3b90d00f67906a87c6163f5c77723ec99561f498"
+  integrity sha512-xhOlYFF2bdxSfefSFO0CN5O4gqhKz3hn5pknSp8GB6Q0+8W1d01W9n42/ElGSHe74ceCiADG2MPhvA9YWRQgHw==
   dependencies:
-    aedes-packet "^1.0.0"
-    aedes-persistence "^6.0.0"
-    bulk-write-stream "^2.0.0"
-    end-of-stream "^1.4.1"
+    aedes-packet "^2.1.0"
+    aedes-persistence "^7.1.1"
+    bulk-write-stream "^2.0.1"
+    end-of-stream "^1.4.4"
     fastfall "^1.5.1"
     fastparallel "^2.3.0"
     fastseries "^1.7.2"
     from2 "^2.3.0"
     mqemitter "^3.0.0"
-    mqtt-packet "^6.1.2"
+    mqtt-packet "^6.3.0"
+    proxy-protocol-js "^4.0.3"
     pump "^3.0.0"
     retimer "^2.0.0"
     reusify "^1.0.4"
-    shortid "^2.2.14"
+    shortid "^2.2.15"
     through2 "^3.0.1"
-    uuid "^3.3.2"
+    uuid "^3.3.3"
 
 after@0.8.2:
   version "0.8.2"
@@ -2606,7 +2607,7 @@ builtin-status-codes@^3.0.0:
   resolved "https://registry.yarnpkg.com/builtin-status-codes/-/builtin-status-codes-3.0.0.tgz#85982878e21b98e1c66425e03d0174788f569ee8"
   integrity sha1-hZgoeOIbmOHGZCXgPQF0eI9Wnug=
 
-bulk-write-stream@^2.0.0:
+bulk-write-stream@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/bulk-write-stream/-/bulk-write-stream-2.0.1.tgz#085bdc65caf19ceece4ff365fdb951ef0c6e3db8"
   integrity sha512-XWOLjgHtpDasHfwM8oO4df1JoZwa7/OwTsXDzh4rUTo+9CowzeOFBZz43w+H14h1fyq+xl28tVIBrdjcjj4Gug==
@@ -4109,7 +4110,7 @@ encodeurl@~1.0.2:
   resolved "https://registry.yarnpkg.com/encodeurl/-/encodeurl-1.0.2.tgz#ad3ff4c86ec2d029322f5a02c3a9a606c95b3f59"
   integrity sha1-rT/0yG7C0CkyL1oCw6mmBslbP1k=
 
-end-of-stream@^1.0.0, end-of-stream@^1.1.0, end-of-stream@^1.4.1:
+end-of-stream@^1.0.0, end-of-stream@^1.1.0, end-of-stream@^1.4.1, end-of-stream@^1.4.4:
   version "1.4.4"
   resolved "https://registry.yarnpkg.com/end-of-stream/-/end-of-stream-1.4.4.tgz#5ae64a5f45057baf3626ec14da0ca5e4b2431eb0"
   integrity sha512-+uw1inIHVPQoaVuHzRyXd21icM+cnt4CzD5rW+NC1wjOUSTOs+Te7FOv7AhN7vS9x/oIyhLP5PR1H+phQAHu5Q==
@@ -7713,7 +7714,7 @@ mqemitter@^3.0.0:
     fastparallel "^2.3.0"
     qlobber "^3.1.0"
 
-mqtt-packet@^6.0.0, mqtt-packet@^6.1.2:
+mqtt-packet@^6.0.0, mqtt-packet@^6.3.0:
   version "6.3.0"
   resolved "https://registry.yarnpkg.com/mqtt-packet/-/mqtt-packet-6.3.0.tgz#ca8b387475c186dc05c52050a45d6eb0bbfccdb3"
   integrity sha512-TjusSKu8uFZCmGZU8K6r4C3Ic+er/4r8rva+Mp5GQgWg/KjSdAfLK/GTucBwkdATE2Z0Da8AssI2WHzs0M9W0w==
@@ -9491,6 +9492,11 @@ proxy-addr@~2.0.5:
     forwarded "~0.1.2"
     ipaddr.js "1.9.0"
 
+proxy-protocol-js@^4.0.3:
+  version "4.0.3"
+  resolved "https://registry.yarnpkg.com/proxy-protocol-js/-/proxy-protocol-js-4.0.3.tgz#cced0f937a56e22e71afb9937bca65ba3aa176c8"
+  integrity sha512-7Szfx3jmfZ2YEDZRns0tGlOEMTy2aqZF2OxwURlYMxDad6J18XXpblWrT5GNivX5Sx3D2fTSCgDteCOZRTTgcA==
+
 prr@~1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/prr/-/prr-1.0.1.tgz#d3fc114ba06995a45ec6893f484ceb1d78f5f476"
@@ -9568,7 +9574,7 @@ q@^1.1.2:
   resolved "https://registry.yarnpkg.com/q/-/q-1.5.1.tgz#7e32f75b41381291d04611f1bf14109ac00651d7"
   integrity sha1-fjL3W0E4EpHQRhHxvxQQmsAGUdc=
 
-qlobber@^3.0.2, qlobber@^3.1.0:
+qlobber@^3.1.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/qlobber/-/qlobber-3.1.0.tgz#b8c8e067496de17bdbf3cd843cf53ece09c8d211"
   integrity sha512-B7EU6Hv9g4BeJiB7qtOjn9wwgqVpcWE5c4/86O0Yoj7fmAvgwXrdG1E+QF13S/+TX5XGUl7toizP0gzXR2Saug==
@@ -10703,7 +10709,7 @@ shellwords@^0.1.1:
   resolved "https://registry.yarnpkg.com/shellwords/-/shellwords-0.1.1.tgz#d6b9181c1a48d397324c84871efbcfc73fc0654b"
   integrity sha512-vFwSUfQvqybiICwZY5+DAWIPLKsWO31Q91JSKl3UYv+K5c2QRPzn0qzec6QPu1Qc9eHYItiP3NdJqNVqetYAww==
 
-shortid@^2.2.14:
+shortid@^2.2.15:
   version "2.2.15"
   resolved "https://registry.yarnpkg.com/shortid/-/shortid-2.2.15.tgz#2b902eaa93a69b11120373cd42a1f1fe4437c122"
   integrity sha512-5EaCy2mx2Jgc/Fdn9uuDuNIIfWBpzY4XIlhoqtXF6qsf+/+SGZ+FxDdX/ZsMZiWupIWNqAEmiNY4RC+LSmCeOw==
@@ -11714,6 +11720,11 @@ typescript-tuple@^2.2.1:
   dependencies:
     typescript-compare "^0.0.2"
 
+typescript@^3.7.4:
+  version "3.7.4"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.7.4.tgz#1743a5ec5fef6a1fa9f3e4708e33c81c73876c19"
+  integrity sha512-A25xv5XCtarLwXpcDNZzCGvW2D1S3/bACratYBx2sax8PefsFhlYmkQicKHvpYflFS8if4zne5zT5kpJ7pzuvw==
+
 uglify-js@3.4.x:
   version "3.4.10"
   resolved "https://registry.yarnpkg.com/uglify-js/-/uglify-js-3.4.10.tgz#9ad9563d8eb3acdfb8d38597d2af1d815f6a755f"
@@ -11969,7 +11980,7 @@ utils-merge@1.0.1:
   resolved "https://registry.yarnpkg.com/utils-merge/-/utils-merge-1.0.1.tgz#9f95710f50a267947b2ccc124741c1028427e713"
   integrity sha1-n5VxD1CiZ5R7LMwSR0HBAoQn5xM=
 
-uuid@^3.0.1, uuid@^3.3.2:
+uuid@^3.0.1, uuid@^3.3.2, uuid@^3.3.3:
   version "3.3.3"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.3.3.tgz#4568f0216e78760ee1dbf3a4d2cf53e224112866"
   integrity sha512-pW0No1RGHgzlpHJO1nsVrHKpOEIxkGg1xB+v0ZmdNH5OAeAwzAVrCnI2/6Mtx+Uys6iaylxa+D3g4j63IKKjSQ==
