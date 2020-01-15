@@ -8,7 +8,9 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "subscriber": "nodemon app"
+    "subscriber": "node --inspect=5858 -r ts-node/register ./app/index.ts",
+    "subscriber:dev": "nodemon",
+    "build": "tsc"
   },
   "dependencies": {
     "dotenv": "^8.2.0",
@@ -16,6 +18,9 @@
     "winston": "^3.2.1"
   },
   "devDependencies": {
-    "nodemon": "^2.0.2"
+    "@types/node": "^13.1.6",
+    "nodemon": "^2.0.2",
+    "ts-node": "^8.6.2",
+    "typescript": "^3.7.4"
   }
 }
