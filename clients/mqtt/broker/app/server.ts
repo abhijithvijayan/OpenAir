@@ -2,7 +2,9 @@ import * as aedes from 'aedes';
 import * as net from 'net';
 import * as io from 'socket.io';
 
-const { SOCKET_SERVER_PORT, MQTT_AUTH_ID, MQTT_AUTH_PASSWORD } = require('./config/secrets.js');
+import { SOCKET_SERVER_PORT, MQTT_AUTH_ID, MQTT_AUTH_PASSWORD } from './config/secrets';
+
+console.log(SOCKET_SERVER_PORT);
 
 const startServer = (): void => {
     const port: number = 1883;
