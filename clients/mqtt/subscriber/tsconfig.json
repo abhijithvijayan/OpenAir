@@ -2,8 +2,6 @@
   "compilerOptions": {
     // https://github.com/Microsoft/TypeScript/issues/29172
     "outDir": "dist",
-    // disable after ts migration
-    "allowJs": true,
 		"target": "es2017", // Node.js 8
 		"module": "commonjs",
 		"moduleResolution": "node",
