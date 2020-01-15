@@ -37,10 +37,10 @@ const startSubscriber = (): void => {
     /**
      *  Emitted when the mqtt client receives a published packet
      */
-    mqttClient.on('message', (_topic, message): void => {
+    mqttClient.on('message', (_topic, message, packet): void => {
         const context: string = message.toString();
 
-        console.log(context); // eslint-disable-line no-console
+        console.log(context, packet); // eslint-disable-line no-console
 
         /**
          *  ToDo: based on type of topic
@@ -65,25 +65,23 @@ const startSubscriber = (): void => {
     /**
      *  Emitted after a mqtt disconnection.
      */
-    mqttClient.on('close', (err: mqtt.OnErrorCallback): void => {
+    mqttClient.on('close', (): void => {
         console.log('Disconnected'); // eslint-disable-line no-console
-        console.log(err);
     });
 
     /**
      *  Emitted after receiving disconnect packet from mqtt broker.
      */
-    mqttClient.on('disconnect', (err: mqtt.OnErrorCallback): void => {
+    mqttClient.on('disconnect', (packet: mqtt.OnPacketCallback): void => {
         console.log('Broker sent disconnect packet'); // eslint-disable-line no-console
-        console.log(err);
+        console.log(packet);
     });
 
     /**
      *  Emitted when the mqtt client goes offline.
      */
-    mqttClient.on('offline', (err: mqtt.OnErrorCallback): void => {
+    mqttClient.on('offline', (): void => {
         console.log('Client is now offline'); // eslint-disable-line no-console
-        console.log(err);
     });
 };
 
