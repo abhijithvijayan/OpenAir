@@ -2,10 +2,12 @@
   "verbose": false,
   "ignore": [
     "node_modules",
+    ".git",
     "../../../web",
     "../../subscriber",
     "../../publisher"
   ],
   "watch": ["./app/**/*"],
-  "ext": "js json"
+  "exec": "yarn broker",
+  "ext": "ts"
 }

@@ -8,9 +8,9 @@
   "author": "abhijithvijayan",
   "license": "MIT",
   "scripts": {
-    "dev": "tsc --watch",
-    "build": "tsc",
-    "broker": "nodemon app"
+    "broker": "node --inspect=5858 -r ts-node/register ./app/index.ts",
+    "dev:broker": "nodemon",
+    "build": "tsc"
   },
   "dependencies": {
     "aedes": "^0.40.0",
