@@ -1,6 +1,7 @@
 {
   "verbose": false,
-  "ignore": ["node_modules", "../../web", "../broker", "../publisher"],
+  "ignore": ["node_modules", ".git", "../../web", "../broker", "../publisher"],
   "watch": ["./app/**/*"],
+  "exec":"yarn subscriber",
   "ext": "js json"
 }
