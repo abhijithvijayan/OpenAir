@@ -1,4 +1,4 @@
-const startSubscriber = require('./subscriber');
+import startSubscriber from './subscriber';
 
 /**
  *  Start mqtt broker
