@@ -9,7 +9,7 @@
   "private": true,
   "scripts": {
     "subscriber": "node --inspect=5858 -r ts-node/register ./app/index.ts",
-    "subscriber:dev": "nodemon",
+    "dev:subscriber": "nodemon",
     "build": "tsc"
   },
   "dependencies": {
