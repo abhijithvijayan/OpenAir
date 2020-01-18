@@ -12,12 +12,15 @@ if (!fs.existsSync('.env')) {
 }
 
 // typings for env vars
-declare namespace NodeJS {
-    export interface ProcessEnv {
-        NODE_ENV: 'development' | 'production';
-        SOCKET_SERVER_PORT: number;
-        MQTT_AUTH_ID: string;
-        MQTT_AUTH_PASSWORD: string;
+
+declare global {
+    namespace NodeJS {
+        export interface ProcessEnv {
+            NODE_ENV: 'development' | 'production';
+            SOCKET_SERVER_PORT: number;
+            MQTT_AUTH_ID: string;
+            MQTT_AUTH_PASSWORD: string;
+        }
     }
 }
 
