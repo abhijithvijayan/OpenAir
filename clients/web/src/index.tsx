@@ -10,7 +10,8 @@ import { Provider } from 'react-redux';
 import initializeStore from './state/store';
 import App from './pages/_app';
 
-const reduxStore = initializeStore(window.REDUX_INITIAL_DATA);
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const reduxStore = initializeStore((window as any).REDUX_INITIAL_DATA);
 
 ReactDOM.render(
     <Provider store={reduxStore}>
