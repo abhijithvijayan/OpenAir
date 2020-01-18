@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-namespace */
 import * as fs from 'fs';
 import * as dotenv from 'dotenv';
 
@@ -11,21 +12,19 @@ if (!fs.existsSync('.env')) {
 }
 
 // typings for env vars
-declare global {
-    namespace NodeJS {
-        interface ProcessEnv {
-            NODE_ENV: 'development' | 'production';
-            SOCKET_SERVER_PORT: number;
-            MQTT_AUTH_ID: string;
-            MQTT_AUTH_PASSWORD: string;
-        }
+declare namespace NodeJS {
+    export interface ProcessEnv {
+        NODE_ENV: 'development' | 'production';
+        SOCKET_SERVER_PORT: number;
+        MQTT_AUTH_ID: string;
+        MQTT_AUTH_PASSWORD: string;
     }
 }
 
 /**
  *  Export all the env vars here
  */
-export const PRODUCTION: string = 'production';
+export const PRODUCTION = 'production';
 export const ENVIRONMENT: string = process.env.NODE_ENV || 'development';
 export const { SOCKET_SERVER_PORT = 8888 } = process.env;
 export const { MQTT_AUTH_ID } = process.env;

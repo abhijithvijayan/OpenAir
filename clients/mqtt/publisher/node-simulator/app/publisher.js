@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 require('dotenv').config();
 const mqtt = require('mqtt');
 
@@ -55,20 +56,20 @@ mqttPublisher.on('error', function(err) {
 /**
  *  Emitted after a disconnection.
  */
-mqttPublisher.on('close', function(err) {
+mqttPublisher.on('close', function() {
     console.log('Disconnected'); // eslint-disable-line no-console
 });
 
 /**
  *  Emitted after receiving disconnect packet from broker.
  */
-mqttPublisher.on('disconnect', function(err) {
-    console.log('Broker sent disconnect packet'); // eslint-disable-line no-console
+mqttPublisher.on('disconnect', function(packet) {
+    console.log('Broker sent disconnect packet', packet); // eslint-disable-line no-console
 });
 
 /**
  *  Emitted when the client goes offline.
  */
-mqttPublisher.on('offline', function(err) {
+mqttPublisher.on('offline', function() {
     console.log('Client is now offline'); // eslint-disable-line no-console
 });

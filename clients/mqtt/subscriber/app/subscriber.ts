@@ -3,7 +3,7 @@ import * as mqtt from 'mqtt';
 import { MQTT_SERVER_ADDRESS, MQTT_AUTH_ID, MQTT_AUTH_PASSWORD } from './config/secrets';
 
 const startSubscriber = (): void => {
-    const subscriberId: string = `SUBSCRIBER_${Math.random()
+    const subscriberId = `SUBSCRIBER_${Math.random()
         .toString(16)
         .substr(2, 8)}`;
 

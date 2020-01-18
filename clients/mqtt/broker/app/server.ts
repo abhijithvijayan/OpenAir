@@ -7,7 +7,7 @@ import { SOCKET_SERVER_PORT, MQTT_AUTH_ID, MQTT_AUTH_PASSWORD } from './config/s
 console.log(SOCKET_SERVER_PORT);
 
 const startServer = (): void => {
-    const port: number = 1883;
+    const port = 1883;
 
     /**
      *  Create broker instance
@@ -29,9 +29,11 @@ const startServer = (): void => {
     broker.authenticate = function(_client, userId, password, callback): void {
         const authorized = userId === MQTT_AUTH_ID && password.toString() === MQTT_AUTH_PASSWORD;
 
+        // eslint-disable-next-line no-empty
         if (authorized) {
         }
 
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const err: any = new Error('Auth error');
         err.returnCode = aedes.AuthErrorCode.BAD_USERNAME_OR_PASSWORD;
 
