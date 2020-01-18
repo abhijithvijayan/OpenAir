@@ -10,7 +10,9 @@
   "scripts": {
     "subscriber": "node --inspect=5858 -r ts-node/register ./app/index.ts",
     "dev:subscriber": "nodemon",
-    "build": "tsc"
+    "build": "tsc",
+    "lint": "tsc --noEmit && eslint . --ext .js,.ts",
+    "lint:fix": "tsc --noEmit && eslint . --ext .js,.ts --fix"
   },
   "dependencies": {
     "dotenv": "^8.2.0",

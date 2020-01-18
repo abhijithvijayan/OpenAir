@@ -21,8 +21,8 @@
     "broker": "yarn workspace @openair/broker broker",
     "publisher": "yarn workspace @openair/publisher publisher",
     "subscriber": "yarn workspace @openair/subscriber subscriber",
-    "lint": "eslint . --ext .js,.ts",
-    "lint:fix": "eslint . --ext .js,.ts --fix",
+    "lint": "yarn workspaces run lint",
+    "lint:fix": "yarn workspaces run lint:fix",
     "clean-up": "rm -rf node_modules clients/web/node_modules clients/mqtt/broker/node_modules clients/mqtt/publisher/node-simulator/node_modules clients/mqtt/subscriber/node_modules yarn.lock"
   },
   "devDependencies": {
@@ -32,7 +32,7 @@
     "concurrently": "^5.0.2",
     "eslint": "^6.8.0",
     "eslint-config-airbnb": "^18.0.1",
-    "eslint-config-onepass": "2.0.1",
+    "eslint-config-onepass": "2.1.0",
     "eslint-config-prettier": "^6.9.0",
     "eslint-plugin-html": "^6.0.0",
     "eslint-plugin-import": "^2.20.0",

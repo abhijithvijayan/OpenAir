@@ -5,7 +5,9 @@
   "author": "abhijithvijayan",
   "scripts": {
     "dev": "react-scripts start",
-    "build": "react-scripts build"
+    "build": "react-scripts build",
+    "lint": "tsc --noEmit && eslint . --ext .js,.ts,.tsx",
+    "lint:fix": "tsc --noEmit && eslint . --ext .js,.ts,.tsx --fix"
   },
   "dependencies": {
     "@types/node": "^12.12.25",

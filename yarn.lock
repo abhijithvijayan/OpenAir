@@ -4443,10 +4443,10 @@ eslint-config-airbnb@^18.0.1:
     object.assign "^4.1.0"
     object.entries "^1.1.0"
 
-eslint-config-onepass@2.0.1:
-  version "2.0.1"
-  resolved "https://registry.npmjs.org/eslint-config-onepass/-/eslint-config-onepass-2.0.1.tgz#dbc64ae40ebc3e208b29c3b669d66d29299397ec"
-  integrity sha512-bflNGJUoj7BiOv9nKsiRmUs4tqt7aMdvPrPqPL0fxLgdM412HLt8bONtgCsAfL7Wjq6tRBf+yWjIFuO2Dd4sBA==
+eslint-config-onepass@2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/eslint-config-onepass/-/eslint-config-onepass-2.1.0.tgz#d67e5aa3d642b3681e951d43757661dbb5530184"
+  integrity sha512-jOVt5McoP7S3sCCeqpWQPa/IUw2DpCl+x5e3jA0wGxkBdBd8n26+92Dc0wEI1oK5F8xJhBkZXj4sVvT8hxZSNA==
 
 eslint-config-prettier@^6.9.0:
   version "6.9.0"
