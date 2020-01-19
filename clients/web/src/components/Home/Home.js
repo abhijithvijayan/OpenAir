@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { Container, Button } from 'react-bootstrap';
 import styled from 'styled-components';
 import io from 'socket.io-client';
 import { useSelector, useDispatch } from 'react-redux';
@@ -50,20 +49,20 @@ const HomePage = () => {
     };
 
     return (
-        <Container>
+        <>
             <StyledHome>
                 <div className="text-center">
-                    <Button
+                    <button
                         type="button"
                         onClick={() => {
                             return handleClick();
                         }}
                     >
                         Emit Message
-                    </Button>
+                    </button>
                 </div>
             </StyledHome>
-        </Container>
+        </>
     );
 };
 

@@ -10,16 +10,12 @@
     "lint:fix": "tsc --noEmit && eslint . --ext .js,.ts,.tsx --fix"
   },
   "dependencies": {
-    "@types/node": "^12.12.25",
-    "@types/react": "^16.9.17",
-    "@types/react-dom": "^16.9.4",
-    "@types/react-redux": "^7.1.6",
+    "@types/react-router-dom": "^5.1.3",
+    "@types/styled-components": "^4.4.2",
     "axios": "^0.19.1",
-    "bootstrap": "^4.4.1",
     "history": "^5.0.0-beta.3",
     "node-sass": "^4.13.1",
     "react": "^16.12.0",
-    "react-bootstrap": "^1.0.0-beta.16",
     "react-dom": "^16.12.0",
     "react-redux": "^7.1.3",
     "react-router-dom": "^5.1.2",
@@ -29,14 +25,18 @@
     "redux-form": "^8.2.6",
     "redux-saga": "^1.1.3",
     "socket.io-client": "^2.3.0",
-    "styled-components": "^4.4.1",
-    "typescript": "^3.7.5"
+    "styled-components": "^4.4.1"
   },
   "devDependencies": {
+    "@types/node": "^13.1.8",
+    "@types/react": "^16.9.17",
+    "@types/react-dom": "^16.9.4",
+    "@types/react-redux": "^7.1.6",
     "prettier": "^1.19.1",
     "sass-extract": "^2.1.0",
     "sass-extract-js": "^0.4.0",
-    "sass-extract-loader": "^1.1.0"
+    "sass-extract-loader": "^1.1.0",
+    "typescript": "^3.7.5"
   },
   "eslintConfig": {
     "extends": [
