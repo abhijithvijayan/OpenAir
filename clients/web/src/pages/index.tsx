@@ -3,7 +3,7 @@ import React from 'react';
 import Layout from '../components/Layout';
 import Home from '../components/Home';
 
-const IndexPage = () => {
+const IndexPage = (): JSX.Element => {
     return (
         <Layout>
             <Home />

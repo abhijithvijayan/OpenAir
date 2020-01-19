@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { Router, Route, Switch } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 
 // common styling
@@ -11,10 +11,10 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import NotFound from './not-found';
 
-// eslint-disable-next-line import/no-webpack-loader-syntax, import/no-unresolved
-const theme = require('sass-extract-loader?{"plugins": ["sass-extract-js"]}!../styles/base/_variables.scss');
+// eslint-disable-next-line import/no-webpack-loader-syntax, import/no-unresolved, @typescript-eslint/no-var-requires
+const theme = require('sass-extract-loader?{"plugins": ["sass-extract-js"]}!../styles/base/_variables.scss'); // ToDo: add a type
 
-const ReactApp = () => {
+const ReactApp = (): JSX.Element => {
     return (
         <>
             <ThemeProvider theme={theme}>
