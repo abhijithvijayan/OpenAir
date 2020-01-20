@@ -1,7 +1,3 @@
-import * as authSaga from './auth/sagas';
-
-const sagas = {
-    ...authSaga,
-};
+const sagas = {};
 
 export default sagas;
