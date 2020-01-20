@@ -4,25 +4,27 @@ import styled from 'styled-components';
 
 const Wrapper = styled.section`
     height: 100vh;
+
     div {
         display: flex;
         justify-content: center;
         align-items: center;
         height: 100%;
         flex-direction: column;
+
         p {
-            color: ${({ theme }) => {
+            color: ${({ theme }): string => {
                 return theme.pink;
             }};
             font-size: 2em;
-            font-weight: ${({ theme }) => {
+            font-weight: ${({ theme }): string => {
                 return theme.bold;
             }};
         }
     }
 `;
 
-const NotFound = () => {
+const NotFound = (): JSX.Element => {
     return (
         <Wrapper>
             <div>

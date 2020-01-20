@@ -10,7 +10,7 @@ const StyledLoader = styled.div`
     align-items: center;
 `;
 
-const Loader = () => {
+const Loader = (): JSX.Element => {
     return <StyledLoader>Loading...</StyledLoader>;
 };
 
