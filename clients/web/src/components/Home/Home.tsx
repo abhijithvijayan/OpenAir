@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import io from 'socket.io-client';
-import { useSelector, useDispatch } from 'react-redux';
+// import { useSelector, useDispatch } from 'react-redux';
 
 const StyledHome = styled.section`
     height: 80vh;
@@ -11,21 +11,21 @@ const StyledHome = styled.section`
         align-items: center;
         height: 100%;
         flex-direction: column;
+
         p {
-            color: ${({ theme }) => {
+            color: ${({ theme }): string => {
                 return theme.pink;
             }};
             font-size: 2em;
-            font-weight: ${({ theme }) => {
+            font-weight: ${({ theme }): string => {
                 return theme.bold;
             }};
         }
     }
 `;
 
-const HomePage = () => {
+const HomePage = (): JSX.Element => {
     const socket = io('http://localhost:8000');
-    const dispatch = useDispatch();
 
     useEffect(() => {
         // console.dir(socket);
@@ -33,16 +33,16 @@ const HomePage = () => {
     }, [socket]);
 
     useEffect(() => {
-        socket.on('nice', payload => {
-            console.log(`Socket server: ${payload}`);
+        socket.on('nice', (payload: string) => {
+            console.log(`Socket server: ${payload}`); // eslint-disable-line no-console
         });
 
-        socket.on('echo', payload => {
-            console.log(`Socket server echoes: ${payload}`);
+        socket.on('echo', (payload: string) => {
+            console.log(`Socket server echoes: ${payload}`); // eslint-disable-line no-console
         });
     });
 
-    const handleClick = () => {
+    const handleClick = (): SocketIOClient.Socket => {
         return socket.emit('some-event', {
             msg: 'Hello broker',
         });
@@ -54,7 +54,7 @@ const HomePage = () => {
                 <div className="text-center">
                     <button
                         type="button"
-                        onClick={() => {
+                        onClick={(): SocketIOClient.Socket => {
                             return handleClick();
                         }}
                     >
