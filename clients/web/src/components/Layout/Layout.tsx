@@ -1,21 +1,11 @@
 import React from 'react';
-import styled from 'styled-components';
-
 import Loader from '../Loader';
+
+import './styles.scss';
 
 type WrapperProperties = {
     children: React.ReactNode;
 };
-
-const BodyWrapper = styled.main`
-    position: relative;
-    min-height: 100vh;
-
-    .content__wrapper {
-        min-height: 100vh;
-        width: 100%;
-    }
-`;
 
 const Wrapper = ({ children }: WrapperProperties): JSX.Element => {
     // ToDo: Get from props
@@ -23,9 +13,9 @@ const Wrapper = ({ children }: WrapperProperties): JSX.Element => {
     const renderContent = isPageLoading ? <Loader /> : children;
 
     return (
-        <BodyWrapper>
+        <main id="layout__wrapper">
             <div className="content__wrapper">{renderContent}</div>
-        </BodyWrapper>
+        </main>
     );
 };
 

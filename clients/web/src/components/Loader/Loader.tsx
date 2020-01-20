@@ -1,17 +1,9 @@
 import React from 'react';
-import styled from 'styled-components';
 
-const StyledLoader = styled.div`
-    height: 100vh;
-    display: flex;
-    text-align: center;
-    justify-content: center;
-    vertical-align: middle;
-    align-items: center;
-`;
+import './styles.scss';
 
 const Loader = (): JSX.Element => {
-    return <StyledLoader>Loading...</StyledLoader>;
+    return <div id="loader">Loading...</div>;
 };
 
 export default Loader;

@@ -1,28 +1,8 @@
 import React, { useEffect } from 'react';
-import styled from 'styled-components';
 import io from 'socket.io-client';
 // import { useSelector, useDispatch } from 'react-redux';
 
-const StyledHome = styled.section`
-    height: 80vh;
-    div {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100%;
-        flex-direction: column;
-
-        p {
-            color: ${({ theme }): string => {
-                return theme.pink;
-            }};
-            font-size: 2em;
-            font-weight: ${({ theme }): string => {
-                return theme.bold;
-            }};
-        }
-    }
-`;
+import './styles.scss';
 
 const HomePage = (): JSX.Element => {
     const socket = io('http://localhost:8000');
@@ -50,7 +30,7 @@ const HomePage = (): JSX.Element => {
 
     return (
         <>
-            <StyledHome>
+            <section id="home">
                 <div className="text-center">
                     <button
                         type="button"
@@ -61,7 +41,7 @@ const HomePage = (): JSX.Element => {
                         Emit Message
                     </button>
                 </div>
-            </StyledHome>
+            </section>
         </>
     );
 };
