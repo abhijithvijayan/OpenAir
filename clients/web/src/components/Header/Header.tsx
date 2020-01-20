@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const Header = () => {
+const Header = (): JSX.Element => {
     return (
         <div className="header">
             <h2>OpenAir</h2>
