@@ -35,11 +35,6 @@
     "prettier": "^1.19.1",
     "typescript": "^3.7.5"
   },
-  "eslintConfig": {
-    "extends": [
-      "onepass"
-    ]
-  },
   "browserslist": {
     "production": [
       ">0.2%",
