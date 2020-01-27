@@ -1652,7 +1652,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@openair/broker@workspace:clients/mqtt/broker"
   dependencies:
-    "@types/node": ^13.1.8
+    "@types/node": ^13.5.0
     "@types/socket.io": ^2.1.4
     aedes: ^0.40.1
     dotenv: ^8.2.0
@@ -1678,7 +1678,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@openair/subscriber@workspace:clients/mqtt/subscriber"
   dependencies:
-    "@types/node": ^13.1.8
+    "@types/node": ^13.5.0
     dotenv: ^8.2.0
     mqtt: ^3.0.0
     nodemon: ^2.0.2
@@ -1692,14 +1692,14 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@openair/web@workspace:clients/web"
   dependencies:
-    "@types/node": ^13.1.8
-    "@types/react": ^16.9.17
-    "@types/react-dom": ^16.9.4
-    "@types/react-redux": ^7.1.6
+    "@types/node": ^13.5.0
+    "@types/react": ^16.9.19
+    "@types/react-dom": ^16.9.5
+    "@types/react-redux": ^7.1.7
     "@types/react-router-dom": ^5.1.3
     "@types/redux-form": ^8.2.0
     "@types/socket.io-client": ^1.4.32
-    axios: ^0.19.1
+    axios: ^0.19.2
     history: ^5.0.0-beta.3
     node-sass: ^4.13.1
     prettier: ^1.19.1
@@ -2027,7 +2027,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:^13.1.8":
+"@types/node@npm:*, @types/node@npm:^13.5.0":
   version: 13.5.0
   resolution: "@types/node@npm:13.5.0"
   checksum: c168b6228f3a0845fa7530169b5c25dfce069f5cd315ebaade02875eaadbea8eca8dc1337b6b1996ee268b1d649aaef89c2aafa452b2b24f4235eaecf83b4941
@@ -2055,7 +2055,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-dom@npm:^16.9.4":
+"@types/react-dom@npm:^16.9.5":
   version: 16.9.5
   resolution: "@types/react-dom@npm:16.9.5"
   dependencies:
@@ -2064,7 +2064,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-redux@npm:^7.1.6":
+"@types/react-redux@npm:^7.1.7":
   version: 7.1.7
   resolution: "@types/react-redux@npm:7.1.7"
   dependencies:
@@ -2097,7 +2097,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:*, @types/react@npm:^16.9.17":
+"@types/react@npm:*, @types/react@npm:^16.9.19":
   version: 16.9.19
   resolution: "@types/react@npm:16.9.19"
   dependencies:
@@ -2156,7 +2156,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/eslint-plugin@npm:^2.16.0, @typescript-eslint/eslint-plugin@npm:^2.8.0":
+"@typescript-eslint/eslint-plugin@npm:^2.17.0, @typescript-eslint/eslint-plugin@npm:^2.8.0":
   version: 2.17.0
   resolution: "@typescript-eslint/eslint-plugin@npm:2.17.0"
   dependencies:
@@ -2189,7 +2189,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/parser@npm:^2.16.0, @typescript-eslint/parser@npm:^2.8.0":
+"@typescript-eslint/parser@npm:^2.17.0, @typescript-eslint/parser@npm:^2.8.0":
   version: 2.17.0
   resolution: "@typescript-eslint/parser@npm:2.17.0"
   dependencies:
@@ -3037,7 +3037,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:^0.19.1":
+"axios@npm:^0.19.2":
   version: 0.19.2
   resolution: "axios@npm:0.19.2"
   dependencies:
@@ -10941,8 +10941,8 @@ fsevents@^1.2.7:
   version: 0.0.0-use.local
   resolution: "openair@workspace:."
   dependencies:
-    "@typescript-eslint/eslint-plugin": ^2.16.0
-    "@typescript-eslint/parser": ^2.16.0
+    "@typescript-eslint/eslint-plugin": ^2.17.0
+    "@typescript-eslint/parser": ^2.17.0
     babel-eslint: 10.0.3
     concurrently: ^5.0.2
     eslint: ^6.8.0
