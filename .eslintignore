@@ -2,3 +2,5 @@ haters/
 node_modules
 yarn.lock
 dist/
+.yarn
+.pnp.js
