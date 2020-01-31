@@ -183,6 +183,15 @@
         <g latexdraw:type="text" id="id1494806259" fill="black" latexdraw:position="">
             <text x="840.0" y="880.0">n-Modules</text>
         </g>
+        <g latexdraw:type="text" id="id1310119940" fill="black" latexdraw:position="b">
+            <text x="340.0" y="180.0">MQ-2</text>
+        </g>
+        <g latexdraw:type="text" id="id1874392343" fill="black" latexdraw:position="b">
+            <text x="580.0" y="180.0">MQ-7</text>
+        </g>
+        <g latexdraw:type="text" id="id1762733197" fill="black" latexdraw:position="b">
+            <text x="820.0" y="180.0">MQ-135</text>
+        </g>
     </g>
     <defs>
         <marker overflow="visible" orient="auto" id="arrow1-1798498263">
