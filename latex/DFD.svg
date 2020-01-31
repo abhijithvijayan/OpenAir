@@ -61,7 +61,7 @@
             <polyline points="480.0,1240.0 600.0,1240.0 600.0,1240.0 " stroke-width="2.0" stroke="black" fill="none" latexdraw:rotationAngle="0.0"/>
         </g>
         <g latexdraw:type="joinedLines" id="id1190475902">
-            <polyline points="480.0,1300.0 600.0,1300.0 " stroke-width="2.0" stroke="black" latexdraw:rotationAngle="0.0"/>
+            <polyline points="480.0,1280.0 600.0,1280.0 " stroke-width="2.0" stroke="black" latexdraw:rotationAngle="0.0"/>
         </g>
         <g latexdraw:type="joinedLines" id="id1093634105">
             <polyline points="540.0,880.0 540.0,920.0 " stroke-width="2.0" stroke="black" latexdraw:rotationAngle="0.0" marker-end="url(#arrow1-1093634105)"/>
@@ -92,6 +92,96 @@
         </g>
         <g latexdraw:type="joinedLines" id="id1263323507">
             <polyline points="440.0,40.0 640.0,40.0 640.0,40.0 " stroke-width="2.0" stroke="black" fill="none" latexdraw:rotationAngle="0.0"/>
+        </g>
+        <g latexdraw:type="text" id="id833480011" fill="black" latexdraw:position="">
+            <text x="300.0" y="100.0">Methane</text>
+        </g>
+        <g latexdraw:type="text" id="id1334953784" fill="black" latexdraw:position="">
+            <text x="300.0" y="120.0">LPG</text>
+        </g>
+        <g latexdraw:type="text" id="id434113130" fill="black" latexdraw:position="">
+            <text x="300.0" y="140.0">Propane</text>
+        </g>
+        <g latexdraw:type="text" id="id324635185" fill="black" latexdraw:position="">
+            <text x="540.0" y="100.0">Hydrogen</text>
+        </g>
+        <g latexdraw:type="text" id="id878068886" fill="black" latexdraw:position="">
+            <text x="540.0" y="120.0">CO</text>
+        </g>
+        <g latexdraw:type="text" id="id1228052088" fill="black" latexdraw:position="">
+            <text x="540.0" y="140.0">Alcohol</text>
+        </g>
+        <g latexdraw:type="text" id="id316854436" fill="black" latexdraw:position="">
+            <text x="780.0" y="100.0">Ammonium</text>
+        </g>
+        <g latexdraw:type="text" id="id257264465" fill="black" latexdraw:position="">
+            <text x="780.0" y="120.0">CO2</text>
+        </g>
+        <g latexdraw:type="text" id="id301372888" fill="black" latexdraw:position="">
+            <text x="780.0" y="140.0">Acetona</text>
+        </g>
+        <g latexdraw:type="text" id="id306372451" fill="black" latexdraw:position="">
+            <text x="540.0" y="240.0">NodeMCU</text>
+        </g>
+        <g latexdraw:type="text" id="id1951709208" fill="black" latexdraw:position="">
+            <text x="540.0" y="380.0">Geographical</text>
+        </g>
+        <g latexdraw:type="text" id="id1849300096" fill="black" latexdraw:position="">
+            <text x="540.0" y="400.0">data</text>
+        </g>
+        <g latexdraw:type="text" id="id1089610376" fill="black" latexdraw:position="">
+            <text x="540.0" y="420.0">collection</text>
+        </g>
+        <g latexdraw:type="text" id="id641540078" fill="black" latexdraw:position="">
+            <text x="540.0" y="580.0">AQI</text>
+        </g>
+        <g latexdraw:type="text" id="id1575051739" fill="black" latexdraw:position="">
+            <text x="540.0" y="600.0">Calculation</text>
+        </g>
+        <g latexdraw:type="text" id="id1956096638" fill="black" latexdraw:position="">
+            <text x="540.0" y="780.0">JSON</text>
+        </g>
+        <g latexdraw:type="text" id="id1999682020" fill="black" latexdraw:position="">
+            <text x="540.0" y="800.0">Serialization</text>
+        </g>
+        <g latexdraw:type="text" id="id254029199" fill="black" latexdraw:position="">
+            <text x="540.0" y="940.0">MQTT</text>
+        </g>
+        <g latexdraw:type="text" id="id1656369322" fill="black" latexdraw:position="">
+            <text x="540.0" y="960.0">Broker</text>
+        </g>
+        <g latexdraw:type="text" id="id1938587299" fill="black" latexdraw:position="">
+            <text x="280.0" y="1020.0">Websocket</text>
+        </g>
+        <g latexdraw:type="text" id="id126071859" fill="black" latexdraw:position="">
+            <text x="280.0" y="1040.0">Server</text>
+        </g>
+        <g latexdraw:type="text" id="id905232276" fill="black" latexdraw:position="">
+            <text x="280.0" y="1160.0">Dashboard</text>
+        </g>
+        <g latexdraw:type="text" id="id1255022936" fill="black" latexdraw:position="">
+            <text x="800.0" y="1020.0">MQTT</text>
+        </g>
+        <g latexdraw:type="text" id="id312999175" fill="black" latexdraw:position="">
+            <text x="800.0" y="1040.0">Subscriber</text>
+        </g>
+        <g latexdraw:type="text" id="id1257667694" fill="black" latexdraw:position="">
+            <text x="540.0" y="1260.0">Database</text>
+        </g>
+        <g latexdraw:type="text" id="id1597779626" fill="black" latexdraw:position="">
+            <text x="800.0" y="1140.0">IoT</text>
+        </g>
+        <g latexdraw:type="text" id="id917052609" fill="black" latexdraw:position="">
+            <text x="800.0" y="1160.0">Server</text>
+        </g>
+        <g latexdraw:type="text" id="id1341498149" fill="black" latexdraw:position="">
+            <text x="800.0" y="1300.0">Native</text>
+        </g>
+        <g latexdraw:type="text" id="id1011746619" fill="black" latexdraw:position="">
+            <text x="800.0" y="1320.0">Applications</text>
+        </g>
+        <g latexdraw:type="text" id="id1494806259" fill="black" latexdraw:position="">
+            <text x="840.0" y="880.0">n-Modules</text>
         </g>
     </g>
     <defs>
