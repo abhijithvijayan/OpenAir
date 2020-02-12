@@ -22,7 +22,8 @@
     "publisher": "yarn workspace @openair/publisher publisher",
     "subscriber": "yarn workspace @openair/subscriber subscriber",
     "lint": "yarn workspaces foreach -p run lint",
-    "lint:fix": "yarn workspaces foreach -p run lint:fix"
+    "lint:fix": "yarn workspaces foreach -p run lint:fix",
+    "clean-up": "rm -rf node_modules clients/web/node_modules clients/mqtt/broker/node_modules clients/mqtt/publisher/node-simulator/node_modules clients/mqtt/subscriber/node_modules yarn.lock"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^2.19.2",
