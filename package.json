@@ -4,7 +4,7 @@
   "private": true,
   "author": "abhijithvijayan",
   "engines": {
-    "node": ">=8 <=12"
+    "node": ">=10"
   },
   "workspaces": {
     "packages": [

@@ -2,7 +2,7 @@
   "name": "@openair/broker",
   "version": "1.0.0",
   "engines": {
-    "node": ">=8 <=12"
+    "node": ">=10"
   },
   "private": true,
   "author": "abhijithvijayan",

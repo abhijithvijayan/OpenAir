@@ -2,7 +2,7 @@
   "name": "@openair/subscriber",
   "version": "1.0.0",
   "engines": {
-    "node": ">=8 <=12"
+    "node": ">=10"
   },
   "author": "abhijithvijayan",
   "license": "MIT",
