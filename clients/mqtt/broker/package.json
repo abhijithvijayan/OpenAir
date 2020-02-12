@@ -21,7 +21,7 @@
     "winston": "^3.2.1"
   },
   "devDependencies": {
-    "@types/node": "^13.5.0",
+    "@types/node": "^13.7.1",
     "@types/socket.io": "^2.1.4",
     "nodemon": "^2.0.2",
     "ts-node": "^8.6.2",
