@@ -1,16 +1,17 @@
 import React from 'react';
 import { Router, Route, Switch } from 'react-router-dom';
 
+import history from '../config/history';
+
 // common styling
 import '../styles/main.scss';
-import { history } from '../state/utils';
 
 import Home from './index';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import NotFound from './not-found';
 
-const ReactApp = (): JSX.Element => {
+const ReactApp: React.FC = () => {
     return (
         <>
             <Router history={history}>

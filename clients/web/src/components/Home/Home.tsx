@@ -1,10 +1,9 @@
 import React, { useEffect } from 'react';
 import io from 'socket.io-client';
-// import { useSelector, useDispatch } from 'react-redux';
 
 import './styles.scss';
 
-const HomePage = (): JSX.Element => {
+const HomePage: React.FC = () => {
     const socket = io('http://localhost:8000');
 
     useEffect(() => {

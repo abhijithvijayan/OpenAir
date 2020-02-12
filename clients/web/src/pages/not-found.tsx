@@ -3,7 +3,7 @@ import React from 'react';
 import Layout from '../components/Layout';
 import NotFound from '../components/NotFound';
 
-const NotFoundPage = (): JSX.Element => {
+const NotFoundPage: React.FC = () => {
     return (
         <Layout>
             <NotFound />

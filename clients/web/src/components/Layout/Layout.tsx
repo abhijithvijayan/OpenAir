@@ -7,7 +7,7 @@ type WrapperProperties = {
     children: React.ReactNode;
 };
 
-const Wrapper = ({ children }: WrapperProperties): JSX.Element => {
+const Wrapper: React.FC<WrapperProperties> = ({ children }) => {
     // ToDo: Get from props
     const isPageLoading = false;
     const renderContent = isPageLoading ? <Loader /> : children;

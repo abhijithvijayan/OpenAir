@@ -10,29 +10,21 @@
     "lint:fix": "tsc --noEmit && eslint . --ext .js,.ts,.tsx --fix"
   },
   "dependencies": {
-    "@types/react-router-dom": "^5.1.3",
     "axios": "^0.19.2",
     "history": "^5.0.0-beta.3",
     "node-sass": "^4.13.1",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
-    "react-redux": "^7.1.3",
     "react-router-dom": "^5.1.2",
-    "react-scripts": "3.3.0",
-    "redux": "^4.0.5",
-    "redux-devtools-extension": "^2.13.8",
-    "redux-form": "^8.2.6",
-    "redux-saga": "^1.1.3",
+    "react-scripts": "3.3.1",
     "socket.io-client": "^2.3.0"
   },
   "devDependencies": {
-    "@types/node": "^13.5.0",
+    "@types/node": "^13.7.1",
     "@types/react": "^16.9.19",
     "@types/react-dom": "^16.9.5",
-    "@types/react-redux": "^7.1.7",
-    "@types/redux-form": "^8.2.0",
+    "@types/react-router-dom": "^5.1.3",
     "@types/socket.io-client": "^1.4.32",
-    "prettier": "^1.19.1",
     "typescript": "^3.7.5"
   },
   "browserslist": {

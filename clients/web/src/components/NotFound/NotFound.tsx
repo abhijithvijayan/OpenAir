@@ -3,7 +3,7 @@ import { Link, withRouter } from 'react-router-dom';
 
 import './styles.scss';
 
-const NotFound = (): JSX.Element => {
+const NotFound: React.FC = () => {
     return (
         <section id="not__found">
             <div>

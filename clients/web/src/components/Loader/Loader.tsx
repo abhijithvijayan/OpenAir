@@ -2,7 +2,7 @@ import React from 'react';
 
 import './styles.scss';
 
-const Loader = (): JSX.Element => {
+const Loader: React.FC = () => {
     return <div id="loader">Loading...</div>;
 };
 

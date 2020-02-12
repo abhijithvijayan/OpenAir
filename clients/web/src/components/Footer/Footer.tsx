@@ -1,14 +1,7 @@
 import React from 'react';
 
-const Footer = (): JSX.Element => {
-    return (
-        <footer className="text-center">
-            <section>This project is licensed under the MIT license.</section>
-            <section>
-                Made with <i className="fas fa-heart" /> by <a href="https://abhijithvijayan.in">abhijithvijayan</a>
-            </section>
-        </footer>
-    );
+const Footer: React.FC = () => {
+    return <footer className="text-center">Copyright ALL RIGHTS RESERVED OpenAir</footer>;
 };
 
 export default Footer;

@@ -3,7 +3,7 @@ import React from 'react';
 import Layout from '../components/Layout';
 import Home from '../components/Home';
 
-const IndexPage = (): JSX.Element => {
+const IndexPage: React.FC = () => {
     return (
         <Layout>
             <Home />
