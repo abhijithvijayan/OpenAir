@@ -7,11 +7,12 @@ SensorCollection::SensorCollection(char *id, char *name)
   this->_size = 0;
 }
 
-void SensorCollection::setup()
+void SensorCollection::setup(Mux &breakout)
 {
   for (int i = 0; i < _size; i++)
   {
     Sensor *sensor = this->_sensors[i];
+    breakout.switchChannel(sensor->getPin());
     sensor->setup();
   }
 }

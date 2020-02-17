@@ -4,7 +4,7 @@ class SensorCollection
 {
 public:
   SensorCollection(char *id, char *name);
-  void setup();
+  void setup(Mux &breakout);
 
   char *getId() const;
   char *getName() const;

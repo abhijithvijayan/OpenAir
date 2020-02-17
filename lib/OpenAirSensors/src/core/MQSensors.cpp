@@ -25,6 +25,14 @@ MQSensor::MQSensor(char *id, char *name, char *category, int pin, int type) : An
   }
 }
 
+void MQSensor::setup()
+{
+  this->_sensor_voltage = this->getVoltage();
+
+  Serial.println("MQ: _sensor_voltage: " + String(this->_sensor_voltage));
+  Serial.println();
+}
+
 double MQSensor::getR0()
 {
   return _R0;
@@ -35,10 +43,6 @@ double MQSensor::getRL()
   return _RLValue;
 }
 
-void MQSensor::setup()
-{
-  this->_sensor_voltage = this->getVoltage();
-}
 
 void MQSensor::setR0(double R0)
 {
@@ -228,7 +232,7 @@ float MQSensor::getSensorReading(String compound)
    * https://jayconsystems.com/blog/understanding-a-gas-sensor
    */
 
-  // updates _a and _b
+  // update _a and _b
   setGasCompoundPairValue(compound);
 
   // Get value of RS in a gas
