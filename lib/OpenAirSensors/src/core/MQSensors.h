@@ -87,7 +87,8 @@ public:
   void setup();
 
   void setR0(double R0 = 10);
-  float calibrate();
+  float calcR0();
+  void calibrate();
   void setGasCompoundPairValue(String compound);
 
   double getR0();

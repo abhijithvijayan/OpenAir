@@ -17,6 +17,16 @@ void SensorCollection::setup(Mux &breakout)
   }
 }
 
+void SensorCollection::calibrate(Mux &breakout)
+{
+  for (int i = 0; i < _size; i++)
+  {
+    Sensor *sensor = this->_sensors[i];
+    breakout.switchChannel(sensor->getPin());
+    sensor->calibrate();
+  }
+}
+
 char *SensorCollection::getId() const
 {
   return _id;

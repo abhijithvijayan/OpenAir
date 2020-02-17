@@ -33,6 +33,8 @@ int Sensor::getPin() const
 
 void Sensor::setup() {}
 
+void Sensor::calibrate() {}
+
 //-------------------------------------------
 
 // constructor extends constructor of base class

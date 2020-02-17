@@ -3,6 +3,7 @@ class Sensor
 public:
   Sensor(char *id, char *name, char *category, int pin);
   virtual void setup();
+  virtual void calibrate();
   virtual float read();
 
   char *getId() const;

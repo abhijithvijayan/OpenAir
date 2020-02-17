@@ -64,7 +64,12 @@ double MQSensor::getVoltage()
   return voltage;
 }
 
-float MQSensor::calibrate()
+void MQSensor::calibrate() {
+  float R0 = this->calcR0();
+  this->setR0(R0);
+}
+
+float MQSensor::calcR0()
 {
   /**
    * https://jayconsystems.com/blog/understanding-a-gas-sensor
@@ -109,7 +114,8 @@ float MQSensor::calibrate()
   Serial.println("* _RLValue: " + String(_RLValue));
   Serial.println("* _ratioInCleanAir: " + String(_ratioInCleanAir));
   Serial.println("* R0: " + String(R0));
-  Serial.println("*******Calibrating*********");
+  Serial.println("***************************");
+  Serial.println();
 
   return R0;
 }
