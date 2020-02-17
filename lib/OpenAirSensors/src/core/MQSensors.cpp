@@ -125,7 +125,13 @@ void MQSensor::setGasCompoundPairValue(String compound)
   // MQ2
   if (this->_type == 2)
   {
-    if (compound == "H2")
+    if (compound == "smoke")
+    {
+        this->_compound = "smoke";
+        this->_a = MQ2_smoke_a;
+        this->_b = MQ2_smoke_b;
+    }
+    else if (compound == "H2")
     {
       this->_compound = "H2";
       this->_a = MQ2_H2_a;
@@ -136,6 +142,12 @@ void MQSensor::setGasCompoundPairValue(String compound)
       this->_compound = "LPG";
       this->_a = MQ2_LPG_a;
       this->_b = MQ2_LPG_b;
+    }
+    else if (compound == "Propane")
+    {
+      this->_compound = "Propane";
+      this->_a = MQ2_Propane_a;
+      this->_b = MQ2_Propane_b;
     }
     else if (compound == "CO")
     {
@@ -149,21 +161,27 @@ void MQSensor::setGasCompoundPairValue(String compound)
       this->_a = MQ2_Alcohol_a;
       this->_b = MQ2_Alcohol_b;
     }
-    else if (compound == "Propane")
-    {
-      this->_compound = "Propane";
-      this->_a = MQ2_Propane_a;
-      this->_b = MQ2_Propane_b;
-    }
   }
   // MQ7
   else if (this->_type == 7)
   {
-    if (compound == "H2")
+    if (compound == "CO")
+    {
+      this->_compound = "CO";
+      this->_a = MQ7_CO_a;
+      this->_b = MQ7_CO_b;
+    }
+    else if (compound == "H2")
     {
       this->_compound = "H2";
       this->_a = MQ7_H2_a;
       this->_b = MQ7_H2_b;
+    }
+    else if (compound == "Alcohol")
+    {
+      this->_compound = "Alcohol";
+      this->_a = MQ7_Alcohol_a;
+      this->_b = MQ7_Alcohol_b;
     }
     else if (compound == "LPG")
     {
@@ -177,51 +195,15 @@ void MQSensor::setGasCompoundPairValue(String compound)
       this->_a = MQ7_CH4_a;
       this->_b = MQ7_CH4_b;
     }
-    else if (compound == "CO")
-    {
-      this->_compound = "CO";
-      this->_a = MQ7_CO_a;
-      this->_b = MQ7_CO_b;
-    }
-    else if (compound == "Alcohol")
-    {
-      this->_compound = "Alcohol";
-      this->_a = MQ7_Alcohol_a;
-      this->_b = MQ7_Alcohol_b;
-    }
   }
   // MQ135
   else if (this->_type == 135)
   {
-    if(compound == "NOx")
+    if (compound == "NOx")
     {
       this->_compound = "NOx";
       this->_a = MQ135_NOx_a;
       this->_b = MQ135_NOx_b;
-    }
-    else if (compound == "CO")
-    {
-      this->_compound = "CO";
-      this->_a = MQ135_CO_a;
-      this->_b = MQ135_CO_b;
-    }
-    else if (compound == "Alcohol")
-    {
-      this->_compound = "Alcohol";
-      this->_a = MQ135_Alcohol_a;
-      this->_b = MQ135_Alcohol_b;
-    }
-    else if (compound == "CO2")
-    {
-      this->_compound = "CO2";
-      this->_a = MQ135_CO2_a;
-      this->_b = MQ135_CO2_b;
-    }
-    else if (compound == "Tolueno")
-    {
-      this->_compound = "Tolueno";
-      this->_a = MQ135_Tolueno_a;
-      this->_b = MQ135_Tolueno_b;
     }
     else if (compound == "NH4")
     {
@@ -229,11 +211,35 @@ void MQSensor::setGasCompoundPairValue(String compound)
       this->_a = MQ135_NH4_a;
       this->_b = MQ135_NH4_b;
     }
+    else if (compound == "CO2")
+    {
+      this->_compound = "CO2";
+      this->_a = MQ135_CO2_a;
+      this->_b = MQ135_CO2_b;
+    }
     else if (compound == "Acetona")
     {
       this->_compound = "Acetona";
       this->_a = MQ135_Acetona_a;
       this->_b = MQ135_Acetona_b;
+    }
+    else if (compound == "Alcohol")
+    {
+      this->_compound = "Alcohol";
+      this->_a = MQ135_Alcohol_a;
+      this->_b = MQ135_Alcohol_b;
+    }
+    else if (compound == "Tolueno")
+    {
+      this->_compound = "Tolueno";
+      this->_a = MQ135_Tolueno_a;
+      this->_b = MQ135_Tolueno_b;
+    }
+    else if (compound == "CO")
+    {
+      this->_compound = "CO";
+      this->_a = MQ135_CO_a;
+      this->_b = MQ135_CO_b;
     }
   }
 }
