@@ -44,65 +44,52 @@ void setup()
   // ToDo: raise to 5min (preheat time)
   delay(5000);
 
+  Serial.println("***************************");
+  Serial.println("*******Setting Up**********");
+  Serial.println("***************************");
+  Serial.println();
   // set sensor voltage
   sensors.setup(BREAKOUT_8_CHANNEL);
 
+  Serial.println("***************************");
+  Serial.println("*******Calibrating*********");
+  Serial.println("***************************");
+  Serial.println();
   // Calibrate sensors
   sensors.calibrate(BREAKOUT_8_CHANNEL);
 }
 
 void loop()
 {
-  float H2, LPG, CH4, CO, Alcohol;
+  float smoke, CO, NOx;
   int sensorsCount = sensors.getSize();
 
   Serial.print("Total Number of Sensors ");
   Serial.println(sensorsCount);
   Serial.println();
-  Serial.println("Reading Values");
+  Serial.println("***************************");
+  Serial.println("*******Reading Values******");
+  Serial.println("***************************");
+  Serial.println();
 
   for (int id = 0; id < sensorsCount; ++id)
   {
     Sensor *sensor = sensors.getSensor(id);
+
     // switch channel in mux
     BREAKOUT_8_CHANNEL.switchChannel(sensor->getPin());
 
-    if (id == 1) {
-      H2 = MQ7.getSensorReading("H2");           // Return CH4 concentration
-      LPG = MQ7.getSensorReading("LPG");         // Return LPG concentration
-      CH4 = MQ7.getSensorReading("CH4");         // Return CH4 concentration
-      CO = MQ7.getSensorReading("CO");           // Return CO concentration
-      Alcohol = MQ7.getSensorReading("Alcohol"); // Return Alcohol concentration
-
-      Serial.println("***************************");
-      Serial.println("Concentrations for MQ-7");
-      Serial.print("R0: ");
-      Serial.print(MQ7.getR0());
-      Serial.println(" Ohm");
-      Serial.print("H2: ");
-      Serial.print(H2, 2);
-      Serial.println(" ppm");
-      Serial.print("LPG: ");
-      Serial.print(LPG, 2);
-      Serial.println(" ppm");
-      Serial.print("CH4: ");
-      Serial.print(CH4, 2);
-      Serial.println(" ppm");
-      Serial.print("CO: ");
-      Serial.print(CO, 2);
-      Serial.println(" ppm");
-      Serial.print("Alcohol: ");
-      Serial.print(Alcohol, 2);
-      Serial.println(" ppm");
-      Serial.println("***************************");
+    if (id == 0) {
+      smoke = MQ2.getSensorReading("smoke");
     }
-      // read raw analog value
-      // int reading = sensor->read();
-
-      Serial.print("Sensor ");
-      Serial.println(sensor->getName());
-      // Serial.print("Reading ");
-      // Serial.println(reading);
+    else if (id == 1)
+    {
+      CO = MQ7.getSensorReading("CO");
+    }
+    else if (id == 2)
+    {
+      NOx = MQ135.getSensorReading("NOx");
+    }
   }
   Serial.println();
 }
