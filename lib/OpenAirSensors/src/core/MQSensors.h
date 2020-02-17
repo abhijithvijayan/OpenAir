@@ -59,6 +59,9 @@
 #define RatioMQ135CleanAir 3.6 // RS / R0 = 3.6 ppm
 #define R0_MQ135 76.63         // R0 after 48 hours pre-heating the sensor
 
+#define MQ135_NOx_a -462.43
+#define MQ135_NOx_b -2.204
+
 #define MQ135_CO_a 605.18
 #define MQ135_CO_b -3.937
 

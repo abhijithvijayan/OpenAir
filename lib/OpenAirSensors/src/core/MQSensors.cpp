@@ -193,7 +193,13 @@ void MQSensor::setGasCompoundPairValue(String compound)
   // MQ135
   else if (this->_type == 135)
   {
-    if (compound == "CO")
+    if(compound == "NOx")
+    {
+      this->_compound = "NOx";
+      this->_a = MQ135_NOx_a;
+      this->_b = MQ135_NOx_b;
+    }
+    else if (compound == "CO")
     {
       this->_compound = "CO";
       this->_a = MQ135_CO_a;
@@ -257,6 +263,7 @@ float MQSensor::getSensorReading(String compound)
     this->_ratio = 0.01; // No negative values accepted or upper datasheet recomendation.
   }
 
+  // calculate ppm value
   this->_PPM = _a * pow(_ratio, _b);
 
   if (_PPM < 0)
