@@ -88,7 +88,13 @@ http://marvinroger.viewdocs.io/async-mqtt-client/1.-Getting-started/
 5. It should be installed after a few seconds.
 6. Choose board as `NodeMCU 1.0` and set erase to `ALL FLASH CONTENTS`. That’s it.
 
-#### 3. Other Libraries
+#### 3. OpenAirSensors
+Make a softlink to libraries path
+```
+ln -s ~/workspace/OpenAir/lib/OpenAirSensors ~/Arduino/libraries
+```
+
+#### 4. Other Libraries
 1. Open the Libraries Manager. Go to `Tools > Manage Libraries`
 2. Search for `ArduinoJson` and press install
 

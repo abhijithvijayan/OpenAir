@@ -33,43 +33,41 @@ void setup()
   // initialize serial for debugging
   Serial.begin(115200);
 
+  // set up mux selector pins
   BREAKOUT_8_CHANNEL.setup();
 
+  // add sensors to collection
   sensors.addSensor(MQ2);
   sensors.addSensor(MQ7);
   sensors.addSensor(MQ135);
 
-  // raise to 5min (preheat time)
+  // ToDo: raise to 5min (preheat time)
   delay(5000);
-  // // ToDo: switch to channel
-  // sensors.setup();
+
+  // set sensor voltage
+  sensors.setup(BREAKOUT_8_CHANNEL);
+
+  // Calibrate sensors
+  sensors.calibrate(BREAKOUT_8_CHANNEL);
 }
 
 void loop()
 {
   float H2, LPG, CH4, CO, Alcohol;
+  int sensorsCount = sensors.getSize();
 
   Serial.print("Total Number of Sensors ");
-  int sensorsCount = sensors.getSize();
   Serial.println(sensorsCount);
   Serial.println();
   Serial.println("Reading Values");
 
-  for (int index = 0; index < sensorsCount; ++index)
+  for (int id = 0; id < sensorsCount; ++id)
   {
-    Sensor *sensor = sensors.getSensor(index);
-    // switch channel
+    Sensor *sensor = sensors.getSensor(id);
+    // switch channel in mux
     BREAKOUT_8_CHANNEL.switchChannel(sensor->getPin());
-    // update R0
-    sensor->setup(); // set sensor voltage only on initial set up
 
-    if (index == 1)
-    {
-      float R0 = MQ2.calibrate();
-      MQ2.setR0(R0);
-    }
-    else if (index == 2)
-    {
+    if (id == 1) {
       H2 = MQ7.getSensorReading("H2");           // Return CH4 concentration
       LPG = MQ7.getSensorReading("LPG");         // Return LPG concentration
       CH4 = MQ7.getSensorReading("CH4");         // Return CH4 concentration
@@ -98,14 +96,13 @@ void loop()
       Serial.println(" ppm");
       Serial.println("***************************");
     }
+      // read raw analog value
+      // int reading = sensor->read();
 
-    // read raw analog value
-    // int reading = sensor->read();
-
-    Serial.print("Sensor ");
-    Serial.println(sensor->getName());
-    // Serial.print("Reading ");
-    // Serial.println(reading);
+      Serial.print("Sensor ");
+      Serial.println(sensor->getName());
+      // Serial.print("Reading ");
+      // Serial.println(reading);
   }
   Serial.println();
 }
