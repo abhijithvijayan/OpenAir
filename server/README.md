@@ -4,45 +4,62 @@
 
 - Postgresql 12
 
-```
-sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+    - ## Ubuntu
+      ```
+      sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
 
-sudo apt-get update
-sudo apt-get install postgresql-12 postgis pgadmin4 postgresql-client-12 postgresql-12-postgis-3-scripts postgresql-client-common  postgresql-common
+      sudo apt-get update
+      sudo apt-get install postgresql-12 postgis pgadmin4 postgresql-client-12 postgresql-12-postgis-3-scripts postgresql-client-common  postgresql-common
 
-pg_ctlcluster 12 main start
-```
+      pg_ctlcluster 12 main start
+      ```
+      #### Configure remote Connection
+      ```
+      sudo nano /etc/postgresql/12/main/postgresql.conf 
 
-### Configure remote Connection
-```
-sudo nano /etc/postgresql/12/main/postgresql.conf 
+      Uncomment line 59 and change the Listen address to accept connections within your networks.
 
-Uncomment line 59 and change the Listen address to accept connections within your networks.
+      # Listen on all interfaces
+      listen_addresses = '*'
 
-# Listen on all interfaces
-listen_addresses = '*'
+      sudo systemctl restart postgresql
+      netstat  -tunelp | grep 5432
+      ```
 
-sudo systemctl restart postgresql
-netstat  -tunelp | grep 5432
-```
+    - ## Arch Linux
+      ```
+      $ yay -S postgresql
+      $ yay -S postgis # extension
 
+      $ sudo -iu postgres
 
+      [postgres]$ initdb --locale=en_US.UTF-8 -E UTF8 -D /var/lib/postgres/data
 
-### Create User
-```
-sudo -u postgres createuser --interactive
-```
+      [postgres]$ exit
 
-### Create Database and Use Extensions
+      $ sudo systemctl enable postgresql.service
+      $ sudo systemctl start postgresql.service
+      ```
 
-```
-createdb db_name
+    ### Create User
+    ```
+    sudo -u postgres createuser --interactive
+    ```
 
-psql -d db_name
+    ### Create Database and Use Extensions
 
-> CREATE EXTENSION IF NOT EXISTS "postgis";
-> CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
-```
+    ```
+    createdb db_name
+
+    psql -d db_name
+
+    > CREATE EXTENSION IF NOT EXISTS "postgis";
+    > CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+    ```
+
+<hr />
+
+## Flask
 
 ### Install dependencies
 
@@ -62,4 +79,12 @@ pip freeze > requirements.txt
 
 ```
 pip install -r requirements.txt
+```
+
+### Update Env Credentials & Set up database
+
+Apply the migration to the database:
+
+```
+flask db upgrade
 ```
