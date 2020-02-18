@@ -95,12 +95,13 @@ public:
   void setR0(double R0 = 10);
   float calcR0();
   void calibrate();
-  void setGasCompoundPairValue(String compound);
+  void setDefaultGasForSensor();
+  void setGasCompoundPairValue(String compound = "");
 
   double getR0();
   double getRL();
   double getVoltage();
-  float getSensorReading(String compound);
+  float getSensorReading(String compound = "");
 
 protected:
   int _type;

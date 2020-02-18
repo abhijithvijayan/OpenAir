@@ -4,6 +4,9 @@
 #define retries 5
 #define retry_interval 20
 
+/**
+ *  Class Constructor
+ */
 MQSensor::MQSensor(char *id, char *name, char *category, int pin, int type) : AnalogSensor(id, name, category, pin)
 {
   this->_type = type;
@@ -25,30 +28,11 @@ MQSensor::MQSensor(char *id, char *name, char *category, int pin, int type) : An
   }
 }
 
-void MQSensor::setup()
-{
-  this->_sensor_voltage = this->getVoltage();
-
-  Serial.println("MQ: _sensor_voltage: " + String(this->_sensor_voltage));
-  Serial.println();
-}
-
-double MQSensor::getR0()
-{
-  return _R0;
-}
-
-double MQSensor::getRL()
-{
-  return _RLValue;
-}
-
-
-void MQSensor::setR0(double R0)
-{
-  this->_R0 = R0;
-}
-
+/**
+ *  Get Sensor Voltage
+ *
+ *  @returns voltage
+ */
 double MQSensor::getVoltage()
 {
   double avg = 0.0, voltage;
@@ -64,11 +48,58 @@ double MQSensor::getVoltage()
   return voltage;
 }
 
+/**
+ *  Read & Update Sensor Voltage
+ */
+void MQSensor::setup()
+{
+  this->_sensor_voltage = this->getVoltage();
+
+  Serial.println("MQ: _sensor_voltage: " + String(this->_sensor_voltage));
+  Serial.println();
+}
+
+/**
+ *  Read RL Value
+ *
+ *  @returns _RLValue
+ */
+double MQSensor::getRL()
+{
+  return _RLValue;
+}
+
+/**
+ *  Read stored resistance of the sensor
+ *
+ *  @returns R0
+ */
+double MQSensor::getR0()
+{
+  return _R0;
+}
+
+/**
+ *  Update resistance of the sensor
+ */
+void MQSensor::setR0(double R0)
+{
+  this->_R0 = R0;
+}
+
+/**
+ *  Read `R0` and calibrate (update R0)
+ */
 void MQSensor::calibrate() {
   float R0 = this->calcR0();
   this->setR0(R0);
 }
 
+/**
+ *  Calculate resistance of the sensor at a known concentration, R0
+ *
+ *  @returns R0
+ */
 float MQSensor::calcR0()
 {
   /**
@@ -120,8 +151,34 @@ float MQSensor::calcR0()
   return R0;
 }
 
+/**
+ *  Update `_compound` with default compound of sensor
+ */
+void MQSensor::setDefaultGasForSensor() {
+  if (this->_type == 2) {
+    this->_compound = defaultMQ2;
+  }
+  else if (this->_type == 7) {
+    this->_compound = defaultMQ7;
+  }
+  else if (this->_type == 135) {
+    this->_compound = defaultMQ135;
+  }
+}
+
+/**
+ *  Set Upper & Lower compound values respective to sensor & compound
+ */
 void MQSensor::setGasCompoundPairValue(String compound)
 {
+  // if compound not passed
+  if (compound == "") {
+    // set default compound
+    setDefaultGasForSensor();
+    // update `compound` variable for updating `_a` & `_b`
+    compound = this->_compound;
+  }
+
   // MQ2
   if (this->_type == 2)
   {
@@ -162,6 +219,7 @@ void MQSensor::setGasCompoundPairValue(String compound)
       this->_b = MQ2_Alcohol_b;
     }
   }
+
   // MQ7
   else if (this->_type == 7)
   {
@@ -196,6 +254,7 @@ void MQSensor::setGasCompoundPairValue(String compound)
       this->_b = MQ7_CH4_b;
     }
   }
+
   // MQ135
   else if (this->_type == 135)
   {
@@ -244,13 +303,18 @@ void MQSensor::setGasCompoundPairValue(String compound)
   }
 }
 
+/**
+ *  Read PPM Value of Compound from Sensor
+ *
+ *  @returns _PPM
+ */
 float MQSensor::getSensorReading(String compound)
 {
   /**
    * https://jayconsystems.com/blog/understanding-a-gas-sensor
    */
 
-  // update _a and _b
+  // update _a and _b respective to compound
   setGasCompoundPairValue(compound);
 
   // Get value of RS in a gas
@@ -282,12 +346,13 @@ float MQSensor::getSensorReading(String compound)
     this->_PPM = 9999; // Upper datasheet recomendation.
   }
 
+  // Display neat formatted data
   Serial.println("***************************");
   Serial.println("* Sensor: MQ-" + String(_type));
   Serial.println("* Vcc: " + String(_VOLTAGE_RESOLUTION) + ", RS: " + String(_RS_Calc));
   Serial.println("* RS/R0 = " + String(_ratio) + ", Voltage Read(ADC): " + String(_sensor_voltage));
   Serial.println("* PPM = " + String(_a) + "*pow(" + String(_ratio) + "," + String(_b) + ")");
-  Serial.println("* Compound(" + compound + ") = " + String(_PPM) + " PPM");
+  Serial.println("* Compound(" + _compound + ") = " + String(_PPM) + " PPM");
   Serial.println("***************************");
 
   return _PPM;

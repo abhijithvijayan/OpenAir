@@ -80,15 +80,15 @@ void loop()
     BREAKOUT_8_CHANNEL.switchChannel(sensor->getPin());
 
     if (id == 0) {
-      smoke = MQ2.getSensorReading("smoke");
+      smoke = MQ2.getSensorReading();
     }
     else if (id == 1)
     {
-      CO = MQ7.getSensorReading("CO");
+      CO = MQ7.getSensorReading();
     }
     else if (id == 2)
     {
-      NOx = MQ135.getSensorReading("NOx");
+      NOx = MQ135.getSensorReading();
     }
   }
   Serial.println();
