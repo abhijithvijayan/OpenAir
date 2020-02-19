@@ -35,7 +35,7 @@ const startServer = (): void => {
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const err: any = new Error('Auth error');
-        err.returnCode = aedes.AuthErrorCode.BAD_USERNAME_OR_PASSWORD;
+        err.returnCode = 4; // BAD_USERNAME_OR_PASSWORD
 
         callback(authorized ? null : (err as aedes.AuthenticateError), authorized);
     };

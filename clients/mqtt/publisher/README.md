@@ -132,20 +132,24 @@ https://arduinojson.org/v6/assistant/
 	},
 	"name": "Worlds Largest National Park of Tigers",
 	"type": "station",
-	"air": [{
-			"id": 1,
+	"air": [
+		{
+			"id": "GS_e3HS9do",
 			"type": "mq2",
-			"value": 1023
+			"compound": "smoke",
+			"value": 0.192757
 		},
 		{
-			"id": 2,
+			"id": "GS_ji3dJSn",
 			"type": "mq7",
-			"value": 1023
+			"compound": "CO",
+			"value": 0.875972
 		},
 		{
-			"id": 3,
+			"id": "GS_k99jsGs",
 			"type": "mq135",
-			"value": 1023
+			"compound": "NO2",
+			"value": 0
 		}
 	]
 }
