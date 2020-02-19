@@ -1,7 +1,7 @@
 /**
  *  author:       abhijithvijayan
  *  created:      23 Dec 2019
- *  title:        CD74HC4051 Analog / Digital Multiplexing with MQTT Publisher Client
+ *  title:        CD74HC4051 Analog / Digital Multiplexing with MQTT Publisher Client in ESP8266 NodeMCU
  *
  *  This sketch reads analog values from 3 sensors and publish
  *  the sensor data as JSON to a topic using mqtt protocol with async-mqtt-client
@@ -34,7 +34,7 @@
 #define LOCATION_NAME "........"
 #define LOCATION_TYPE "........"
 
-#define TOPIC_LOCATION "openair/location"
+#define TOPIC_LOCATION "openair/places"
 #define TOPIC_ECHO "test/echo"
 
 // Network
@@ -53,9 +53,9 @@
 #define SERIAL_DEBUG_PORT 115200
 
 // Data Packets Memory allocation
-#define MESSAGE_MAX_PACKET_SIZE 592
-#define SENSOR_DATA_MAX_PACKET_SIZE 300
-#define STRING_DUPLICATION_PACKET_SIZE 150
+#define MESSAGE_MAX_PACKET_SIZE 656
+#define SENSOR_DATA_MAX_PACKET_SIZE 400
+#define STRING_DUPLICATION_PACKET_SIZE 192
 
 // MUX channel select pins
 #define SELECTOR_PIN_0 5 // GPIO 5 (D1 on NodeMCU)
@@ -66,15 +66,15 @@
 // ----------------------------------------------------- //
 // ----------------------------------------------------- //
 
-Mux BREAKOUT_8_CHANNEL_MUX(SELECTOR_PIN_0, SELECTOR_PIN_1, SELECTOR_PIN_2);
+Mux Breakout_8_Channel_Mux(SELECTOR_PIN_0, SELECTOR_PIN_1, SELECTOR_PIN_2);
 
-// channel number: y0, y1, y2
-AnalogSensor sensor1("GS_jk3DS8h", "mq2", "gas", 0);
-AnalogSensor sensor2("GS_4fFjSc4", "mq7", "gas", 1);
-AnalogSensor sensor3("GS_kgDD75h", "mq135", "gas", 2);
+// id, name, category, pin(channel number: y0, y1, y2, ...), type
+MQSensor MQ2("........", "mq2", "gas", 0, 2);
+MQSensor MQ7("........", "mq7", "gas", 1, 7);
+MQSensor MQ135("........", "mq135", "gas", 2, 135);
 
-// create collection
-SensorCollection gas_sensors("gas_sensors", "OpenAir Gas-Sensors Collection");
+// create sensor collection
+SensorCollection gasSensors("gas-sensors", "OpenAir Gas-Sensors Collection");
 
 AsyncMqttClient mqttClient;
 Ticker mqttReconnectTimer;
@@ -173,50 +173,42 @@ void onMqttPublish(uint16_t packetId)
 }
 
 /**
- *  Read 10 consecutive values & return average
- */
-int getSensorAverageReading(Sensor *sensor)
-{
-  int readingValue = 0;
-
-  for (int j = 0; j < SINGLE_SENSOR_CONSECUTIVE_READING_COUNT; ++j)
-  {
-    // sum up analog reading
-    readingValue += sensor->read();
-
-    delay(SINGLE_SENSOR_CONSECUTIVE_READING_DELAY);
-  }
-
-  return readingValue / 10;
-}
-
-/**
  *  Get Readings and Store as array of objects (as String)
  */
-String generateAirQualityDataBody()
+String generateGasDataPacket()
 {
   StaticJsonDocument<SENSOR_DATA_MAX_PACKET_SIZE> json_doc;
 
-  int sensorsCount = gas_sensors.getSize();
-  for (int index = 0; index < sensorsCount; ++index)
+  int sensorsCount = gasSensors.getSize();
+  for (int id = 0; id < sensorsCount; ++id)
   {
-    Sensor *sensor = gas_sensors.getSensor(index);
+    Sensor *sensor = gasSensors.getSensor(id);
 
-    // switch channel
-    BREAKOUT_8_CHANNEL_MUX.switchChannel(sensor->getPin());
-
-    // Get sensor reading
-    int sensorReading = getSensorAverageReading(sensor);
     char *sensorName = sensor->getName();
     char *sensorId = sensor->getId();
 
-    // create an object
+    // switch channel in mux
+    Breakout_8_Channel_Mux.switchChannel(sensor->getPin());
+
+   // create an object
     JsonObject sensorObject = json_doc.createNestedObject();
 
     // set sensor fields to object
     sensorObject["id"] = sensorId;
     sensorObject["type"] = sensorName;
-    sensorObject["value"] = sensorReading;
+
+    if (sensorName == "mq2") {
+      sensorObject["compound"] = "smoke";
+      sensorObject["value"] = MQ2.getSensorReading();
+    }
+    else if (sensorName == "mq7") {
+      sensorObject["compound"] = "CO";
+      sensorObject["value"] = MQ7.getSensorReading();
+    }
+    else if (sensorName == "mq135") {
+      sensorObject["compound"] = "NO2";
+      sensorObject["value"] = MQ135.getSensorReading();
+    }
   }
 
   // write back json to serial monitor
@@ -224,26 +216,26 @@ String generateAirQualityDataBody()
   Serial.println();
 
   // Cast minified json to buffer
-  String airDataBuffer = json_doc.as<String>();
+  String airDataPacketBuffer = json_doc.as<String>();
 
   // Print the memory usage
   Serial.print("Gas Data Packet Size: ");
   Serial.println(json_doc.memoryUsage());
 
-  return airDataBuffer;
+  return airDataPacketBuffer;
 }
 
 /**
- *  Append Air Data to Static GeoData
+ *  Append Air Data to Geotagging data
  */
-char *generatePubMessageBody(String airDataBuffer)
+char *generateMqttPacket(String airDataPacketBuffer)
 {
-  // parse JSON to store array of objects
-  const size_t STR_ARR_CAPACITY = JSON_ARRAY_SIZE(3) + 3 * JSON_OBJECT_SIZE(3) + STRING_DUPLICATION_PACKET_SIZE;
+  // parse JSON to store array of objects(air data)
+  const size_t STR_ARR_CAPACITY = JSON_ARRAY_SIZE(3) + 3 * JSON_OBJECT_SIZE(4) + STRING_DUPLICATION_PACKET_SIZE;
   StaticJsonDocument<STR_ARR_CAPACITY> json_str_arr;
 
   // Parse the air data input JSON
-  DeserializationError err = deserializeJson(json_str_arr, airDataBuffer);
+  DeserializationError err = deserializeJson(json_str_arr, airDataPacketBuffer);
 
   if (err)
   {
@@ -276,11 +268,11 @@ char *generatePubMessageBody(String airDataBuffer)
   Serial.println(raw_json_data.memoryUsage());
 
   // Declare a buffer to hold the result
-  char dataString[MESSAGE_MAX_PACKET_SIZE];
+  char jsonPacket[MESSAGE_MAX_PACKET_SIZE];
   // Cast json to buffer
-  serializeJson(raw_json_data, dataString, sizeof(dataString));
+  serializeJson(raw_json_data, jsonPacket, sizeof(jsonPacket));
 
-  return dataString;
+  return jsonPacket;
 }
 
 /**
@@ -307,19 +299,36 @@ void setup()
   mqttClient.setCredentials(CLIENT_AUTH_ID, CLIENT_AUTH_CREDENTIAL);
   mqttClient.setServer(MQTT_HOST, MQTT_PORT);
 
-  // add sensors to collection
-  gas_sensors.addSensor(sensor1);
-  gas_sensors.addSensor(sensor2);
-  gas_sensors.addSensor(sensor3);
+  // set up mux output pins
+  Breakout_8_Channel_Mux.setup();
 
-  // setup output pins for mux
-  BREAKOUT_8_CHANNEL_MUX.setup();
+  // add sensors to collection
+  gasSensors.addSensor(MQ2);
+  gasSensors.addSensor(MQ7);
+  gasSensors.addSensor(MQ135);
 
   // initialize & connect to WiFi
   connectToWifi();
 
+  // ToDo: This won't work as using async mqtt server(Fix this)
   // delay before initial sensor reading
   delay(INITIAL_PRE_HEAT_TIME);
+
+  Serial.println("***************************");
+  Serial.println("*******Setting Up**********");
+  Serial.println("***************************");
+  Serial.println();
+
+  // set sensor voltage
+  gasSensors.setup(Breakout_8_Channel_Mux);
+
+  Serial.println("***************************");
+  Serial.println("*******Calibrating*********");
+  Serial.println("***************************");
+  Serial.println();
+
+  // Calibrate sensors
+  gasSensors.calibrate(Breakout_8_Channel_Mux);
 }
 
 /**
@@ -338,13 +347,16 @@ void loop()
       // Turn the LED on by making the voltage LOW
       digitalWrite(BUILTIN_LED, LOW);
 
-      String airData = generateAirQualityDataBody();
-      char *rawDataString = generatePubMessageBody(airData);
-      unsigned int jsonStrLength = strlen(rawDataString);
+      // generate JSON air quality data
+      String airDataPacket = generateGasDataPacket();
+      // combine data with geotagging data
+      char *mqttJsonPacket = generateMqttPacket(airDataPacket);
+
+      unsigned int packetLength = strlen(mqttJsonPacket);
 
       Serial.println();
       // publish json data to topic
-      if (mqttClient.connected() && mqttClient.publish(TOPIC_LOCATION, 1, true, rawDataString, jsonStrLength))
+      if (mqttClient.connected() && mqttClient.publish(TOPIC_LOCATION, 1, true, mqttJsonPacket, packetLength))
       {
         Serial.println("Success. Published sensor readings");
       }
