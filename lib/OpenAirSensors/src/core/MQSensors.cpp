@@ -138,7 +138,22 @@ float MQSensor::calcR0()
  *  Read `R0` and calibrate (update R0)
  */
 void MQSensor::calibrate() {
+  // calculate R0
   float R0 = this->calcR0();
+
+  /**
+   * Stick with default values for now
+   * (due to large deviation from observed and actual)
+   */
+  if (this->_type == 2) {
+    R0 = R0_MQ2;
+  } else if (this->_type == 7) {
+    R0 = R0_MQ7;
+  } else if (this->_type == 135) {
+    R0 = R0_MQ135;
+  }
+
+  // update R0
   this->setR0(R0);
 
   Serial.println("*******Calibrating*********");
@@ -329,7 +344,7 @@ float MQSensor::getSensorReading(String compound)
     this->_RS_Calc = 0; // No negative values accepted.
   }
 
-  //  Get ratio: RS_gas/RS_air
+  // ToDo: Get ratio: RS_gas/RS_air
   this->_ratio = _RS_Calc / this->_R0;
 
   if (_ratio <= 0 || _ratio > 100)
