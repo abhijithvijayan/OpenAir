@@ -45,6 +45,7 @@ AnalogSensor::AnalogSensor(char *id, char *name, char *category, int pin) : Sens
 
 float AnalogSensor::read()
 {
+  // Serial.println("******Analog Read*******");
   return analogRead(ANALOG_INPUT_PIN);
 }
 

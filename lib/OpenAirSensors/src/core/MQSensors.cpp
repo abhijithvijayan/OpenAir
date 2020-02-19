@@ -1,6 +1,7 @@
 #include "Arduino.h"
 #include "OpenAirSensors.h"
 
+// ToDo: Raise these to 10 & 1000
 #define retries 5
 #define retry_interval 20
 
@@ -88,14 +89,6 @@ void MQSensor::setR0(double R0)
 }
 
 /**
- *  Read `R0` and calibrate (update R0)
- */
-void MQSensor::calibrate() {
-  float R0 = this->calcR0();
-  this->setR0(R0);
-}
-
-/**
  *  Calculate resistance of the sensor at a known concentration, R0
  *
  *  @returns R0
@@ -138,6 +131,16 @@ float MQSensor::calcR0()
     R0 = 0; // No negative values accepted.
   }
 
+  return R0;
+}
+
+/**
+ *  Read `R0` and calibrate (update R0)
+ */
+void MQSensor::calibrate() {
+  float R0 = this->calcR0();
+  this->setR0(R0);
+
   Serial.println("*******Calibrating*********");
   Serial.println("* Sensor: MQ-" + String(_type));
   Serial.println("* Vcc: " + String(_VOLTAGE_RESOLUTION));
@@ -147,8 +150,6 @@ float MQSensor::calcR0()
   Serial.println("* R0: " + String(R0));
   Serial.println("***************************");
   Serial.println();
-
-  return R0;
 }
 
 /**
