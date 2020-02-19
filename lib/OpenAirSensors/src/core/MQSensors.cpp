@@ -318,6 +318,9 @@ float MQSensor::getSensorReading(String compound)
   // update _a and _b respective to compound
   setGasCompoundPairValue(compound);
 
+  // read & update sensor voltage
+  this->setup();
+
   // Get value of RS in a gas
   this->_RS_Calc = ((_VOLTAGE_RESOLUTION * _RLValue) / _sensor_voltage) - _RLValue;
 
