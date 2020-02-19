@@ -90,30 +90,15 @@ void MQSensor::setR0(double R0)
 
 /**
  *  Calculate resistance of the sensor at a known concentration, R0
+ *  https://jayconsystems.com/blog/understanding-a-gas-sensor
+ *
+ *  RS -> sensing resistance that changes depending on the concentration of gas
+ *  R0 -> sensing resistance at a known concentration without the presence of other gases
  *
  *  @returns R0
  */
 float MQSensor::calcR0()
 {
-  /**
-   * https://jayconsystems.com/blog/understanding-a-gas-sensor
-   *
-   * I = V / R
-   * I = VC / (RS+RL)
-   * V = I x R
-   * VRL = [VC / (RS + RL)] x RL
-   * VRL = (VC x RL) / (RS + RL)
-   * VRL x (RS + RL) = VC x RL
-   * (VRL x RS) + (VRL x RL) = VC x RL
-   * (VRL x RS) = (VC x RL) - (VRL x RL)
-   *
-   * RS -> sensing resistance that changes depending on the concentration of gas
-   * R0 -> sensing resistance at a known concentration without the presence of other gases
-   *
-   * RS = [(VC x RL) - (VRL x RL)] / VRL
-   * RS = [(VC x RL) / VRL] - RL
-   */
-
   float RS_fresh_air, R0;
 
   // Calculate RS in fresh air
