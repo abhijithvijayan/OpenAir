@@ -107,11 +107,11 @@ protected:
   int _type;
 
   double _sensor_voltage;
-  double _ratioInCleanAir;
+  double _resistanceRatioInCleanAir;
   float _VOLTAGE_RESOLUTION = 5.0; // if 3.3v use 3.3
   float _RLValue = 10;             // Load Resistance Value in KiloOhms
   float _R0;
-  float _RS_Calc;
+  float _RS_gas;
   float _ratio;
   float _PPM;
 

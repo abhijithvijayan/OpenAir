@@ -14,17 +14,17 @@ MQSensor::MQSensor(char *id, char *name, char *category, int pin, int type) : An
 
   if (_type == 2)
   {
-    _ratioInCleanAir = RatioMQ2CleanAir;
+    _resistanceRatioInCleanAir = RatioMQ2CleanAir;
     _R0 = R0_MQ2;
   }
   else if (_type == 7)
   {
-    _ratioInCleanAir = RatioMQ7CleanAir;
+    _resistanceRatioInCleanAir = RatioMQ7CleanAir;
     _R0 = R0_MQ7;
   }
   else if (_type == 135)
   {
-    _ratioInCleanAir = RatioMQ135CleanAir;
+    _resistanceRatioInCleanAir = RatioMQ135CleanAir;
     _R0 = R0_MQ135;
   }
 }
@@ -107,24 +107,25 @@ float MQSensor::calcR0()
    * (VRL x RS) + (VRL x RL) = VC x RL
    * (VRL x RS) = (VC x RL) - (VRL x RL)
    *
-   * RS -> resistance of the sensor that changes depending on the concentration of gas
-   * R0 -> resistance of the sensor at a known concentration without the presence of other gases
+   * RS -> sensing resistance that changes depending on the concentration of gas
+   * R0 -> sensing resistance at a known concentration without the presence of other gases
    *
    * RS = [(VC x RL) - (VRL x RL)] / VRL
    * RS = [(VC x RL) / VRL] - RL
    */
 
-  float RS_air, R0;
+  float RS_fresh_air, R0;
 
   // Calculate RS in fresh air
-  RS_air = ((_VOLTAGE_RESOLUTION * _RLValue) / _sensor_voltage) - _RLValue;
+  RS_fresh_air = ((_VOLTAGE_RESOLUTION * _RLValue) / _sensor_voltage) - _RLValue;
 
-  if (RS_air < 0)
+  if (RS_fresh_air < 0)
   {
-    RS_air = 0; // No negative values accepted.
+    RS_fresh_air = 0; // No negative values accepted.
   }
 
-  R0 = RS_air / _ratioInCleanAir;
+  // calculate R0
+  R0 = RS_fresh_air / _resistanceRatioInCleanAir;
 
   if (R0 < 0)
   {
@@ -161,7 +162,7 @@ void MQSensor::calibrate() {
   Serial.println("* Vcc: " + String(_VOLTAGE_RESOLUTION));
   Serial.println("* _sensor_voltage: " + String(_sensor_voltage));
   Serial.println("* _RLValue: " + String(_RLValue));
-  Serial.println("* _ratioInCleanAir: " + String(_ratioInCleanAir));
+  Serial.println("* _resistanceRatioInCleanAir: " + String(_resistanceRatioInCleanAir));
   Serial.println("* R0: " + String(R0));
   Serial.println("***************************");
   Serial.println();
@@ -337,15 +338,15 @@ float MQSensor::getSensorReading(String compound)
   this->setup();
 
   // Get value of RS in a gas
-  this->_RS_Calc = ((_VOLTAGE_RESOLUTION * _RLValue) / _sensor_voltage) - _RLValue;
+  this->_RS_gas = ((_VOLTAGE_RESOLUTION * _RLValue) / _sensor_voltage) - _RLValue;
 
-  if (_RS_Calc < 0)
+  if (_RS_gas < 0)
   {
-    this->_RS_Calc = 0; // No negative values accepted.
+    this->_RS_gas = 0; // No negative values accepted.
   }
 
-  // ToDo: Get ratio: RS_gas/RS_air
-  this->_ratio = _RS_Calc / this->_R0;
+  // calculate ratio
+  this->_ratio = _RS_gas / this->_R0;
 
   if (_ratio <= 0 || _ratio > 100)
   {
@@ -368,7 +369,7 @@ float MQSensor::getSensorReading(String compound)
   // Display neat formatted data
   Serial.println("***************************");
   Serial.println("* Sensor: MQ-" + String(_type));
-  Serial.println("* Vcc: " + String(_VOLTAGE_RESOLUTION) + ", RS: " + String(_RS_Calc));
+  Serial.println("* Vcc: " + String(_VOLTAGE_RESOLUTION) + ", RS: " + String(_RS_gas));
   Serial.println("* RS/R0 = " + String(_ratio) + ", Voltage Read(ADC): " + String(_sensor_voltage));
   Serial.println("* PPM = " + String(_a) + "*pow(" + String(_ratio) + "," + String(_b) + ")");
   Serial.println("* Compound(" + _compound + ") = " + String(_PPM) + " PPM");
