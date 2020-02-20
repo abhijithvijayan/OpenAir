@@ -33,10 +33,21 @@ const mqttPublisher = mqtt.connect(mqttServerAddress, mqttOptions);
  */
 mqttPublisher.on('connect', function() {
     setInterval(function() {
-        mqttPublisher.publish('sensors', 'Hello from mqtt publishers');
+        const sampleData = {
+            name: 'Adoor, Kerala, India',
+            type: 'Town',
+            coordinates: { lat: '9.151239499999999', lng: '76.73076630000003' },
+            air: [
+                { id: '........', type: 'mq2', compound: 'smoke', value: 3.130643 },
+                { id: '........', type: 'mq7', compound: 'CO', value: 0.122789 },
+                { id: '........', type: 'mq135', compound: 'NO2', value: 0 },
+            ],
+        };
+
+        mqttPublisher.publish('openair/places', JSON.stringify(sampleData));
 
         console.log('Message Sent'); // eslint-disable-line no-console
-    }, 5000);
+    }, 10000);
 });
 
 /**
