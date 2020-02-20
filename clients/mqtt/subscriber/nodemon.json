@@ -2,6 +2,6 @@
   "verbose": false,
   "ignore": ["node_modules", ".git", "../../web", "../broker", "../publisher"],
   "watch": ["./app/**/*"],
-  "exec":"yarn subscriber",
-  "ext": "js json"
+  "exec": "yarn subscriber",
+  "ext": "ts"
 }
