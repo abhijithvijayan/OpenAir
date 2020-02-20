@@ -8,7 +8,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "subscriber": "node --inspect=5858 -r ts-node/register ./app/index.ts",
+    "subscriber": "node --inspect=6868 -r ts-node/register ./app/index.ts",
     "dev:subscriber": "nodemon",
     "build": "tsc",
     "lint": "tsc --noEmit && eslint . --ext .js,.ts",
