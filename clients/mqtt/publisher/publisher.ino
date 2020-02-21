@@ -1,10 +1,12 @@
 /**
  *  author:       abhijithvijayan
  *  created:      23 Dec 2019
- *  title:        CD74HC4051 Analog / Digital Multiplexing with MQTT Publisher Client in ESP8266 NodeMCU
+ *  title:        CD74HC4051 Analog / Digital Multiplexing with MQTT Publisher
+ * Client in ESP8266 NodeMCU
  *
  *  This sketch reads analog values from 3 sensors and publish
- *  the sensor data as JSON to a topic using mqtt protocol with async-mqtt-client
+ *  the sensor data as JSON to a topic using mqtt protocol with
+ * async-mqtt-client
  *
  *  The following pins must be connected(customize accordingly):
  *
@@ -18,12 +20,12 @@
  *  Mux Output Pin Y2 -> a2(mq-135)
  */
 
-#include <OpenAirSensors.h>
-#include <ESP8266WiFi.h>
-#include <string.h>
-#include <Ticker.h>          // https://github.com/me-no-dev/ESPAsyncTCP
-#include <AsyncMqttClient.h> // https://github.com/marvinroger/async-mqtt-client
 #include <ArduinoJson.h>     // https://github.com/bblanchon/ArduinoJson
+#include <AsyncMqttClient.h> // https://github.com/marvinroger/async-mqtt-client
+#include <ESP8266WiFi.h>
+#include <OpenAirSensors.h>
+#include <Ticker.h> // https://github.com/me-no-dev/ESPAsyncTCP
+#include <string.h>
 
 // MQTT Device Credentials
 #define MQTT_DEVICE_ID "........"
@@ -88,290 +90,273 @@ long lastReconnectAttempt = 0;
 /**
  *  Handle WiFi Connectivity
  */
-void connectToWifi()
-{
-  Serial.println();
-  Serial.print("[WiFi] Connecting to ");
-  Serial.println(WIFI_SSID);
+void connectToWifi() {
+    Serial.println();
+    Serial.print("[WiFi] Connecting to ");
+    Serial.println(WIFI_SSID);
 
-  WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
+    WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
 }
 
 /**
  *  WiFi Connect event handler
  */
-void onWifiConnect(const WiFiEventStationModeGotIP &event)
-{
-  Serial.println("");
-  Serial.println("[WiFi] Connected.");
-  Serial.println("IP address: ");
-  Serial.println(WiFi.localIP());
+void onWifiConnect(const WiFiEventStationModeGotIP &event) {
+    Serial.println("");
+    Serial.println("[WiFi] Connected.");
+    Serial.println("IP address: ");
+    Serial.println(WiFi.localIP());
 
-  // initialize mqtt connection
-  connectToMqtt();
+    // initialize mqtt connection
+    connectToMqtt();
 }
 
 /**
  *  WiFi Disconnect event handler
  */
-void onWifiDisconnect(const WiFiEventStationModeDisconnected &event)
-{
-  Serial.println("[WiFi] Disconnected.");
+void onWifiDisconnect(const WiFiEventStationModeDisconnected &event) {
+    Serial.println("[WiFi] Disconnected.");
 
-  // ensure to not reconnect to MQTT while reconnecting to Wi-Fi
-  mqttReconnectTimer.detach();
-  wifiReconnectTimer.once(2, connectToWifi);
+    // ensure to not reconnect to MQTT while reconnecting to Wi-Fi
+    mqttReconnectTimer.detach();
+    wifiReconnectTimer.once(2, connectToWifi);
 }
 
 /**
  *  Handle MQTT Server Connectivity
  */
-void connectToMqtt()
-{
-  Serial.print("[MQTT] Attempting MQTT connection...");
-  Serial.println();
+void connectToMqtt() {
+    Serial.print("[MQTT] Attempting MQTT connection...");
+    Serial.println();
 
-  mqttClient.connect();
+    mqttClient.connect();
 }
 
 /**
  *  MQTT Connect event handler
  */
-void onMqttConnect(bool sessionPresent)
-{
-  Serial.println("[MQTT] Connected to server");
-  Serial.print("Session present: ");
-  Serial.println(sessionPresent);
+void onMqttConnect(bool sessionPresent) {
+    Serial.println("[MQTT] Connected to server");
+    Serial.print("Session present: ");
+    Serial.println(sessionPresent);
 
-  // Once connected, publish an announcement...
-  uint16_t packetIdPub1 = mqttClient.publish(TOPIC_ECHO, 1, true, "hello world");
-  Serial.print("[MQTT] Publishing at QoS 1, packetId: ");
-  Serial.println(packetIdPub1);
+    // Once connected, publish an announcement...
+    uint16_t packetIdPub1 =
+        mqttClient.publish(TOPIC_ECHO, 1, true, "hello world");
+    Serial.print("[MQTT] Publishing at QoS 1, packetId: ");
+    Serial.println(packetIdPub1);
 }
 
 /**
  *  MQTT Disconnect event handler
  */
-void onMqttDisconnect(AsyncMqttClientDisconnectReason reason)
-{
-  Serial.println("[MQTT] Disconnected from MQTT.");
+void onMqttDisconnect(AsyncMqttClientDisconnectReason reason) {
+    Serial.println("[MQTT] Disconnected from MQTT.");
 
-  if (WiFi.isConnected())
-  {
-    mqttReconnectTimer.once(2, connectToMqtt);
-  }
+    if (WiFi.isConnected()) {
+        mqttReconnectTimer.once(2, connectToMqtt);
+    }
 }
 
 /**
  *  MQTT Publish acknowledged event handler
  */
-void onMqttPublish(uint16_t packetId)
-{
-  Serial.println("[MQTT] Publish acknowledged.");
-  Serial.print("[MQTT] packetId: ");
-  Serial.println(packetId);
+void onMqttPublish(uint16_t packetId) {
+    Serial.println("[MQTT] Publish acknowledged.");
+    Serial.print("[MQTT] packetId: ");
+    Serial.println(packetId);
 }
 
 /**
  *  Get Readings and Store as array of objects (as String)
  */
-String generateGasDataPacket()
-{
-  StaticJsonDocument<SENSOR_DATA_MAX_PACKET_SIZE> json_doc;
+String generateGasDataPacket() {
+    StaticJsonDocument<SENSOR_DATA_MAX_PACKET_SIZE> json_doc;
 
-  int sensorsCount = gasSensors.getSize();
-  for (int id = 0; id < sensorsCount; ++id)
-  {
-    Sensor *sensor = gasSensors.getSensor(id);
+    int sensorsCount = gasSensors.getSize();
+    for (int id = 0; id < sensorsCount; ++id) {
+        Sensor *sensor = gasSensors.getSensor(id);
 
-    char *sensorName = sensor->getName();
-    char *sensorId = sensor->getId();
+        char *sensorName = sensor->getName();
+        char *sensorId   = sensor->getId();
 
-    // switch channel in mux
-    Breakout_8_Channel_Mux.switchChannel(sensor->getPin());
+        // switch channel in mux
+        Breakout_8_Channel_Mux.switchChannel(sensor->getPin());
 
-    // create an object
-    JsonObject sensorObject = json_doc.createNestedObject();
+        // create an object
+        JsonObject sensorObject = json_doc.createNestedObject();
 
-    // set sensor fields to object
-    sensorObject["id"] = sensorId;
-    sensorObject["type"] = sensorName;
-    sensorObject["unit"] = "PPM";
+        // set sensor fields to object
+        sensorObject["id"]   = sensorId;
+        sensorObject["type"] = sensorName;
+        sensorObject["unit"] = "PPM";
 
-    if (sensorName == "mq2")
-    {
-      sensorObject["compound"] = "PM2_5";
-      sensorObject["value"] = MQ2.getSensorReading();
+        if (sensorName == "mq2") {
+            sensorObject["compound"] = "PM2_5";
+            sensorObject["value"]    = MQ2.getSensorReading();
+        } else if (sensorName == "mq7") {
+            sensorObject["compound"] = "CO";
+            sensorObject["value"]    = MQ7.getSensorReading();
+        } else if (sensorName == "mq135") {
+            sensorObject["compound"] = "NO2";
+            sensorObject["value"]    = MQ135.getSensorReading();
+        }
     }
-    else if (sensorName == "mq7")
-    {
-      sensorObject["compound"] = "CO";
-      sensorObject["value"] = MQ7.getSensorReading();
-    }
-    else if (sensorName == "mq135")
-    {
-      sensorObject["compound"] = "NO2";
-      sensorObject["value"] = MQ135.getSensorReading();
-    }
-  }
 
-  // write back json to serial monitor
-  serializeJsonPretty(json_doc, Serial);
-  Serial.println();
+    // write back json to serial monitor
+    serializeJsonPretty(json_doc, Serial);
+    Serial.println();
 
-  // Cast minified json to buffer
-  String airDataPacketBuffer = json_doc.as<String>();
+    // Cast minified json to buffer
+    String airDataPacketBuffer = json_doc.as<String>();
 
-  // Print the memory usage
-  Serial.print("Gas Data Packet Size: ");
-  Serial.println(json_doc.memoryUsage());
+    // Print the memory usage
+    Serial.print("Gas Data Packet Size: ");
+    Serial.println(json_doc.memoryUsage());
 
-  return airDataPacketBuffer;
+    return airDataPacketBuffer;
 }
 
 /**
  *  Append Air Data to Geotagging data
  */
-char *generateMqttPacket(String airDataPacketBuffer)
-{
-  // parse JSON to store array of objects(air data)
-  const size_t STR_ARR_CAPACITY = JSON_ARRAY_SIZE(3) + 3 * JSON_OBJECT_SIZE(4) + STRING_DUPLICATION_PACKET_SIZE;
-  StaticJsonDocument<STR_ARR_CAPACITY> json_str_arr;
+char *generateMqttPacket(String airDataPacketBuffer) {
+    // parse JSON to store array of objects(air data)
+    const size_t STR_ARR_CAPACITY = JSON_ARRAY_SIZE(3) +
+                                    3 * JSON_OBJECT_SIZE(4) +
+                                    STRING_DUPLICATION_PACKET_SIZE;
+    StaticJsonDocument<STR_ARR_CAPACITY> json_str_arr;
 
-  // Parse the air data input JSON
-  DeserializationError err = deserializeJson(json_str_arr, airDataPacketBuffer);
+    // Parse the air data input JSON
+    DeserializationError err =
+        deserializeJson(json_str_arr, airDataPacketBuffer);
 
-  if (err)
-  {
-    Serial.print(F("Error. Failed to parse json. deserializeJson() returned "));
-    Serial.println(err.c_str());
-    // return;
-  }
+    if (err) {
+        Serial.print(
+            F("Error. Failed to parse json. deserializeJson() returned "));
+        Serial.println(err.c_str());
+        // return;
+    }
 
-  // json to store message to be published
-  StaticJsonDocument<MESSAGE_MAX_PACKET_SIZE> raw_json_data;
+    // json to store message to be published
+    StaticJsonDocument<MESSAGE_MAX_PACKET_SIZE> raw_json_data;
 
-  // push static location info
-  raw_json_data["name"] = LOCATION_NAME;
-  raw_json_data["type"] = LOCATION_TYPE;
-  // creates an object with key `coordinates`
-  JsonObject coordinates = raw_json_data.createNestedObject("coordinates");
-  coordinates["lat"] = LATITUDE;
-  coordinates["lng"] = LONGITUDE;
-  // ToDo: attach timestamp
+    // push static location info
+    raw_json_data["name"] = LOCATION_NAME;
+    raw_json_data["type"] = LOCATION_TYPE;
+    // creates an object with key `coordinates`
+    JsonObject coordinates = raw_json_data.createNestedObject("coordinates");
+    coordinates["lat"]     = LATITUDE;
+    coordinates["lng"]     = LONGITUDE;
+    // ToDo: attach timestamp
 
-  // Print the memory usage for metadata
-  Serial.print("Metadata Packet Size: ");
-  Serial.println(raw_json_data.memoryUsage());
+    // Print the memory usage for metadata
+    Serial.print("Metadata Packet Size: ");
+    Serial.println(raw_json_data.memoryUsage());
 
-  // store air data(array of objects) into `air` key
-  raw_json_data["air"] = json_str_arr.as<JsonArray>();
+    // store air data(array of objects) into `air` key
+    raw_json_data["air"] = json_str_arr.as<JsonArray>();
 
-  // Print the memory usage for message packet
-  Serial.print("Message Packet Size: ");
-  Serial.println(raw_json_data.memoryUsage());
+    // Print the memory usage for message packet
+    Serial.print("Message Packet Size: ");
+    Serial.println(raw_json_data.memoryUsage());
 
-  // Declare a buffer to hold the result
-  char jsonPacket[MESSAGE_MAX_PACKET_SIZE];
-  // Cast json to buffer
-  serializeJson(raw_json_data, jsonPacket, sizeof(jsonPacket));
+    // Declare a buffer to hold the result
+    char jsonPacket[MESSAGE_MAX_PACKET_SIZE];
+    // Cast json to buffer
+    serializeJson(raw_json_data, jsonPacket, sizeof(jsonPacket));
 
-  return jsonPacket;
+    return jsonPacket;
 }
 
 /**
  *  `setup()` function
  *   will only run once, after each powerup or reset of the board.
  */
-void setup()
-{
-  pinMode(BUILTIN_LED, OUTPUT); // Initialize the BUILTIN_LED pin as an output
+void setup() {
+    pinMode(BUILTIN_LED, OUTPUT); // Initialize the BUILTIN_LED pin as an output
 
-  // initialize serial for debugging
-  Serial.begin(SERIAL_DEBUG_PORT);
+    // initialize serial for debugging
+    Serial.begin(SERIAL_DEBUG_PORT);
 
-  wifiConnectHandler = WiFi.onStationModeGotIP(onWifiConnect);
-  wifiDisconnectHandler = WiFi.onStationModeDisconnected(onWifiDisconnect);
+    wifiConnectHandler    = WiFi.onStationModeGotIP(onWifiConnect);
+    wifiDisconnectHandler = WiFi.onStationModeDisconnected(onWifiDisconnect);
 
-  // configure client instance
-  mqttClient.onConnect(onMqttConnect);
-  mqttClient.onDisconnect(onMqttDisconnect);
-  mqttClient.onPublish(onMqttPublish);
-  // mqttClient.setClientId(MQTT_DEVICE_ID);
-  // mqttClient.setKeepAlive(120);
-  // mqttClient.setCleanSession(true);
-  mqttClient.setCredentials(CLIENT_AUTH_ID, CLIENT_AUTH_CREDENTIAL);
-  mqttClient.setServer(MQTT_HOST, MQTT_PORT);
+    // configure client instance
+    mqttClient.onConnect(onMqttConnect);
+    mqttClient.onDisconnect(onMqttDisconnect);
+    mqttClient.onPublish(onMqttPublish);
+    // mqttClient.setClientId(MQTT_DEVICE_ID);
+    // mqttClient.setKeepAlive(120);
+    // mqttClient.setCleanSession(true);
+    mqttClient.setCredentials(CLIENT_AUTH_ID, CLIENT_AUTH_CREDENTIAL);
+    mqttClient.setServer(MQTT_HOST, MQTT_PORT);
 
-  // set up mux output pins
-  Breakout_8_Channel_Mux.setup();
+    // set up mux output pins
+    Breakout_8_Channel_Mux.setup();
 
-  // add sensors to collection
-  gasSensors.addSensor(MQ2);
-  gasSensors.addSensor(MQ7);
-  gasSensors.addSensor(MQ135);
+    // add sensors to collection
+    gasSensors.addSensor(MQ2);
+    gasSensors.addSensor(MQ7);
+    gasSensors.addSensor(MQ135);
 
-  // initialize & connect to WiFi
-  connectToWifi();
+    // initialize & connect to WiFi
+    connectToWifi();
 
-  // ToDo: This won't work as using async mqtt server(Fix this)
-  // delay before initial sensor reading
-  delay(INITIAL_PRE_HEAT_TIME);
+    // ToDo: This won't work as using async mqtt server(Fix this)
+    // delay before initial sensor reading
+    delay(INITIAL_PRE_HEAT_TIME);
 
-  Serial.println("***************************");
-  Serial.println("*******Setting Up**********");
-  Serial.println("***************************");
-  Serial.println();
+    Serial.println("***************************");
+    Serial.println("*******Setting Up**********");
+    Serial.println("***************************");
+    Serial.println();
 
-  // set sensor voltage
-  gasSensors.setup(Breakout_8_Channel_Mux);
+    // set sensor voltage
+    gasSensors.setup(Breakout_8_Channel_Mux);
 
-  Serial.println("***************************");
-  Serial.println("*******Calibrating*********");
-  Serial.println("***************************");
-  Serial.println();
+    Serial.println("***************************");
+    Serial.println("*******Calibrating*********");
+    Serial.println("***************************");
+    Serial.println();
 
-  // Calibrate sensors
-  gasSensors.calibrate(Breakout_8_Channel_Mux);
+    // Calibrate sensors
+    gasSensors.calibrate(Breakout_8_Channel_Mux);
 }
 
 /**
  *  Iterating Function
  */
-void loop()
-{
-  if (mqttClient.connected())
-  {
-    long now = millis();
+void loop() {
+    if (mqttClient.connected()) {
+        long now = millis();
 
-    if (now - lastReconnectAttempt > DATA_PUBLISHING_DELAY)
-    {
-      lastReconnectAttempt = now;
+        if (now - lastReconnectAttempt > DATA_PUBLISHING_DELAY) {
+            lastReconnectAttempt = now;
 
-      // Turn the LED on by making the voltage LOW
-      digitalWrite(BUILTIN_LED, LOW);
+            // Turn the LED on by making the voltage LOW
+            digitalWrite(BUILTIN_LED, LOW);
 
-      // generate JSON air quality data
-      String airDataPacket = generateGasDataPacket();
-      // combine data with geotagging data
-      char *mqttJsonPacket = generateMqttPacket(airDataPacket);
+            // generate JSON air quality data
+            String airDataPacket = generateGasDataPacket();
+            // combine data with geotagging data
+            char *mqttJsonPacket = generateMqttPacket(airDataPacket);
 
-      unsigned int packetLength = strlen(mqttJsonPacket);
+            unsigned int packetLength = strlen(mqttJsonPacket);
 
-      Serial.println();
-      // publish json data to topic
-      if (mqttClient.connected() && mqttClient.publish(TOPIC_LOCATION, 1, true, mqttJsonPacket, packetLength))
-      {
-        Serial.println("Success. Published sensor readings");
-      }
-      else
-      {
-        Serial.println("Error. Failed to publish sensor readings");
-      }
-      Serial.println();
+            Serial.println();
+            // publish json data to topic
+            if (mqttClient.connected() &&
+                mqttClient.publish(TOPIC_LOCATION, 1, true, mqttJsonPacket,
+                                   packetLength)) {
+                Serial.println("Success. Published sensor readings");
+            } else {
+                Serial.println("Error. Failed to publish sensor readings");
+            }
+            Serial.println();
 
-      // Turn the LED off by making the voltage HIGH
-      digitalWrite(BUILTIN_LED, HIGH);
+            // Turn the LED off by making the voltage HIGH
+            digitalWrite(BUILTIN_LED, HIGH);
+        }
     }
-  }
 }

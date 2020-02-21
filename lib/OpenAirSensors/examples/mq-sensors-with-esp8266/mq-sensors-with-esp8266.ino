@@ -1,5 +1,5 @@
-#include <OpenAirSensors.h>
 #include <ESP8266WiFi.h>
+#include <OpenAirSensors.h>
 
 /**
  *  D0   = 16;
@@ -30,71 +30,64 @@ MQSensor MQ135("GS_kgDD75h", "mq135", "gas", 2, 135);
 // create a sensor collection
 SensorCollection sensors("gas-sensors", "Example Sensor Collection");
 
-void setup()
-{
-  // initialize serial for debugging
-  Serial.begin(115200);
+void setup() {
+    // initialize serial for debugging
+    Serial.begin(115200);
 
-  // set up mux output pins
-  Breakout_8_Channel_Mux.setup();
+    // set up mux output pins
+    Breakout_8_Channel_Mux.setup();
 
-  // add sensors to collection
-  sensors.addSensor(MQ2);
-  sensors.addSensor(MQ7);
-  sensors.addSensor(MQ135);
+    // add sensors to collection
+    sensors.addSensor(MQ2);
+    sensors.addSensor(MQ7);
+    sensors.addSensor(MQ135);
 
-  // ToDo: raise to 5min(300000) // preheat time
-  delay(5000);
+    // ToDo: raise to 5min(300000) // preheat time
+    delay(5000);
 
-  Serial.println("***************************");
-  Serial.println("*******Setting Up**********");
-  Serial.println("***************************");
-  Serial.println();
+    Serial.println("***************************");
+    Serial.println("*******Setting Up**********");
+    Serial.println("***************************");
+    Serial.println();
 
-  // set sensor voltage
-  sensors.setup(Breakout_8_Channel_Mux);
+    // set sensor voltage
+    sensors.setup(Breakout_8_Channel_Mux);
 
-  Serial.println("***************************");
-  Serial.println("*******Calibrating*********");
-  Serial.println("***************************");
-  Serial.println();
+    Serial.println("***************************");
+    Serial.println("*******Calibrating*********");
+    Serial.println("***************************");
+    Serial.println();
 
-  // Calibrate sensors
-  sensors.calibrate(Breakout_8_Channel_Mux);
+    // Calibrate sensors
+    sensors.calibrate(Breakout_8_Channel_Mux);
 }
 
-void loop()
-{
-  float smoke, CO, NOx;
-  int sensorsCount = sensors.getSize();
+void loop() {
+    float smoke, CO, NOx;
+    int sensorsCount = sensors.getSize();
 
-  Serial.print("Total Number of Sensors ");
-  Serial.println(sensorsCount);
-  Serial.println();
-  Serial.println("***************************");
-  Serial.println("*******Reading Values******");
-  Serial.println("***************************");
-  Serial.println();
+    Serial.print("Total Number of Sensors ");
+    Serial.println(sensorsCount);
+    Serial.println();
+    Serial.println("***************************");
+    Serial.println("*******Reading Values******");
+    Serial.println("***************************");
+    Serial.println();
 
-  for (int id = 0; id < sensorsCount; ++id)
-  {
-    Sensor *sensor = sensors.getSensor(id);
-    char *sensorName = sensor->getName();
+    for (int id = 0; id < sensorsCount; ++id) {
+        Sensor *sensor   = sensors.getSensor(id);
+        char *sensorName = sensor->getName();
 
-    // switch channel in mux
-    Breakout_8_Channel_Mux.switchChannel(sensor->getPin());
+        // switch channel in mux
+        Breakout_8_Channel_Mux.switchChannel(sensor->getPin());
 
-    if (sensorName == "mq2") {
-      smoke = MQ2.getSensorReading();
+        if (sensorName == "mq2") {
+            smoke = MQ2.getSensorReading();
+        } else if (sensorName == "mq7") {
+            CO = MQ7.getSensorReading();
+        } else if (sensorName == "mq135") {
+            NOx = MQ135.getSensorReading();
+        }
     }
-    else if (sensorName == "mq7")
-    {
-      CO = MQ7.getSensorReading();
-    }
-    else if (sensorName == "mq135")
-    {
-      NOx = MQ135.getSensorReading();
-    }
-  }
-  Serial.println();
+    Serial.println();
 }

@@ -1,14 +1,18 @@
-/* ******************************************************************************* */
+/* *******************************************************************************
+ */
 
-#define ADC_RESOLUTION 10 // for 10bit analog to digital converter (eg: NodeMCU).
+#define ADC_RESOLUTION 10
+// for 10bit analog to digital converter (eg: NodeMCU).
 
-/* ******************************************************************************* */
+/* *******************************************************************************
+ */
 /**
  *  Gas, Value of a and b points
  *  Values consolidated
  *  Equation: PPM = a*((x)^b)
  */
-/* ********************* MQ2 ***************************************************** */
+/* ********************* MQ2
+ * ***************************************************** */
 // Datasheet: https://robokits.download/downloads/MQ-2.pdf
 
 #define defaultMQ2 "smoke"
@@ -33,7 +37,8 @@
 #define MQ2_Alcohol_a 3616.1
 #define MQ2_Alcohol_b -2.675
 
-/* ********************* MQ7 ***************************************************** */
+/* ********************* MQ7
+ * ***************************************************** */
 // Datasheet: https://robokits.download/downloads/MQ-7.pdf
 
 #define defaultMQ7 "CO"
@@ -55,7 +60,8 @@
 #define MQ7_CH4_a 60000000000000
 #define MQ7_CH4_b -10.54
 
-/* ********************* MQ135 ***************************************************** */
+/* ********************* MQ135
+ * ***************************************************** */
 // Datasheet: https://robokits.download/downloads/MQ-135.pdf
 
 #define defaultMQ135 "NOx"
@@ -83,41 +89,42 @@
 #define MQ135_CO_a 605.18
 #define MQ135_CO_b -3.937
 
-/* ******************************************************************************* */
+/* *******************************************************************************
+ */
 
-class MQSensor : public AnalogSensor
-{
-public:
-  MQSensor(char *id, char *name, char *category, int pin, int type);
+class MQSensor : public AnalogSensor {
+  public:
+    MQSensor(char *id, char *name, char *category, int pin, int type);
 
-  void setup();
+    void setup();
 
-  void setR0(double R0 = 10);
-  float calcR0();
-  void calibrate();
-  void setDefaultGasForSensor();
-  void setGasCompoundPairValue(String compound = "");
+    void setR0(double R0 = 10);
+    float calcR0();
+    void calibrate();
+    void setDefaultGasForSensor();
+    void setGasCompoundPairValue(String compound = "");
 
-  double getR0();
-  double getRL();
-  double getVoltage();
-  float getSensorReading(String compound = "");
+    double getR0();
+    double getRL();
+    double getVoltage();
+    float getSensorReading(String compound = "");
 
-protected:
-  int _type;
+  protected:
+    int _type;
 
-  double _sensor_voltage;
-  double _resistanceRatioInCleanAir;
-  float _VOLTAGE_RESOLUTION = 5.0; // if 3.3v use 3.3
-  float _RLValue = 10;             // Load Resistance Value in KiloOhms
-  float _R0;
-  float _RS_gas;
-  float _ratio;
-  float _PPM;
+    double _sensor_voltage;
+    double _resistanceRatioInCleanAir;
+    float _VOLTAGE_RESOLUTION = 5.0; // if 3.3v use 3.3
+    float _RLValue            = 10;  // Load Resistance Value in KiloOhms
+    float _R0;
+    float _RS_gas;
+    float _ratio;
+    float _PPM;
 
-  double _a;
-  float _b;
-  String _compound;
+    double _a;
+    float _b;
+    String _compound;
 };
 
-/* ******************************************************************************* */
+/* *******************************************************************************
+ */
