@@ -190,22 +190,26 @@ String generateGasDataPacket()
     // switch channel in mux
     Breakout_8_Channel_Mux.switchChannel(sensor->getPin());
 
-   // create an object
+    // create an object
     JsonObject sensorObject = json_doc.createNestedObject();
 
     // set sensor fields to object
     sensorObject["id"] = sensorId;
     sensorObject["type"] = sensorName;
+    sensorObject["unit"] = "PPM";
 
-    if (sensorName == "mq2") {
-      sensorObject["compound"] = "smoke";
+    if (sensorName == "mq2")
+    {
+      sensorObject["compound"] = "PM2_5";
       sensorObject["value"] = MQ2.getSensorReading();
     }
-    else if (sensorName == "mq7") {
+    else if (sensorName == "mq7")
+    {
       sensorObject["compound"] = "CO";
       sensorObject["value"] = MQ7.getSensorReading();
     }
-    else if (sensorName == "mq135") {
+    else if (sensorName == "mq135")
+    {
       sensorObject["compound"] = "NO2";
       sensorObject["value"] = MQ135.getSensorReading();
     }
