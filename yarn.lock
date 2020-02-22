@@ -1806,6 +1806,11 @@ aproba@^1.0.3, aproba@^1.1.1:
   resolved "https://registry.yarnpkg.com/aproba/-/aproba-1.2.0.tgz#6802e6264efd18c790a1b0d517f0f2627bf2c94a"
   integrity sha512-Y9J6ZjXtoYh8RnXVCMOU/ttDmk1aBjunq9vO0ta5x85WDQiQfUF9sIPBITdbiiIVcBo03Hi3jMxigBtsddlXRw==
 
+aqi-calc@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/aqi-calc/-/aqi-calc-1.2.1.tgz#120a53668ae246ba8f5c26ba1133565819dff889"
+  integrity sha512-aHLE/3BOBctcHepJpwhj3061g6WRUM/9ijllG2zvir2jyEcTHPLub0U0v/AwWaQiItXlQU0Gx01nzritBptEzA==
+
 are-we-there-yet@~1.1.2:
   version "1.1.5"
   resolved "https://registry.yarnpkg.com/are-we-there-yet/-/are-we-there-yet-1.1.5.tgz#4b35c2944f062a8bfcda66410760350fe9ddfc21"

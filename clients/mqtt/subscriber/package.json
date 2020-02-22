@@ -15,6 +15,7 @@
     "lint:fix": "tsc --noEmit && eslint . --ext .js,.ts --fix"
   },
   "dependencies": {
+    "aqi-calc": "^1.2.1",
     "dotenv": "^8.2.0",
     "mqtt": "^3.0.0",
     "winston": "^3.2.1"
