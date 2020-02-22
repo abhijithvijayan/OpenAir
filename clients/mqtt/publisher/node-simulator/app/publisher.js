@@ -35,9 +35,11 @@ mqttPublisher.on('connect', function() {
     setInterval(function() {
         const sampleData = {
             name: 'Adoor, Kerala, India',
-            type: 'Town',
-            coordinates: { lat: '9.151239499999999', lng: '76.73076630000003' },
-            air: [
+            location: {
+                type: 'Town',
+                coordinates: { lat: '9.151239499999999', lng: '76.73076630000003' },
+            },
+            readings: [
                 { id: '........', type: 'mq2', compound: 'smoke', value: 3.130643 },
                 { id: '........', type: 'mq7', compound: 'CO', value: 0.122789 },
                 { id: '........', type: 'mq135', compound: 'NO2', value: 0 },

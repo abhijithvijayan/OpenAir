@@ -1,10 +1,10 @@
-import { AQSample, calculateAQI, Substance, Interval, Unit, IResult } from 'aqi-calc';
+import { IResult, calculateAQI, Substance, Interval, ISample, Unit } from 'aqi-calc';
 
 const SMOKE = 'smoke';
 const CO = 'CO';
 const NOx = 'NOx';
 
-function getIntervalOfCompound(compound: string): string | null {
+function getIntervalOfCompound(compound: string): Interval {
     if (compound === SMOKE) {
         return Interval.Day;
     }
@@ -15,10 +15,11 @@ function getIntervalOfCompound(compound: string): string | null {
         return Interval.OneHour;
     }
 
-    return null;
+    // default
+    return Interval.Day;
 }
 
-function getUnitOfCompound(compound: string): string | null {
+function getUnitOfCompound(compound: string): Unit {
     if (compound === SMOKE) {
         return Unit.UG_M3;
     }
@@ -29,7 +30,8 @@ function getUnitOfCompound(compound: string): string | null {
         return Unit.PPB;
     }
 
-    return null;
+    // default
+    return Unit.PPM;
 }
 
 function convertUnitConcentration(compound: string, concentration: number): number {
@@ -47,7 +49,7 @@ function convertUnitConcentration(compound: string, concentration: number): numb
     return concentration;
 }
 
-function getSubstance(compound: string): string | null {
+function getSubstance(compound: string): Substance {
     if (compound === SMOKE) {
         return Substance.FineParticles;
     }
@@ -58,22 +60,33 @@ function getSubstance(compound: string): string | null {
         return Substance.NitrousDioxide;
     }
 
-    return null;
+    // default
+    return Substance.CoarseParticles;
 }
 
-export function getCompoundAQI(compound: string, concentration: number): IResult {
+export type AQIResult = {
+    aqi: number;
+    substance: Substance;
+};
+
+export function getCompoundAQI(compound: string, concentration: number): AQIResult {
     const substance = getSubstance(compound);
     const unit = getUnitOfCompound(compound);
-    const value = convertUnitConcentration(compound, concentration);
+    const amount = convertUnitConcentration(compound, concentration);
     const interval = getIntervalOfCompound(compound);
 
     // assign keys only if not null
-    const testItemBody: AQSample = {
-        ...(substance && { substance }),
-        ...(unit && { unit }),
-        ...(value && { value }),
-        ...(interval && { interval }),
+    const testItemBody: ISample = {
+        substance,
+        unit,
+        amount,
+        interval,
     };
 
-    return calculateAQI(testItemBody);
+    const { aqi }: IResult = calculateAQI(testItemBody);
+
+    return {
+        aqi,
+        substance,
+    };
 }

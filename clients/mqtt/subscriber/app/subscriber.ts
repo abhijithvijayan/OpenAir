@@ -1,6 +1,7 @@
 import * as mqtt from 'mqtt';
 
 import { MQTT_SERVER_ADDRESS, MQTT_AUTH_ID, MQTT_AUTH_PASSWORD } from './config/secrets';
+import { generateAqiDataPacket, PollutionDataProperties } from './parser';
 
 const startSubscriber = (): void => {
     const subscriberId = `SUBSCRIBER_${Math.random()
@@ -28,8 +29,8 @@ const startSubscriber = (): void => {
      *  Emitted on successful mqtt (re)connection
      */
     mqttClient.on('connect', (): void => {
-        // Subscribe to all topics
-        mqttClient.subscribe('sensors');
+        // Subscribe to all topics here
+        mqttClient.subscribe('openair/places');
 
         console.log('subscribed'); // eslint-disable-line no-console
     });
@@ -37,15 +38,18 @@ const startSubscriber = (): void => {
     /**
      *  Emitted when the mqtt client receives a published packet
      */
-    mqttClient.on('message', (_topic, message, packet): void => {
+    mqttClient.on('message', (_topic, message, _packet): void => {
         const context: string = message.toString();
 
-        console.log(context, packet); // eslint-disable-line no-console
+        // console.log(context, packet); // eslint-disable-line no-console
 
         /**
          *  ToDo: based on type of topic
          *  Communicate to IoT Server
          */
+        const aqiDataPacket: PollutionDataProperties = generateAqiDataPacket(context);
+        // ToDo: inject timestamp to data packet
+        console.log(aqiDataPacket);
     });
 
     /**
