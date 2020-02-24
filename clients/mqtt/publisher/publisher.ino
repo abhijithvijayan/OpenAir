@@ -55,9 +55,9 @@
 #define SERIAL_DEBUG_PORT 115200
 
 // Data Packets Memory allocation
-#define MESSAGE_MAX_PACKET_SIZE 656
-#define SENSOR_DATA_MAX_PACKET_SIZE 400
-#define STRING_DUPLICATION_PACKET_SIZE 192
+#define MESSAGE_MAX_PACKET_SIZE 704
+#define SENSOR_DATA_MAX_PACKET_SIZE 448
+#define STRING_DUPLICATION_PACKET_SIZE 256
 
 // MUX channel select pins
 #define SELECTOR_PIN_0 5 // GPIO 5 (D1 on NodeMCU)
@@ -192,13 +192,13 @@ String generateGasDataPacket() {
         sensorObject["unit"] = "PPM";
 
         if (sensorName == "mq2") {
-            sensorObject["compound"] = "PM2_5";
+            sensorObject["compound"] = "smoke";
             sensorObject["value"]    = MQ2.getSensorReading();
         } else if (sensorName == "mq7") {
             sensorObject["compound"] = "CO";
             sensorObject["value"]    = MQ7.getSensorReading();
         } else if (sensorName == "mq135") {
-            sensorObject["compound"] = "NO2";
+            sensorObject["compound"] = "NOx";
             sensorObject["value"]    = MQ135.getSensorReading();
         }
     }
@@ -219,17 +219,37 @@ String generateGasDataPacket() {
 
 /**
  *  Append Air Data to Geotagging data
+ *
+ *  @returns
+ *   {
+ *      "name": string;
+ *      "location": {
+ *          "type": string;
+ *          "coordinates": {
+ *              "lat": string;
+ *              "lng": string;
+ *          }
+ *      };
+ *      "readings": [
+ *        {
+ *          "id": string;
+ *          "type": string;
+ *          "compound": string;
+ *          "value": number;
+ *        }
+ *      ]
+ *   }
  */
 char *generateMqttPacket(String airDataPacketBuffer) {
     // parse JSON to store array of objects(air data)
     const size_t STR_ARR_CAPACITY = JSON_ARRAY_SIZE(3) +
                                     3 * JSON_OBJECT_SIZE(4) +
                                     STRING_DUPLICATION_PACKET_SIZE;
-    StaticJsonDocument<STR_ARR_CAPACITY> json_str_arr;
+    StaticJsonDocument<STR_ARR_CAPACITY> json_airdata_packet;
 
-    // Parse the air data input JSON
+    // Parse the air data input JSON to data packet
     DeserializationError err =
-        deserializeJson(json_str_arr, airDataPacketBuffer);
+        deserializeJson(json_airdata_packet, airDataPacketBuffer);
 
     if (err) {
         Serial.print(
@@ -239,32 +259,33 @@ char *generateMqttPacket(String airDataPacketBuffer) {
     }
 
     // json to store message to be published
-    StaticJsonDocument<MESSAGE_MAX_PACKET_SIZE> raw_json_data;
+    StaticJsonDocument<MESSAGE_MAX_PACKET_SIZE> json_data_packet;
 
     // push static location info
-    raw_json_data["name"] = LOCATION_NAME;
-    raw_json_data["type"] = LOCATION_TYPE;
-    // creates an object with key `coordinates`
-    JsonObject coordinates = raw_json_data.createNestedObject("coordinates");
-    coordinates["lat"]     = LATITUDE;
-    coordinates["lng"]     = LONGITUDE;
+    json_data_packet["name"] = LOCATION_NAME;
+    JsonObject location      = json_data_packet.createNestedObject("location");
+    location["type"]         = LOCATION_TYPE;
+    JsonObject coordinates   = location.createNestedObject("coordinates");
+    coordinates["lat"]       = LATITUDE;
+    coordinates["lng"]       = LONGITUDE;
+
     // ToDo: attach timestamp
 
     // Print the memory usage for metadata
     Serial.print("Metadata Packet Size: ");
-    Serial.println(raw_json_data.memoryUsage());
+    Serial.println(json_data_packet.memoryUsage());
 
-    // store air data(array of objects) into `air` key
-    raw_json_data["air"] = json_str_arr.as<JsonArray>();
+    // store air data(array of objects)
+    json_data_packet["readings"] = json_airdata_packet.as<JsonArray>();
 
     // Print the memory usage for message packet
     Serial.print("Message Packet Size: ");
-    Serial.println(raw_json_data.memoryUsage());
+    Serial.println(json_data_packet.memoryUsage());
 
     // Declare a buffer to hold the result
     char jsonPacket[MESSAGE_MAX_PACKET_SIZE];
     // Cast json to buffer
-    serializeJson(raw_json_data, jsonPacket, sizeof(jsonPacket));
+    serializeJson(json_data_packet, jsonPacket, sizeof(jsonPacket));
 
     return jsonPacket;
 }
@@ -305,7 +326,7 @@ void setup() {
 
     // ToDo: This won't work as using async mqtt server(Fix this)
     // delay before initial sensor reading
-    delay(INITIAL_PRE_HEAT_TIME);
+    // delay(INITIAL_PRE_HEAT_TIME);
 
     Serial.println("***************************");
     Serial.println("*******Setting Up**********");
@@ -347,8 +368,8 @@ void loop() {
             Serial.println();
             // publish json data to topic
             if (mqttClient.connected() &&
-                mqttClient.publish(TOPIC_LOCATION, 1, true, mqttJsonPacket,
-                                   packetLength)) {
+                mqttClient.publish(
+                    TOPIC_LOCATION, 1, true, mqttJsonPacket, packetLength)) {
                 Serial.println("Success. Published sensor readings");
             } else {
                 Serial.println("Error. Failed to publish sensor readings");
@@ -358,5 +379,7 @@ void loop() {
             // Turn the LED off by making the voltage HIGH
             digitalWrite(BUILTIN_LED, HIGH);
         }
+    } else {
+        Serial.println("[MQTT] Disconnected");
     }
 }
