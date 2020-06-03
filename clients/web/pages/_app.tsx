@@ -1,13 +1,26 @@
 /**
- *  v7
+ *  @openair/web
  *
- *  @author abhijithvijayan <abhijithvijayan.in>
+ *  @author   abhijithvijayan <abhijithvijayan.in>
+ *  @license  GNU GPLv3 License
  */
 
 import 'emoji-log';
 import React, {useEffect} from 'react';
 import {AppProps} from 'next/app';
 import Head from 'next/head';
+import {ThemeProvider} from 'styled-components';
+
+// common styles
+import '../styles/main.scss';
+
+// ToDo: types
+// eslint-disable-next-line @typescript-eslint/no-var-requires, import/no-webpack-loader-syntax, import/no-unresolved
+const theme = require('sass-extract-loader?{"plugins": ["sass-extract-js"]}!../styles/base/_variables.scss'); // extract sass variables
+
+export interface Theme {
+  [key: string]: string;
+}
 
 function App({Component, pageProps}: AppProps): JSX.Element {
   useEffect(() => {
@@ -19,15 +32,12 @@ function App({Component, pageProps}: AppProps): JSX.Element {
     <>
       <Head>
         {/* See: https://git.io/Jfnla */}
-        <meta charSet="utf-8" />
-        <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
-        <meta
-          name="viewport"
-          content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, user-scalable=no, viewport-fit=cover"
-        />
+        <title>OpenAir | Dashboard</title>
       </Head>
-      {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-      <Component {...pageProps} />
+      <ThemeProvider theme={theme}>
+        {/* eslint-disable-next-line react/jsx-props-no-spreading */}
+        <Component {...pageProps} />
+      </ThemeProvider>
     </>
   );
 }
