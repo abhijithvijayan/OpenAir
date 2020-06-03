@@ -13,7 +13,8 @@
     "url": "https://abhijithvijayan.in"
   },
   "scripts": {
-    "publisher": "nodemon app/publisher.js",
+    "dev": "nodemon source/publisher.js",
+    "publisher": "node source/publisher.js",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix"
   },

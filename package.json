@@ -26,8 +26,9 @@
     "build:web": "yarn workspace @openair/web build",
     "broker": "yarn workspace @openair/broker dev",
     "build:broker": "yarn workspace @openair/broker build",
-    "publisher": "yarn workspace @openair/publisher publisher",
-    "subscriber": "yarn workspace @openair/subscriber subscriber",
+    "publisher": "yarn workspace @openair/publisher dev",
+    "subscriber": "yarn workspace @openair/subscriber dev",
+    "build:subscriber": "yarn workspace @openair/subscriber build",
     "lint": "yarn workspaces foreach -p run lint",
     "lint:fix": "yarn workspaces foreach -p run lint:fix",
     "clean-up": "rm -rf node_modules clients/web/node_modules clients/mqtt/broker/node_modules clients/mqtt/publisher/node-simulator/node_modules clients/mqtt/subscriber/node_modules yarn.lock"
