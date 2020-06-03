@@ -24,7 +24,8 @@
   "scripts": {
     "dev:web": "yarn workspace @openair/web dev",
     "build:web": "yarn workspace @openair/web build",
-    "broker": "yarn workspace @openair/broker broker",
+    "broker": "yarn workspace @openair/broker dev",
+    "build:broker": "yarn workspace @openair/broker build",
     "publisher": "yarn workspace @openair/publisher publisher",
     "subscriber": "yarn workspace @openair/subscriber subscriber",
     "lint": "yarn workspaces foreach -p run lint",

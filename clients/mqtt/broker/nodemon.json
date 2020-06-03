@@ -7,7 +7,8 @@
     "../../subscriber",
     "../../publisher"
   ],
-  "watch": ["./app/**/*"],
-  "exec": "yarn broker",
-  "ext": "ts"
+  "watch": ["./app/**/*.ts"],
+  "execMap": {
+    "ts": "rimraf lib && tsc --project tsconfig.json && node lib/index.js"
+  }
 }
