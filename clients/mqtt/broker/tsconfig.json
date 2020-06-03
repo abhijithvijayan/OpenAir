@@ -1,7 +1,7 @@
 {
 	"extends": "@abhijithvijayan/tsconfig",
 	"compilerOptions": {
-		"outDir": "dist"
+		"outDir": "lib"
 	},
 	"include": [
 		"app/**/*.ts"
