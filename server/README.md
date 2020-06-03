@@ -4,7 +4,8 @@
 
 - Postgresql 12
 
-    - ## Ubuntu
+- ## Ubuntu
+
       ```
       sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
 
@@ -13,9 +14,11 @@
 
       pg_ctlcluster 12 main start
       ```
-      #### Configure remote Connection
+
+    - #### Configure remote Connection
+
       ```
-      sudo nano /etc/postgresql/12/main/postgresql.conf 
+      sudo nano /etc/postgresql/12/main/postgresql.conf
 
       Uncomment line 59 and change the Listen address to accept connections within your networks.
 
@@ -26,7 +29,8 @@
       netstat  -tunelp | grep 5432
       ```
 
-    - ## Arch Linux
+- ## Arch Linux
+
       ```
       $ yay -S postgresql
       $ yay -S postgis # extension
@@ -41,12 +45,13 @@
       $ sudo systemctl start postgresql.service
       ```
 
-    ### Create User
+### Create User
+
     ```
     sudo -u postgres createuser --interactive
     ```
 
-    ### Create Database and Use Extensions
+### Create Database and Use Extensions
 
     ```
     createdb db_name

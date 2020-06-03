@@ -1,1 +1,2 @@
-from app.models.Places import Places
+"""import all models here"""
+from .Places import Places

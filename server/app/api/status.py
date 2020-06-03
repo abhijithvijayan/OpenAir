@@ -1,8 +1,15 @@
-from flask import jsonify
-
 from app.api import bp
 
 
-@bp.route('/')
+@bp.route('/api/v1')
 def index():
-    return jsonify({"status": 200})
+    return {
+        'response': {
+            'statusCode': 200,
+            'statusText': 'OK'
+        },
+        'data': {
+            'status': True,
+            'message': 'API Works'
+        }
+    }

@@ -1,16 +1,18 @@
-from datetime import datetime
-from geoalchemy2 import Geometry
-from geoalchemy2.comparator import Comparator
-from sqlalchemy import text, exc
-from sqlalchemy.sql import func, cast
 from sqlalchemy.dialects.postgresql import UUID, JSON
+from geoalchemy2.comparator import Comparator
+from sqlalchemy.exc import SQLAlchemyError
+from sqlalchemy.sql import func, cast
+from geoalchemy2 import Geometry
+from datetime import datetime
+from sqlalchemy import text
 
-from app import db
 from flask import current_app as flask_app
+from app.factory import db
 
 
 class Places(db.Model):
     __tablename__ = 'openair_places'
+
     uuid = db.Column(UUID(as_uuid=True),
                      primary_key=True,
                      server_default=text("uuid_generate_v4()"))
@@ -67,7 +69,7 @@ class Places(db.Model):
 
                 return place_object
             return None
-        except exc.SQLAlchemyError:
+        except SQLAlchemyError as e:
             return None
         except Exception as err:
             print('Unknown error', err)
