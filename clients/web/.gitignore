@@ -1,4 +1,5 @@
 .env.development
 .env.production
 
-build
+out
+.next

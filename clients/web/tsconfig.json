@@ -1,4 +1,5 @@
 {
+  "extends": "@abhijithvijayan/tsconfig",
   "compilerOptions": {
     "target": "es5",
     "lib": [
@@ -7,29 +8,15 @@
       "esnext"
     ],
     "allowJs": true,
-    "module": "esnext",
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "isolatedModules": true,
-    "noEmit": true,
-		"jsx": "react",
-		"declaration": true,
-		"pretty": true,
-		"newLine": "lf",
-		"stripInternal": true,
-    "strict": true,
-		"noImplicitReturns": true,
-		"noUnusedLocals": true,
-		"noUnusedParameters": true,
-		"noFallthroughCasesInSwitch": true,
-		"useDefineForClassFields": true,
-		"forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
+    "noEmit": true,
+    "module": "esnext",
+    "isolatedModules": true,
+    "jsx": "preserve"
   },
   "include": [
-    "src/**/*"
-  ],
-  "exclude":["node_modules", "build"]
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx"
+  ]
 }

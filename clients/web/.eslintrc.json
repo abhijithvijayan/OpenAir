@@ -1,0 +1,10 @@
+{
+  "root": true, // use local configuration only
+  "extends": [
+    "@abhijithvijayan/eslint-config/typescript",
+    "@abhijithvijayan/eslint-config/react"
+  ],
+  "rules": {
+    // custom overrides
+  }
+}
