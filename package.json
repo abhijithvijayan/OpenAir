@@ -2,9 +2,15 @@
   "name": "openair",
   "version": "1.0.0",
   "private": true,
-  "author": "abhijithvijayan",
+  "description": "Real-time Air Quality Monitoring and Navigation System",
+  "license": "GNU GPLv3",
   "engines": {
     "node": ">=10.0.0"
+  },
+  "author": {
+    "name": "abhijithvijayan",
+    "email": "email@abhijithvijayan.in",
+    "url": "https://abhijithvijayan.in"
   },
   "workspaces": {
     "packages": [

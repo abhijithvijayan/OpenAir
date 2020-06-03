@@ -1,12 +1,17 @@
 {
   "name": "@openair/subscriber",
   "version": "1.0.0",
+  "private": true,
+  "description": "OpenAir MQTT Subscriber",
+  "license": "GNU GPLv3",
   "engines": {
     "node": ">=10.0.0"
   },
-  "author": "abhijithvijayan",
-  "license": "MIT",
-  "private": true,
+  "author": {
+    "name": "abhijithvijayan",
+    "email": "email@abhijithvijayan.in",
+    "url": "https://abhijithvijayan.in"
+  },
   "scripts": {
     "subscriber": "node --inspect=6868 -r ts-node/register ./app/index.ts",
     "dev:subscriber": "nodemon",

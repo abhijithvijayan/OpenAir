@@ -2,7 +2,16 @@
   "name": "@openair/web",
   "version": "1.0.0",
   "private": true,
-  "author": "abhijithvijayan",
+  "description": "OpenAir Dashboard",
+  "license": "GNU GPLv3",
+  "engines": {
+    "node": ">=10.0.0"
+  },
+  "author": {
+    "name": "abhijithvijayan",
+    "email": "email@abhijithvijayan.in",
+    "url": "https://abhijithvijayan.in"
+  },
   "scripts": {
     "dev": "react-scripts start",
     "build": "react-scripts build",

@@ -1,12 +1,17 @@
 {
   "name": "@openair/publisher",
   "version": "1.0.0",
+  "private": true,
+  "description": "OpenAir MQTT Publisher Simulator",
+  "license": "GNU GPLv3",
   "engines": {
     "node": ">=10.0.0"
   },
-  "author": "abhijithvijayan",
-  "license": "MIT",
-  "private": true,
+  "author": {
+    "name": "abhijithvijayan",
+    "email": "email@abhijithvijayan.in",
+    "url": "https://abhijithvijayan.in"
+  },
   "scripts": {
     "publisher": "nodemon app/publisher.js",
     "lint": "eslint .",
