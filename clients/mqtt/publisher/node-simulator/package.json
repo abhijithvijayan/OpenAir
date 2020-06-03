@@ -2,7 +2,7 @@
   "name": "@openair/publisher",
   "version": "1.0.0",
   "engines": {
-    "node": ">=10"
+    "node": ">=10.0.0"
   },
   "author": "abhijithvijayan",
   "license": "MIT",
@@ -14,9 +14,9 @@
   },
   "dependencies": {
     "dotenv": "^8.2.0",
-    "mqtt": "^3.0.0"
+    "mqtt": "^4.1.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.2"
+    "nodemon": "^2.0.4"
   }
 }
