@@ -1,7 +1,8 @@
 {
   "verbose": false,
   "ignore": ["node_modules", ".git", "../../web", "../broker", "../publisher"],
-  "watch": ["./app/**/*"],
-  "exec": "yarn subscriber",
-  "ext": "ts"
+  "watch": ["./source/**/*.ts"],
+  "execMap": {
+    "ts": "rimraf lib && tsc --project tsconfig.json && node lib/index.js"
+  }
 }
