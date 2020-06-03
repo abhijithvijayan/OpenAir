@@ -1,16 +1,20 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 
 const Header: React.FC = () => {
-    return (
-        <div className="header">
-            <h2>OpenAir</h2>
-            <div className="navbar">
-                <Link to="/">Home</Link>
-                <Link to="/features">Devices</Link>
-            </div>
-        </div>
-    );
+  return (
+    <div>
+      <h2>OpenAir</h2>
+      <div>
+        <Link href="/">
+          <a>Home</a>
+        </Link>
+        <Link href="/features">
+          <a>Devices</a>
+        </Link>
+      </div>
+    </div>
+  );
 };
 
 export default Header;

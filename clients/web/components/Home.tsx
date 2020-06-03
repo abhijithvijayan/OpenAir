@@ -1,7 +1,6 @@
+import 'twin.macro';
 import React, {useEffect} from 'react';
 import io from 'socket.io-client';
-
-import './styles.scss';
 
 const HomePage: React.FC = () => {
   const socket = io('http://localhost:8000');
@@ -29,10 +28,11 @@ const HomePage: React.FC = () => {
 
   return (
     <>
-      <section id="home">
-        <div className="text-center">
+      <section tw="h-screen">
+        <div tw="flex flex-col items-center justify-center h-full">
           <button
             type="button"
+            tw="text-3xl font-bold text-pink-700"
             onClick={(): SocketIOClient.Socket => {
               return handleClick();
             }}

@@ -1,13 +1,13 @@
 import React from 'react';
 
-import Layout from '../components/Layout/Layout';
-import Home from '../components/Home/Home';
+import BodyWrapper from '../components/BodyWrapper';
+import Home from '../components/Home';
 
 const IndexPage: React.FC = () => {
   return (
-    <Layout>
+    <BodyWrapper>
       <Home />
-    </Layout>
+    </BodyWrapper>
   );
 };
 
