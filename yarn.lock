@@ -1358,6 +1358,11 @@ adjust-sourcemap-loader@2.0.0:
     object-path "0.11.4"
     regex-parser "2.2.10"
 
+advanced-css-reset@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/advanced-css-reset/-/advanced-css-reset-1.1.1.tgz#ff3860951439c298f65b82d0de202780c6b5920e"
+  integrity sha512-ZLKskek8r3o+Vizv9eqLQnpl3hY6e9/dyCT97/Ii9VP6usKvJZx7nINinjAZTlP670p+o1SWJBEvMQZOLWq2Mw==
+
 aedes-packet@^2.3.1:
   version "2.3.1"
   resolved "https://registry.yarnpkg.com/aedes-packet/-/aedes-packet-2.3.1.tgz#87916fb25618c63a286ee7cee260062fb7471d6d"
