@@ -4,13 +4,15 @@
  *  @author abhijithvijayan <abhijithvijayan.in>
  */
 
+import 'emoji-log';
 import React, {useEffect} from 'react';
 import {AppProps} from 'next/app';
 import Head from 'next/head';
 
 function App({Component, pageProps}: AppProps): JSX.Element {
   useEffect(() => {
-    // pass
+    // eslint-disable-next-line no-console
+    console.emoji('🦄', "Wouldn't you like to know!");
   }, []);
 
   return (

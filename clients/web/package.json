@@ -22,6 +22,7 @@
   "dependencies": {
     "advanced-css-reset": "^1.1.1",
     "axios": "^0.19.2",
+    "emoji-log": "^1.0.2",
     "next": "^9.4.4",
     "node-sass": "^4.13.1",
     "react": "^16.13.1",
