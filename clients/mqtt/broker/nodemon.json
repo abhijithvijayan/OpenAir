@@ -7,7 +7,7 @@
     "../../subscriber",
     "../../publisher"
   ],
-  "watch": ["./app/**/*.ts"],
+  "watch": ["./source/**/*.ts"],
   "execMap": {
     "ts": "rimraf lib && tsc --project tsconfig.json && node lib/index.js"
   }

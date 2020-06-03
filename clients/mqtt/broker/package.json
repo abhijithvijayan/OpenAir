@@ -13,7 +13,7 @@
     "url": "https://abhijithvijayan.in"
   },
   "scripts": {
-    "dev": "nodemon app/index.ts",
+    "dev": "nodemon source/index.ts",
     "build": "rimraf lib && tsc",
     "broker": "node lib/index.js",
     "lint": "tsc --noEmit && eslint . --ext .ts",
