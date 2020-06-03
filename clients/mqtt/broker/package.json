@@ -21,6 +21,7 @@
     "winston": "^3.2.1"
   },
   "devDependencies": {
+    "@abhijithvijayan/tsconfig": "^1.1.2",
     "@types/node": "^14.0.9",
     "@types/socket.io": "^2.1.8",
     "nodemon": "^2.0.4",

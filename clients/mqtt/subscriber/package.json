@@ -2,7 +2,7 @@
   "name": "@openair/subscriber",
   "version": "1.0.0",
   "engines": {
-    "node": ">=10"
+    "node": ">=10.0.0"
   },
   "author": "abhijithvijayan",
   "license": "MIT",
@@ -21,6 +21,7 @@
     "winston": "^3.2.1"
   },
   "devDependencies": {
+    "@abhijithvijayan/tsconfig": "^1.1.2",
     "@types/node": "^14.0.9",
     "nodemon": "^2.0.4",
     "ts-node": "^8.6.2",
