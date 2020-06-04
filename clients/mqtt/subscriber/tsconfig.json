@@ -1,9 +1,9 @@
 {
-	"extends": "@abhijithvijayan/tsconfig",
+	"extends": "../../../tsconfig.json",
 	"compilerOptions": {
 		"outDir": "lib"
 	},
 	"include": [
-		"./source/**/*.ts"
+		"source/**/*.ts"
 	]
 }

@@ -1,0 +1,9 @@
+{
+  "extends": "@abhijithvijayan/tsconfig",
+  "compilerOptions": {
+    // overrides
+  },
+  "exclude": [
+    "node_modules"
+  ]
+}
