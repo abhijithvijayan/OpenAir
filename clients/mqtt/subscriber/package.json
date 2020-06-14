@@ -15,7 +15,7 @@
   "scripts": {
     "dev": "nodemon source/index.ts",
     "build": "rimraf lib && tsc",
-    "subscriber": "node lib/index.js",
+    "start": "yarn build && node lib/index.js",
     "lint": "tsc --noEmit && eslint . --ext .ts",
     "lint:fix": "tsc --noEmit && eslint . --ext .ts --fix"
   },
@@ -26,8 +26,8 @@
     "winston": "^3.2.1"
   },
   "devDependencies": {
-    "@abhijithvijayan/tsconfig": "^1.1.2",
-    "@types/node": "^14.0.9",
+    "@abhijithvijayan/tsconfig": "^1.2.0",
+    "@types/node": "^14.0.10",
     "nodemon": "^2.0.4",
     "typescript": "^3.9.3"
   }

@@ -14,7 +14,7 @@
   },
   "scripts": {
     "dev": "nodemon source/publisher.js",
-    "publisher": "node source/publisher.js",
+    "start": "node source/publisher.js",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix"
   },
