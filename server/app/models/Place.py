@@ -1,25 +1,23 @@
 from sqlalchemy.dialects.postgresql import UUID, JSON
 from geoalchemy2.comparator import Comparator
+from flask import current_app as flask_app
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.sql import func, cast
 from geoalchemy2 import Geometry
 from datetime import datetime
 from sqlalchemy import text
 
-from flask import current_app as flask_app
 from app.factory import db
 
 
-class Places(db.Model):
-    __tablename__ = 'openair_places'
+class Place(db.Model):
+    __tablename__ = 'openair_place'
 
     uuid = db.Column(UUID(as_uuid=True),
                      primary_key=True,
                      server_default=text("uuid_generate_v4()"))
     name = db.Column(db.String(80), nullable=False)
     type = db.Column(db.String(10), nullable=False)
-    created_at = db.Column(db.DateTime, server_default=func.now())
-    updated_at = db.Column(db.DateTime, server_default=func.now())
     aqi = db.Column(db.Integer, nullable=False)
     # 4326: projection defines lat/long coordinate system
     geometric_point = db.Column(
@@ -28,10 +26,15 @@ class Places(db.Model):
     location = db.Column(JSON, nullable=False)
     # History Data id: Can be null but must be unique
     ref_id = db.Column(db.String(40), unique=True, nullable=True)
+    # ---- Meta data ---- #
+    created_at = db.Column(db.DateTime, index=True,
+                           server_default=func.now())
+    updated_at = db.Column(db.DateTime, index=True,
+                           server_default=func.now())  # ToDo: fix auto updation
 
     # method tells Python how to print objects of this class
     def __repr__(self):
-        return '<Location {}>'.format(self.name)
+        return '<Place {}>'.format(self.name)
 
     def get_nearby_aqi_node(lat, lng):
         # ToDo: Refactor to be more precise: https://stackoverflow.com/a/20936147

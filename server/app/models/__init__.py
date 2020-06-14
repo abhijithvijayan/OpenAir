@@ -1,2 +1,2 @@
-"""import all models here"""
-from .Places import Places
+"""import all model here"""
+from .Place import Place

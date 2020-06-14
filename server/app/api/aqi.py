@@ -1,9 +1,9 @@
-import json
+from flask import request, current_app as flask_app
 import googlemaps
-from flask import request, current_app as flask_app, jsonify
+import json
 
+from app.models import Place
 from app.api import bp
-from app.models import Places
 
 
 def distance_between_two_points(distance, start, destination):
@@ -48,7 +48,7 @@ def select_next_min_distant_point(distances, selected_step_pos):
     }
 
 
-@bp.route('/api/v1/getRoutesData', methods=['POST'])
+@bp.route('/api/v1/get_routes_data', methods=['POST'])
 def getRoutesAQI():
     data = request.get_json()
     GOOGLE_MAPS_API_KEY = flask_app.config["GOOGLE_MAPS_API_KEY"]
@@ -156,7 +156,7 @@ def getRoutesAQI():
                     'summary': current_route["summary"]
                 })
 
-    return jsonify({
+    return {
         'routes': routes,
         'status': 'ok'
-    })
+    }
