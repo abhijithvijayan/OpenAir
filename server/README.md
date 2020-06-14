@@ -15,7 +15,7 @@
       pg_ctlcluster 12 main start
       ```
 
-    - #### Configure remote Connection
+  - #### Configure remote Connection
 
       ```
       sudo nano /etc/postgresql/12/main/postgresql.conf
@@ -77,7 +77,7 @@ pipenv install
 1. List all the dependencies to a file
 
 ```
-pip freeze > requirements.txt
+pipenv run pip freeze > requirements.txt
 ```
 
 2. Install from `requirements.txt` file

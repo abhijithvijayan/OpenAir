@@ -1,0 +1,33 @@
+version: "3.8"
+
+
+services:
+  db:
+    build:
+      context: ./server
+      dockerfile: pg-Dockerfile.dockerfile
+    env_file: ./server/.db.env
+    # Comment the following if you don't want to keep your postgres data around on your disk.
+    volumes:
+      # This will write to a local directory called 'postgres_data'
+      - "postgres_data:/var/lib/postgresql/data"
+    ports:
+      - "5432:5432"
+
+  web:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    # run boot.sh as docker ENTRYPOINT command
+    entrypoint: ./server/boot.sh
+    env_file: ./server/.env
+    volumes:
+      # Relative path map to listen to directory changes
+      - ./server/:/usr/src/app/
+    ports:
+      - "5001:5001"
+    depends_on:
+      - db
+
+volumes:
+  postgres_data:
