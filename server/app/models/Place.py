@@ -54,13 +54,13 @@ class Place(db.Model):
         # get closest point
         try:
             # `distance_centroid` will do an index based Nearest Neighbour (NN) search.
-            nearby_point = db.session.query(Places.name,
-                                            Places.aqi,
-                                            Places.location,
-                                            Places.updated_at).\
-                filter(func.ST_DFullyWithin(Places.geometric_point, geo_wkb, dist_in_degree_radius)).\
+            nearby_point = db.session.query(Place.name,
+                                            Place.aqi,
+                                            Place.location,
+                                            Place.updated_at).\
+                filter(func.ST_DFullyWithin(Place.geometric_point, geo_wkb, dist_in_degree_radius)).\
                 order_by(
-                Comparator.distance_centroid(Places.geometric_point, geo_wkb)).limit(1).first()
+                Comparator.distance_centroid(Place.geometric_point, geo_wkb)).limit(1).first()
 
             if (nearby_point is not None):
                 place_object = {

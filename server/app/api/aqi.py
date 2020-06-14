@@ -92,7 +92,7 @@ def getRoutesAQI():
                             lng = static_point["start_location" if pos ==
                                                0 else "end_location"]["lng"]
                             # Find nearest node_aqi from the point
-                            nearest_aqi_node = Places.get_nearby_aqi_node(
+                            nearest_aqi_node = Place.get_nearby_aqi_node(
                                 lat, lng)
                             point_on_map = {
                                 'aqi': nearest_aqi_node["aqi"] if (nearest_aqi_node is not None) else None,
@@ -121,7 +121,7 @@ def getRoutesAQI():
                             # Get selected leg from original data
                             selected_step = leg["steps"][next_distant_point_pos]
                             # Find nearest values within 1500m of this coordinate from database
-                            nearest_aqi_node = Places.get_nearby_aqi_node(
+                            nearest_aqi_node = Place.get_nearby_aqi_node(
                                 selected_step["end_location"]["lat"], selected_step["end_location"]["lng"])
 
                             # Push value if aqi_node found
