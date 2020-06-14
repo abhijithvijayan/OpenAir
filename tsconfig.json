@@ -2,6 +2,8 @@
   "extends": "@abhijithvijayan/tsconfig",
   "compilerOptions": {
     // overrides
+    // https://github.com/microsoft/TypeScript/issues/38538
+    "skipLibCheck": true
   },
   "exclude": [
     "node_modules"
