@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 
+import 'package:http/http.dart' as http;
 import 'package:google_maps_webservice/places.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter_google_places/flutter_google_places.dart';
@@ -16,6 +17,28 @@ class _MapState extends State<Map> {
   // some native location
   static final CameraPosition _initialCameraPosition =
       CameraPosition(target: LatLng(9.1530, 76.7356), zoom: 10);
+
+  bool loading = false;
+
+  void getRoutes() async {
+    try {
+      var url = 'http://localhost:5001/api/v1/get_routes_data';
+      setState(() {
+        loading = true;
+      });
+      final response = await http.post(url, body: {
+        'start_location': {'lat': 9.2267063, 'lng': 76.8496779},
+        'end_location': {'lat': 9.1323982, 'lng': 76.718111}
+      });
+    } catch (err) {
+      //
+      print(err);
+    } finally {
+      setState(() {
+        loading = false;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
