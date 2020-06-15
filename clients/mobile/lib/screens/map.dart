@@ -77,7 +77,7 @@ class _MapState extends State<Map> {
   _addPolyLine() {
     PolylineId id = PolylineId("poly");
     Polyline polyline = Polyline(
-        polylineId: id, color: Colors.red, points: polylineCoordinates);
+        polylineId: id, color: Colors.blue, points: polylineCoordinates);
     _polylines.add(polyline);
     setState(() {});
   }
