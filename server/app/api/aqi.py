@@ -19,7 +19,7 @@ def distance_between_two_points(distance, start, destination):
 
 def select_next_min_distant_point(distances, selected_step_pos):
     # Iterate through distances[] and return next position
-    # with min threshold distance in between
+    # that has the min threshold distance in between
     all_visited = None
     is_selected = None
     dist_from_selected = 0
@@ -121,6 +121,7 @@ def getRoutesAQI():
                                 next_distant_point_pos = selected_response["next_distant_point_pos"]
                                 # Get selected leg from original data
                                 selected_step = leg["steps"][next_distant_point_pos]
+
                                 # Find nearest values within 1500m of this coordinate from database
                                 nearest_aqi_node = Place.get_nearby_aqi_node(
                                     selected_step["end_location"]["lat"], selected_step["end_location"]["lng"])
@@ -144,9 +145,8 @@ def getRoutesAQI():
                                 # If last item was selected, stop iteration
                                 if (selected_response["all_visited"] and selected_response["is_selected"]):
                                     break
-                                else:
-                                    # move to next position & continue iteration
-                                    next_distant_point_pos += 1
+                                # move to next position & continue iteration
+                                next_distant_point_pos += 1
 
                             legs.append({
                                 'steps': nearest_aqi_points
