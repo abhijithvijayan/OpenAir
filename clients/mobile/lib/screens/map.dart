@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -10,7 +11,8 @@ class Map extends StatefulWidget {
 class _MapState extends State<Map> {
   Completer<GoogleMapController> _controller = Completer();
 
-  static final CameraPosition _adoorCameraPosition =
+  // some native location
+  static final CameraPosition _initialCameraPosition =
       CameraPosition(target: LatLng(9.1530, 76.7356), zoom: 10);
 
   @override
@@ -19,7 +21,7 @@ class _MapState extends State<Map> {
       body: Stack(children: <Widget>[
         GoogleMap(
           mapType: MapType.normal,
-          initialCameraPosition: _adoorCameraPosition,
+          initialCameraPosition: _initialCameraPosition,
           onMapCreated: (GoogleMapController controller) {
             _controller.complete(controller);
           },
