@@ -116,7 +116,7 @@ class _MapState extends State<Map> {
           markers: _markers,
         ),
         Positioned(
-          top: 50,
+          top: 45,
           left: 15,
           right: 15,
           child: Container(
@@ -153,16 +153,17 @@ class _MapState extends State<Map> {
                           Icons.location_on,
                           color: Colors.blue.shade900,
                         ),
-                        margin: EdgeInsets.only(left: 20, top: 5),
+                        margin: EdgeInsets.only(left: 20, top: 4, bottom: 16),
                         width: 10,
                         height: 10,
                       ),
                       border: InputBorder.none,
-                      contentPadding: EdgeInsets.only(left: 15, top: 16),
+                      contentPadding:
+                          EdgeInsets.only(left: 15, top: 16, bottom: 15),
                       hintText: 'Select your starting point'))),
         ),
         Positioned(
-            top: 105,
+            top: 103,
             left: 15,
             right: 15,
             child: Container(
@@ -187,12 +188,13 @@ class _MapState extends State<Map> {
                             Icons.local_taxi,
                             color: Colors.blue.shade900,
                           ),
-                          margin: EdgeInsets.only(left: 20, top: 5),
+                          margin: EdgeInsets.only(left: 20, top: 4, bottom: 16),
                           width: 10,
                           height: 10,
                         ),
                         border: InputBorder.none,
-                        contentPadding: EdgeInsets.only(left: 15, top: 16),
+                        contentPadding:
+                            EdgeInsets.only(left: 15, top: 16, bottom: 15),
                         hintText: 'Select your destination point'))))
       ]),
     );
