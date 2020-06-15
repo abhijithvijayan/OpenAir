@@ -14,9 +14,18 @@ class Map extends StatefulWidget {
 class _MapState extends State<Map> {
   Completer<GoogleMapController> _controller = Completer();
 
+  MapType _currentMapType = MapType.normal;
   // some native location
-  static final CameraPosition _initialCameraPosition =
-      CameraPosition(target: LatLng(9.1530, 76.7356), zoom: 10);
+  static const LatLng _center = const LatLng(9.1530, 76.7356);
+  LatLng _lastMapPosition = _center;
+
+  _onMapCreated(GoogleMapController controller) {
+    _controller.complete(controller);
+  }
+
+  _onCameraMove(CameraPosition position) {
+    _lastMapPosition = position.target;
+  }
 
   bool loading = false;
 
@@ -45,11 +54,10 @@ class _MapState extends State<Map> {
     return Scaffold(
       body: Stack(children: <Widget>[
         GoogleMap(
-          mapType: MapType.normal,
-          initialCameraPosition: _initialCameraPosition,
-          onMapCreated: (GoogleMapController controller) {
-            _controller.complete(controller);
-          },
+          initialCameraPosition: CameraPosition(target: _center, zoom: 10.0),
+          onMapCreated: _onMapCreated,
+          onCameraMove: _onCameraMove,
+          mapType: _currentMapType,
         ),
         Positioned(
           top: 50,
