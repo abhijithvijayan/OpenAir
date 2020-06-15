@@ -1,205 +1,1127 @@
 {
    "geocoded_waypoints": [{
          "geocoder_status": "OK",
-         "place_id": "ChIJV8SDuCcSBjsRyBqcQFbZmlw",
+         "place_id": "ChIJFUMK0GlrBjsRVobshjMIfy8",
          "types": [
             "establishment",
-            "point_of_interest",
-            "transit_station"
+            "point_of_interest"
          ]
       },
       {
          "geocoder_status": "OK",
-         "place_id": "ChIJx79pZw8VBjsRqj8pZlLSnpc",
+         "place_id": "ChIJAQCwBuYRBjsRWPNUnfJi3Cc",
          "types": [
-            "route"
+            "establishment",
+            "point_of_interest",
+            "university"
          ]
       }
    ],
    "routes": [{
-      "bounds": {
-         "northeast": {
-            "lat": 9.264787699999999,
-            "lng": 76.78699710000001
-         },
-         "southwest": {
-            "lat": 9.152546299999999,
-            "lng": 76.7355525
-         }
-      },
-      "copyrights": "Map data ©2020",
-      "legs": [{
-         "distance": {
-            "text": "16.9 km",
-            "value": 16904
-         },
-         "duration": {
-            "text": "26 mins",
-            "value": 1546
-         },
-         "end_address": "NH 183A, Pathanamthitta, Kerala 689645, India",
-         "end_location": {
-            "lat": 9.264782799999999,
-            "lng": 76.78699710000001
-         },
-         "start_address": "Adoor Junction, Parass La, Adoor, Kerala 691523, India",
-         "start_location": {
-            "lat": 9.152546299999999,
-            "lng": 76.73559809999999
-         },
-         "steps": [{
-               "distance": {
-                  "text": "18 m",
-                  "value": 18
-               },
-               "duration": {
-                  "text": "1 min",
-                  "value": 3
-               },
-               "end_location": {
-                  "lat": 9.1527019,
-                  "lng": 76.7355699
-               },
-               "html_instructions": "Head <b>north</b> on <b>NH 183A</b> toward <b>Central Jct</b>",
-               "polyline": {
-                  "points": "mrzv@oljsMC?E@SB"
-               },
-               "start_location": {
-                  "lat": 9.152546299999999,
-                  "lng": 76.73559809999999
-               },
-               "travel_mode": "DRIVING"
+         "bounds": {
+            "northeast": {
+               "lat": 9.2427273,
+               "lng": 76.8497095
             },
-            {
-               "distance": {
-                  "text": "0.2 km",
-                  "value": 203
-               },
-               "duration": {
-                  "text": "1 min",
-                  "value": 37
-               },
-               "end_location": {
-                  "lat": 9.1525477,
-                  "lng": 76.7370928
-               },
-               "html_instructions": "At <b>Central Jct</b>, take the <b>2nd</b> exit and stay on <b>NH 183A</b><div style=\"font-size:0.9em\">Pass by Bank of India (on the left)</div>",
-               "maneuver": "roundabout-left",
-               "polyline": {
-                  "points": "kszv@iljsMIBGAEAECECGCEEEEECCIBY@QBODODQL[F[BKLc@Ti@JY"
-               },
-               "start_location": {
-                  "lat": 9.1527019,
-                  "lng": 76.7355699
-               },
-               "travel_mode": "DRIVING"
-            },
-            {
-               "distance": {
-                  "text": "3.1 km",
-                  "value": 3076
-               },
-               "duration": {
-                  "text": "5 mins",
-                  "value": 284
-               },
-               "end_location": {
-                  "lat": 9.175117,
-                  "lng": 76.741119
-               },
-               "html_instructions": "Turn <b>left</b> at Adoor Toll Bus Stop to stay on <b>NH 183A</b><div style=\"font-size:0.9em\">Pass by Vodafone Mini Store (on the right)</div>",
-               "maneuver": "turn-left",
-               "polyline": {
-                  "points": "mrzv@yujsMyAg@a@Qi@SWOSMMGMKEGCES_@CCISIMIKQKOE[G[EEAYIQEe@Ka@Ga@ISEKCKICAEEKIKMOUGIEQASGy@E_@?ECU@QFy@De@@K@O?GAGAECGMSe@o@QSCCIGOIWI_@IMEMECCEECGG]ASCOCGAIGOCES]Ua@OYGGGEKGMEQCA?IAcBIc@CYCUESEg@MWKWKw@_@]Mg@OeBg@SGKCKA[Aa@CKAKAKCKCIEKEKGKGAAq@c@QGOE[EiAOK?Q@k@Hc@JEB]La@P_@R[TA@[XYVm@d@g@TQH[JQLGBKDIBKBQ@y@@U?c@@QDUDIDEBCDCDELAJCTAX?f@?@?J?LANAJABADILOPIHMNMHSFUD[DQBg@DU@[?O?UA]AcAAs@Bi@AuAEWCYCgAQ[Ia@K{@Sy@GOCcAGYCW?S?W@m@DW@k@?k@Cy@CU@M?SBMD[NSFYDQ@UAcBIcAA{@F{@PUFcAXe@NSH"
-               },
-               "start_location": {
-                  "lat": 9.1525477,
-                  "lng": 76.7370928
-               },
-               "travel_mode": "DRIVING"
-            },
-            {
-               "distance": {
-                  "text": "0.1 km",
-                  "value": 106
-               },
-               "duration": {
-                  "text": "1 min",
-                  "value": 19
-               },
-               "end_location": {
-                  "lat": 9.1751021,
-                  "lng": 76.7420841
-               },
-               "html_instructions": "Turn <b>right</b> at BE CONFIDENT to stay on <b>NH 183A</b><div style=\"font-size:0.9em\">Pass by VKC PHARMACY (on the left)</div>",
-               "maneuver": "turn-right",
-               "polyline": {
-                  "points": "o__w@_oksM?CCcA@aADu@"
-               },
-               "start_location": {
-                  "lat": 9.175117,
-                  "lng": 76.741119
-               },
-               "travel_mode": "DRIVING"
-            },
-            {
-               "distance": {
-                  "text": "7.1 km",
-                  "value": 7131
-               },
-               "duration": {
-                  "text": "9 mins",
-                  "value": 556
-               },
-               "end_location": {
-                  "lat": 9.231317499999999,
-                  "lng": 76.7504551
-               },
-               "html_instructions": "Turn <b>left</b> to stay on <b>NH 183A</b><div style=\"font-size:0.9em\">Pass by State Bank of India (on the left)</div>",
-               "maneuver": "turn-left",
-               "polyline": {
-                  "points": "k__w@_uksMA?S?Y@i@LC@c@Rw@b@UDWDWBY@SAUEa@Ke@Ky@Qm@OICw@O_AS_AQi@Mc@Ma@Oy@Wi@Qc@OoAa@eAa@IE}@]o@WYMg@YgAe@YIg@MKG[MOG[MYMMGWIOEKCMCOAYC[A_@?c@?Q?M?IAM?MAe@EQCQAKASAs@A}AIa@Cw@E}@Iy@Ea@A_@Ae@?a@?Y?YBe@Bk@B]BY?S?[CWCe@G}@Oe@Ig@KWIiBi@eCo@i@Eg@Ao@By@Dm@@s@BYAK?c@GYC{AQw@IQ?_@@KBMDKDIFIFGF_@b@IHUNIDMDSHSF[FkAVY@O@W?WAQASC]CUAY@U?UAWEYGUEOCWAM?C?W@}@DyBLk@Bi@Fm@HmB\\WB[BW?WAm@Eg@Gg@CiACo@Ag@?EAs@Aa@Eg@Gy@MYI_AEu@IUEQGYMa@SQIQKQWKQCICMKYKS_@c@i@]o@WUK]Iq@Qc@OUIOEUEoBKUCaBK}@EQ@E?iBTa@HYHA@YH[LYJ]Jg@Rs@PYFg@FE@G?E?EAG?KCMASEi@Iw@Sm@KWEYEm@E_@A[@W@_@FWDQBI@G@E?E?E?G?E?EAOAg@Gq@IwAGeAEaBAm@CQAGCA?CAOGGGKGSOc@_@k@g@_@]kBiBWUQKOImBw@g@Qs@Ui@Ki@KWG{@SYGUAi@Aq@?s@@a@?EAUA]EiC}@uAe@_AWoA]EA}@WUEa@Ck@Ga@CSCGAICICKIIGGGGIEGGOEM?EAG?Q@MDWD[?UAMAMAICSG_@Mm@EOEIOQUQWOUM[Oa@Sg@Si@M[Gs@IKAgAKcAOqAKKAKCQIQQSOECOSKQU]K_@}@A[Ci@GIAi@Mw@U_Bg@WIWMICqAYWAO?OBeAV[DS?y@AG?_ACc@CW@G@SDE@IHEDCFMVYr@Wv@Or@I^EZUvAM|AAXGn@Cz@G^AL?BADALCd@AZ"
-               },
-               "start_location": {
-                  "lat": 9.1751021,
-                  "lng": 76.7420841
-               },
-               "travel_mode": "DRIVING"
-            },
-            {
-               "distance": {
-                  "text": "6.4 km",
-                  "value": 6370
-               },
-               "duration": {
-                  "text": "11 mins",
-                  "value": 647
-               },
-               "end_location": {
-                  "lat": 9.264782799999999,
-                  "lng": 76.78699710000001
-               },
-               "html_instructions": "At the roundabout, take the <b>2nd</b> exit and stay on <b>NH 183A</b><div style=\"font-size:0.9em\">Pass by Federal Bank ATM (on the left in 2.6&nbsp;km)</div>",
-               "maneuver": "roundabout-left",
-               "polyline": {
-                  "points": "w~iw@kimsM?@@??@@??@?@@??@?@?@?@A@?@A@A@A@A?A?A?A?C?CAACAA?C?CQWMSIMOWQYOYO[KYK[CQEQAQCQ?QAI@I?U@S@WBY@c@@MBs@D}@?O@e@@[?WAMAMCMCMCKISGQIQISIOEIGIEGIGIGOKGCEAQGGAOESESEYGe@Ie@I[EA?OAMAOAO@_@@a@Bc@@a@@a@@Y@Y@[@[@_@@_@@{@@K@O?[@e@@C?c@@o@?S?i@?o@?m@?Y?iBIkBIkBIgAIi@E_@G_@G_@IOE[IICSEg@Ig@Kg@IEAm@Kc@Ie@I]G]G]G[ECA[E]Eg@Ie@G_@E]G_@G]E[EYEQEw@MYEYEWEUE_AQA?c@I_@Ik@Km@KUEUEk@K[Ga@I]I]G_@G_@Gk@K{@Oe@Ia@GEAYEOCi@Ke@KYEOCo@KYGQCEAg@GQEQEGCGEEEGG[_@]_@i@q@KKU[Y[[a@[a@QSKO]c@g@m@]c@W]W]QUSWIKKKKKKKSOOMCA_@U_@Se@YYOWMECECKGWMUOSOYWYYKMMMMKOI[YYYMIIIUUMKEEEGCGAEAI?I@_@Da@Fq@BY?ABU@MBOBMDOPi@Pi@Ri@Rg@Tk@Vk@Xi@LYLYDOFMFYFUDSHa@BYBWBU?K@E@U@W?MAG?GAEAECOI[K[{AyEuAcD[o@k@kAS_@KUKUKWKWOi@IUIWGUMa@CIQc@IQGOQ_@Sc@Wi@S_@EIWe@Uc@]u@[q@O]Qa@M[M[Oc@Qa@M]Sa@IOk@{@Ya@Ya@_@g@aAqA_@e@e@g@_@]eAcAm@o@UWIMKKGGOMMOMQISQc@O[Og@Oc@ACWu@Wq@i@wAo@cBOa@o@_BKYKWSo@A?Mi@Mi@EOG[Mi@IUCKEKGMIMKQYa@i@{@MUKQQ]]u@O]M_@IUGQUq@M]IUK[Ma@GSI[K[Qi@Uk@Ui@i@mA[m@@M"
-               },
-               "start_location": {
-                  "lat": 9.231317499999999,
-                  "lng": 76.7504551
-               },
-               "travel_mode": "DRIVING"
+            "southwest": {
+               "lat": 9.1326702,
+               "lng": 76.71812679999999
             }
-         ],
-         "traffic_speed_entry": [],
-         "via_waypoint": []
-      }],
-      "overview_polyline": {
-         "points": "mrzv@oljsMg@HYKYSCIBYDa@`@yAr@sB{By@aAc@a@USSe@}@SYa@Qw@M_@K{Bc@_@IOKQO[c@M[ImAEe@Ag@P{BCUQ[w@cAMKg@Sm@OQIIMG]Ku@u@uAWa@SMk@KgCMo@I{@So@WuAm@mCw@_@Kg@CeAKm@WqAu@aC[}@Ji@N_A^{@h@eBxAgBx@i@PkABy@@g@JOHGJGXExACt@]h@WXMHSFq@Jy@Hq@@e@AaBC}A@mBIaBU}@U{@Sy@GsAKq@Ck@@eAFwACoAAa@Bi@Tm@Lg@?gDK{@F{@PyA`@y@XCgAFwBU?Y@i@Lg@Tw@b@UDo@Hm@?wCo@oDw@iB_@eA]wE{A}D}AaAg@gAe@YIs@Uk@U{Am@y@Ou@EcA?w@AwAMqDOqEYiCCeCJw@Bo@CaDe@_AUoFyAi@Eg@AiBHaBDe@AqEg@q@@YHULQNi@l@_@Ta@No@NkAVY@g@@{AK{AAwAWaA?wDRuAJ{Cf@s@Fo@AuAMqBGwAAy@CiAMsAWuBOg@M{@a@c@U]i@GWWm@_@c@i@]eAc@iCu@e@KeCO_DQW@kC^[JmBn@{Ad@aANY?u@KaB]eAQgAK{@?aBR]BYAw@Iq@IwAGgDG_AE]MkA_AkAeAcC_Ca@UuCiA}Aa@aASuA[_ACmC?s@G_FcBsEoAw@ImAK[ESGUQOQMWESAYFe@Dq@C[[kBKYe@c@kBaAg@Si@MoAQsAMcAOqAKWEc@[YS[e@U]K_@yAEs@IaBc@wBq@a@QqAYWA_@BaB\\mAAgAC{@A[FOJq@xAg@jBOz@UvAM|AIhACz@G^APItABB?B@DGJG?KG?G_@k@{@yA[u@Om@KgA@}@TkG@s@C[U{@e@gA]c@g@Y}@UyBa@{@IcFLyELgFD}A?cCIiIc@oB_@aB]iGgAeFs@uF{@yFcAaF_AaOgCqASYIMKkByBwAeBmEwF{@eA{@u@gDkBmAu@mAmAsAiA{@u@KMEMASFaANcBN{@jAeDtA{Cb@qALi@L{@H_A@cAGc@Uw@{AyEuAcDgA{B_@u@s@oBi@eBg@oAqAmCqAiCkAmC}@_C]q@eA}A{CaEyDyDs@y@]]We@aAkC{AcE{B_Go@qBi@_C[{@yA}BiA{Bo@eBy@aCk@mBgBmE[m@@M"
+         },
+         "copyrights": "Map data ©2020",
+         "legs": [{
+            "distance": {
+               "text": "26.1 km",
+               "value": 26064
+            },
+            "duration": {
+               "text": "43 mins",
+               "value": 2557
+            },
+            "end_address": "Adoor - Kollam Road, Manakala, Kerala 691551, India",
+            "end_location": {
+               "lat": 9.1326702,
+               "lng": 76.71812679999999
+            },
+            "start_address": "Kalayikkal Building, Govt. Hospital Road, Konni, Kerala 689691, India",
+            "start_location": {
+               "lat": 9.226736199999999,
+               "lng": 76.8497095
+            },
+            "steps": [{
+                  "distance": {
+                     "text": "8 m",
+                     "value": 8
+                  },
+                  "duration": {
+                     "text": "1 min",
+                     "value": 1
+                  },
+                  "end_location": {
+                     "lat": 9.226785899999999,
+                     "lng": 76.84966120000001
+                  },
+                  "html_instructions": "Head <b>northwest</b> on <b>SH8</b> toward <b>Kumbazha - Konni - Vettor Rd</b>",
+                  "polyline": {
+                     "points": "cbiw@uu`tMIH"
+                  },
+                  "start_location": {
+                     "lat": 9.226736199999999,
+                     "lng": 76.8497095
+                  },
+                  "travel_mode": "DRIVING"
+               },
+               {
+                  "distance": {
+                     "text": "9.4 km",
+                     "value": 9416
+                  },
+                  "duration": {
+                     "text": "16 mins",
+                     "value": 934
+                  },
+                  "end_location": {
+                     "lat": 9.2290586,
+                     "lng": 76.781823
+                  },
+                  "html_instructions": "Turn <b>left</b> at Bank of Baroda onto <b>Chandanappalli - Konni Rd</b>/<wbr/><b>Chandanappalli-Konni Road</b>/<wbr/><b>Kaipattoor - Konni Rd</b><div style=\"font-size:0.9em\">Continue to follow Kaipattoor - Konni Rd</div><div style=\"font-size:0.9em\">Pass by United Konni (on the right)</div>",
+                  "maneuver": "turn-left",
+                  "polyline": {
+                     "points": "mbiw@ku`tM\\h@JRDH?D?B?FAD?BABCBEBCBQJYJ_@NIDGFWPg@Zg@Z_Af@o@XeAr@e@\\GDw@h@}@h@gAt@k@d@a@b@MTYh@i@v@MVKXWrAi@zBSv@IRININKL_Az@IHo@h@e@ZOHMBSDU@[BW@ODIDKJABMT]lAUz@AF_@fA[x@Qf@]l@c@l@QXA@Yf@a@f@q@v@U^OZQf@K^ABG^ADMtACj@@^@HBb@@`@?FATEVId@If@Kf@Ib@Md@GPIXMVWp@Qb@S`@S\\GLELCJKZGRINGLIRA?MRQRSPSJIBG@G@M?G@]AO?G?G@K@KBGDC@CBQNk@`@UNKJGDCDGRAR?PAj@EvAC~@A^?N?NBR@PDZ@HF^BTDf@Df@BV@Z@l@@f@ALAJEHGFGDGDIBo@L]HQBIBw@Ps@NGBGFADCDAD?D?D@F@LDN@@BHFXDTBR?R?H?L@X@HBJDFDHJLXb@`@n@\\h@BBj@|@bA~A^r@LZLZ?BPf@Nn@@F@H?PAZAZAPAJAPCNI^GZCNCTGTSp@Sf@Sh@[n@MTINU\\QTQPQPKNSVQXKRGFEFQRKLOTa@r@OZSb@Wj@Wf@QZSXSZUZSZKNIPMZKTEHEHKPQVMPGHCDADAB?B@FBDFLTVHJDDDFBD@BDJBFBJ@BBTFVDR@DDR@H?H?F?DCDADEHUb@IRIPSj@ITITWz@Sr@Sv@EPEPIn@In@Iv@Kz@CLIl@Kh@Qh@Q`@Wb@Ub@Qb@MTIXIRETGVEXKp@O|@ANARA`@?xAAvA?z@?zB?t@?B?p@@v@AfA?zBA|A?|A?\\?~@?~A?V?VCV?HAHEZIZGZIXERCTAH?H?H?H@L?N@L@JBNBNBTDP?@BRFTBNDLLj@HVFTFRFNFLHNVXX\\HJDHDHDH?@DLFPLj@@HBFFNJNPH^HTDHD^LzAf@HDHDHDJHTT^`@VXRVTVPXLTHLHPHT@FBFBP@T@JBf@@HD^Fp@F`ABn@?D@D@DBBDDHDLBB@ZH|Bf@|A^\\FZHd@Hd@JRDPFJBHB~@`@PJZNTJLD^Jv@Rh@R`@NXHXLd@R^TNJRNLHLH`Ab@\\LPHFBBBLVBJDL@JBJBXDV@VClCANE^EVEPEPM`@CDEJIRIJIJWVWTSVEFEHEHCHERCRCZC^A^AP?@ALK|@CVEVE\\AD?FEd@CJGTITOZIRGJe@dAWn@CFAH?H?H@LBJBNDPNb@\\ZNNHLFLBJBL?R@T?H?JBZDZJz@BRFt@Dn@BXBVLvADV@DBFDHBDDDDDFDDBF@LBNBRDHBB@B@FD@DBDBNBNDb@BX@XDd@@VBJ@FFHFDHBD@T@jB?ZAZC^G`@Gb@ETAL?N?`@Bd@DRQl@pANl@b@f@TH`@L\\PLFLHVTr@x@t@r@RJBF@H?j@?^PtBVzAJhABnAEV"
+                  },
+                  "start_location": {
+                     "lat": 9.226785899999999,
+                     "lng": 76.84966120000001
+                  },
+                  "travel_mode": "DRIVING"
+               },
+               {
+                  "distance": {
+                     "text": "47 m",
+                     "value": 47
+                  },
+                  "duration": {
+                     "text": "1 min",
+                     "value": 6
+                  },
+                  "end_location": {
+                     "lat": 9.228777400000002,
+                     "lng": 76.78152009999999
+                  },
+                  "html_instructions": "Turn <b>left</b> at Ravindran Vegetable Store to stay on <b>Kaipattoor - Konni Rd</b>",
+                  "maneuver": "turn-left",
+                  "polyline": {
+                     "points": "spiw@kmssMBHDFDFFFDDDDDBHDBB"
+                  },
+                  "start_location": {
+                     "lat": 9.2290586,
+                     "lng": 76.781823
+                  },
+                  "travel_mode": "DRIVING"
+               },
+               {
+                  "distance": {
+                     "text": "1.4 km",
+                     "value": 1402
+                  },
+                  "duration": {
+                     "text": "2 mins",
+                     "value": 132
+                  },
+                  "end_location": {
+                     "lat": 9.218234599999999,
+                     "lng": 76.7770414
+                  },
+                  "html_instructions": "Turn <b>left</b> onto <b>Chandanappally-Konni Rd</b>/<wbr/><b>Kaipattoor - Konni Rd</b><div style=\"font-size:0.9em\">Pass by Komattu Junction Bus Stop (on the left in 1.3&nbsp;km)</div>",
+                  "maneuver": "turn-left",
+                  "polyline": {
+                     "points": "{niw@okssMTAlAFF?pBLb@?\\?NAf@?|@H|@D`A@P?z@ArAC@?z@EfACh@An@@bAHz@JnAJt@JzANbARXF|Aj@h@^h@d@b@PNHFBFDLHLHNJLJb@\\d@^NNPLHDXT^TXRDBTNTPPLRLPLRJ^TXXJXBLHv@H`AAF@^NdA?F?F"
+                  },
+                  "start_location": {
+                     "lat": 9.228777400000002,
+                     "lng": 76.78152009999999
+                  },
+                  "travel_mode": "DRIVING"
+               },
+               {
+                  "distance": {
+                     "text": "1.4 km",
+                     "value": 1437
+                  },
+                  "duration": {
+                     "text": "2 mins",
+                     "value": 135
+                  },
+                  "end_location": {
+                     "lat": 9.211200099999999,
+                     "lng": 76.76747449999999
+                  },
+                  "html_instructions": "Slight <b>left</b> at Kerala Gov Milk Shop onto <b>Chandanapally - Vallicode Rd</b><div style=\"font-size:0.9em\">Pass by Milma Collection Centre (on the left)</div>",
+                  "maneuver": "turn-slight-left",
+                  "polyline": {
+                     "points": "}lgw@oorsM@@BB@@@LFj@H~@BT@PF^HVPd@d@~@Vv@DPDVFPN`@JTDPFRNp@TzARpBVdCBLBRjBCR?h@Ab@@B@B@B@B@TRXThBtALLJJ@BHHJRP^Pd@Z|@DH\\fALd@HXHVDFDNFJHNb@n@xArALPHJFJDLDLDFDLLXLLNN`@RVHZLRJn@^ZJNFVBRB~@H"
+                  },
+                  "start_location": {
+                     "lat": 9.218234599999999,
+                     "lng": 76.7770414
+                  },
+                  "travel_mode": "DRIVING"
+               },
+               {
+                  "distance": {
+                     "text": "0.3 km",
+                     "value": 331
+                  },
+                  "duration": {
+                     "text": "1 min",
+                     "value": 37
+                  },
+                  "end_location": {
+                     "lat": 9.2108601,
+                     "lng": 76.76513940000001
+                  },
+                  "html_instructions": "Continue onto <b>Chandanapally - Ottathekku - Nedumoncave - Koodal Rd</b>/<wbr/><b>Chandanappally - Koodal Rd</b>/<wbr/><b>Vakayar-Chandanappally Rd</b>",
+                  "polyline": {
+                     "points": "_afw@uspsMfAN^F`@JD@FR@ZGf@IXMb@IVMZIZITKTGTADAN?X?N@PFXBT?@"
+                  },
+                  "start_location": {
+                     "lat": 9.211200099999999,
+                     "lng": 76.76747449999999
+                  },
+                  "travel_mode": "DRIVING"
+               },
+               {
+                  "distance": {
+                     "text": "0.1 km",
+                     "value": 113
+                  },
+                  "duration": {
+                     "text": "1 min",
+                     "value": 18
+                  },
+                  "end_location": {
+                     "lat": 9.211731199999999,
+                     "lng": 76.7646141
+                  },
+                  "html_instructions": "Turn <b>right</b> at State Bank Of India onto <b>Ezhamkulam Kaipattoor Rd</b><div style=\"font-size:0.9em\">Pass by Muthoottu Mini Financiers Pvt Ltd (on the left)</div>",
+                  "maneuver": "turn-right",
+                  "polyline": {
+                     "points": "{~ew@cepsM[NaBt@o@b@"
+                  },
+                  "start_location": {
+                     "lat": 9.2108601,
+                     "lng": 76.76513940000001
+                  },
+                  "travel_mode": "DRIVING"
+               },
+               {
+                  "distance": {
+                     "text": "2.1 km",
+                     "value": 2102
+                  },
+                  "duration": {
+                     "text": "4 mins",
+                     "value": 262
+                  },
+                  "end_location": {
+                     "lat": 9.2137048,
+                     "lng": 76.7465315
+                  },
+                  "html_instructions": "Turn <b>left</b> at the pharmacy<div style=\"font-size:0.9em\">Pass by Myastras Online Solutions Pvt Ltd. (on the left in 1.5&nbsp;km)</div>",
+                  "maneuver": "turn-left",
+                  "polyline": {
+                     "points": "idfw@yapsMMdAKb@I^a@`BAFU`Aa@~AMl@Ov@AJAt@Dr@Hh@DRBJL`@DJLp@Jr@Bl@?DAJK|AQlASn@MVEHOT[h@Yh@Of@AFIx@I\\MJEJMHe@FSDKHCJ?T?NCJONYZOr@A`@AJ?P?DL~AHn@PbALp@@~@BbAHx@Az@?D@r@?B?h@AHAj@Dj@Nh@?@Rp@BPJj@H~@@HRbAB`AAdA?@Kr@Qn@Ol@Sh@Sh@AFGRERAJ?F@L@J@H@L?J?JAFCLETKl@G`@GZABAN?J?D?L?L?JBNBNBNBLBN@R@T?T@Z"
+                  },
+                  "start_location": {
+                     "lat": 9.211731199999999,
+                     "lng": 76.7646141
+                  },
+                  "travel_mode": "DRIVING"
+               },
+               {
+                  "distance": {
+                     "text": "4.5 km",
+                     "value": 4516
+                  },
+                  "duration": {
+                     "text": "6 mins",
+                     "value": 348
+                  },
+                  "end_location": {
+                     "lat": 9.1751021,
+                     "lng": 76.7420841
+                  },
+                  "html_instructions": "Turn <b>left</b> at shop onto <b>NH 183A</b><div style=\"font-size:0.9em\">Pass by Mammoodu Bus Stop, KPTR (on the right)</div>",
+                  "maneuver": "turn-left",
+                  "polyline": {
+                     "points": "spfw@yplsM`B@dADvAFp@Hf@FN@D@D?F?D?D?D?FAHAPCVE^GVAZA^@l@DXDVDl@Jv@Rh@HRDL@JBF?D@D?F?DAf@GXGr@Qf@S\\KXKZMXI@AXI`@IhBUD?PA|@D`BJTBnBJTDNDTHb@Np@P\\HTJn@Vh@\\^b@JRJXBLBHJPPVPJPH`@RXLPFTDt@H~@DXHx@Lf@F`@Dr@@D@f@?n@@hABf@Bf@Fl@DV@V?ZCVClB]l@Ih@Gj@CxBM|@EVAB?L?V@NBTDXFVDT@T?XAT@\\BRBP@V@V?NAXAjAWZGRGRILEHETOHI^c@FGHGHGJELEJC^AP?v@HzAPXBb@FJ?X@r@Cl@Ax@En@Cf@@h@DdCn@hBh@VHf@Jd@H|@Nd@FVBZBR?X?\\Cj@Cd@CXCX?`@?d@?^@`@@x@D|@Hv@D`@B|AHr@@R@J@P@PBd@DL@L?H@L?P?b@?^?Z@XBN@LBJBNDVHLFXLZLNFZLJFf@LXHfAd@f@XXLn@V|@\\HDdA`@nA`@b@Nh@Px@V`@Nb@Lh@L~@P~@Rv@NHBl@Nx@Pd@J`@JTDR@XAVCVETEv@c@b@SBAh@MXAR?@?"
+                  },
+                  "start_location": {
+                     "lat": 9.2137048,
+                     "lng": 76.7465315
+                  },
+                  "travel_mode": "DRIVING"
+               },
+               {
+                  "distance": {
+                     "text": "0.1 km",
+                     "value": 106
+                  },
+                  "duration": {
+                     "text": "1 min",
+                     "value": 18
+                  },
+                  "end_location": {
+                     "lat": 9.175117,
+                     "lng": 76.741119
+                  },
+                  "html_instructions": "Turn <b>right</b> to stay on <b>NH 183A</b><div style=\"font-size:0.9em\">Pass by VKC PHARMACY (on the right)</div>",
+                  "maneuver": "turn-right",
+                  "polyline": {
+                     "points": "k__w@_uksMEt@A`ABbA?B"
+                  },
+                  "start_location": {
+                     "lat": 9.1751021,
+                     "lng": 76.7420841
+                  },
+                  "travel_mode": "DRIVING"
+               },
+               {
+                  "distance": {
+                     "text": "3.2 km",
+                     "value": 3182
+                  },
+                  "duration": {
+                     "text": "5 mins",
+                     "value": 321
+                  },
+                  "end_location": {
+                     "lat": 9.152776299999999,
+                     "lng": 76.7362141
+                  },
+                  "html_instructions": "Turn <b>left</b> at BE CONFIDENT to stay on <b>NH 183A</b><div style=\"font-size:0.9em\">Pass by AVL CONCEPT (on the right)</div>",
+                  "maneuver": "turn-left",
+                  "polyline": {
+                     "points": "o__w@_oksMRId@ObAYTGz@Qz@GbA@bBHT@PAXERGZOLERCL?TAx@Bj@Bj@?VAl@EVAR?V?XBbAFNBx@Fz@R`@JZHfAPXBVBtADh@@r@CbA@\\@T@N?Z?TAf@EPCZETERGLILOHINQHM@E@C@K@O?M?K?A?g@@YBU@KDMBEBEDCHETEPEb@AT?x@APAJCHCJEFCPMZKPIf@Ul@e@XWZY@AZU^S`@Q\\MDCb@Kj@IPAJ?hANZDNDPFp@b@@@JFJFJDHDJBJBJ@J@`@BZ@J@JBRFdBf@f@N\\Lv@^VJVJf@LRDTDXBb@BbBHH@@?PBLDJFFDFFNXT`@R\\BDFN@HBFBN@RF\\BFDDBBLDLD^HVHNHHFBBPRd@n@LRBF@D@F?FANAJEd@Gx@APBT?DD^Fx@@RDPFHNTJLJHDDB@JHJBRD`@H`@Fd@JPDXHD@ZDZFNDPJHJHLHRBBR^BDDFLJLFRLVNh@R`@PxAf@KXUh@Mb@CJGZ?@L\\"
+                  },
+                  "start_location": {
+                     "lat": 9.175117,
+                     "lng": 76.741119
+                  },
+                  "travel_mode": "DRIVING"
+               },
+               {
+                  "distance": {
+                     "text": "0.9 km",
+                     "value": 882
+                  },
+                  "duration": {
+                     "text": "2 mins",
+                     "value": 105
+                  },
+                  "end_location": {
+                     "lat": 9.1462132,
+                     "lng": 76.7321697
+                  },
+                  "html_instructions": "At <b>Central Jct</b>, take the <b>1st</b> exit and stay on <b>NH 183A</b><div style=\"font-size:0.9em\">Pass by JK Tyre Steel Wheels, Grace Tyres (on the left)</div>",
+                  "maneuver": "roundabout-left",
+                  "polyline": {
+                     "points": "{szv@ipjsMFNFLJXLT^j@v@Xb@Rn@Vt@^d@N\\RRJFHTVd@j@d@r@FJDHPPNJXN^RtBj@H@`Cr@t@`@PJt@Zl@Xt@\\nAf@l@ZTLNDPDJCL?d@?N?"
+                  },
+                  "start_location": {
+                     "lat": 9.152776299999999,
+                     "lng": 76.7362141
+                  },
+                  "travel_mode": "DRIVING"
+               },
+               {
+                  "distance": {
+                     "text": "0.2 km",
+                     "value": 176
+                  },
+                  "duration": {
+                     "text": "1 min",
+                     "value": 24
+                  },
+                  "end_location": {
+                     "lat": 9.144763299999999,
+                     "lng": 76.73275339999999
+                  },
+                  "html_instructions": "At the roundabout, take the <b>1st</b> exit onto <b>NH183</b>/<wbr/><b>NH 183A</b><div style=\"font-size:0.9em\">Pass by SK Chicken Shop (on the left)</div>",
+                  "maneuver": "roundabout-left",
+                  "polyline": {
+                     "points": "yjyv@awisM?A@?@??A@?@?@A@?@??@@?@?@?j@KNCB?D?`A]rAk@TIZK"
+                  },
+                  "start_location": {
+                     "lat": 9.1462132,
+                     "lng": 76.7321697
+                  },
+                  "travel_mode": "DRIVING"
+               },
+               {
+                  "distance": {
+                     "text": "2.3 km",
+                     "value": 2282
+                  },
+                  "duration": {
+                     "text": "3 mins",
+                     "value": 205
+                  },
+                  "end_location": {
+                     "lat": 9.1330185,
+                     "lng": 76.7183393
+                  },
+                  "html_instructions": "Turn <b>right</b> at <b>Nellimootilpaddi Jct</b> onto <b>NH 183A</b><div style=\"font-size:0.9em\">Pass by TES Electric Scooter. (on the left)</div>",
+                  "maneuver": "turn-right",
+                  "polyline": {
+                     "points": "wayv@uzisMdCxBLJHDD@HDNBj@Pd@N^JNDRBZBF@`BAFA\\GNCN?J?H?L@PBTBj@Nt@F~@VRFRJRJRNBBf@b@\\\\TXJNX`@JRPXLLPLZT\\PB@ZN^Nb@P|ChAbDjA`AXdAl@NNJNPVJZHXFXLp@h@vCDf@Db@F|@@TDXDXPj@Ld@Hj@@V@X?^?|@@X@Z?BFl@b@nGRzAFj@D\\F\\J^NZXl@jBjETl@Xp@Tb@v@rAR^JPZj@V^"
+                  },
+                  "start_location": {
+                     "lat": 9.144763299999999,
+                     "lng": 76.73275339999999
+                  },
+                  "travel_mode": "DRIVING"
+               },
+               {
+                  "distance": {
+                     "text": "64 m",
+                     "value": 64
+                  },
+                  "duration": {
+                     "text": "1 min",
+                     "value": 11
+                  },
+                  "end_location": {
+                     "lat": 9.1326702,
+                     "lng": 76.71812679999999
+                  },
+                  "html_instructions": "Turn <b>left</b> at Nest hostel<div style=\"font-size:0.9em\">Restricted usage road</div><div style=\"font-size:0.9em\">Destination will be on the left</div>",
+                  "maneuver": "turn-left",
+                  "polyline": {
+                     "points": "kxvv@s`gsMPCPAN?F?D@BB@FA\\?B"
+                  },
+                  "start_location": {
+                     "lat": 9.1330185,
+                     "lng": 76.7183393
+                  },
+                  "travel_mode": "DRIVING"
+               }
+            ],
+            "traffic_speed_entry": [],
+            "via_waypoint": []
+         }],
+         "overview_polyline": {
+            "points": "cbiw@uu`tMIH\\h@P\\AVKNoAj@qAz@}EpCcDvBsBzAo@x@}ArC_BzG_BhBoBxAsANg@FUPcAbDoApDuAvBcCfDo@fB[fDHnBQzAm@xCw@tB_BzD]p@gAdAeBFg@LeAv@m@f@KdBKfEJpA`@pFA`A]\\gFhAMR?XLh@PvABz@Zj@|A`C|ClFn@vB@~@a@fDs@dCgA~BiClDk@p@uAhCuAhCiAbB{ArCOXL^z@nA`@tBC\\g@fAwBbHiAjI{BfF}@nFElb@CpAY|AUlA@j@TrB|@tD`BdCn@xB\\Xt@NnC`A^T`BhB~@tAXv@b@xFF`A`@R`KzB~D~AjGtBpAz@~BdA\\j@N~@@lEWzAa@fAcAdAe@r@QlA_@nEMpAe@rAoAtCEd@Nz@l@~@X\\Nz@DfAx@zIPn@VVpAZP`@NfBLpA^TxDCzBWdBHRQl@pANl@b@f@v@Vj@XnClCVR@t@PtCb@dDAfBHPXZh@JjFTrCFlEDxEMxA?~BTdHz@vBr@rAdAbAd@x@j@hE`D|CpBd@r@LdAXnDZpCV~AtAnDh@`Br@rDr@xGlECvDtCb@l@dAlC|ArEtC`DXn@p@dAhBv@rBv@zDd@f@LHn@i@|Bm@bBKdALpAmDjBeAjFgAvEQbABhB`@jBR|@N`B_@|D_CjFSvASVsA`@G|@i@j@QtAJbCh@dDLxF@fBCt@TtAb@pBb@nEAfA]bBy@hCOz@Fp@El@e@fDRtBDzApHX|AJz@MrBIpGbA^DnAQdFaBbDa@dH`@tFdBhA`AVl@d@`A~Av@|C\\|Cd@pCDfETbBEpFs@rEUhDZrDHtCi@`Ae@z@}@n@Wp@ArCZbBLjEOpAFnFxAbDn@lBNdGOtP|@vDJbDlAtCdAnD|AlJ`DxJtBv@Pl@?n@IlAi@f@UbAOT?GvBBfAx@YxAa@vBYnEJvAc@pBA|CC|A@rAJtBZ~Cj@jEFfCDjBKrA]p@y@FiBLiAVUbEY`Ac@x@_@fA}@xAeAhBo@|@KtANj@JbAj@d@Vl@NtAHlDbAdCdAjB\\rCNr@VrAhCL`AZVtAb@dAnAR`@Aj@KfCNrBh@~@`@ZzDx@xA^`@p@j@x@bBx@zBx@a@bAYlAh@tAl@`AzAl@hDzAvAxAdAzAh@ZtC~@jCt@fAl@hFzBdBt@nACBCH?D?~@OpDsAZKdCxBVPjA\\hBd@lC@hAK~@H`BVrA^z@f@~A~AbA~AxAbAbBr@`ItCfCfAx@rAhA|FT~Cj@dCL|BBvBfAdMh@vBtDxIlBhDr@jAb@E`@D?h@"
+         },
+         "summary": "Kaipattoor - Konni Rd and NH 183A",
+         "warnings": [],
+         "waypoint_order": []
       },
-      "summary": "NH 183A",
-      "warnings": [],
-      "waypoint_order": []
-   }],
+      {
+         "bounds": {
+            "northeast": {
+               "lat": 9.226736199999999,
+               "lng": 76.85967509999999
+            },
+            "southwest": {
+               "lat": 9.1235859,
+               "lng": 76.71812679999999
+            }
+         },
+         "copyrights": "Map data ©2020",
+         "legs": [{
+            "distance": {
+               "text": "30.1 km",
+               "value": 30094
+            },
+            "duration": {
+               "text": "50 mins",
+               "value": 2991
+            },
+            "end_address": "Adoor - Kollam Road, Manakala, Kerala 691551, India",
+            "end_location": {
+               "lat": 9.1326702,
+               "lng": 76.71812679999999
+            },
+            "start_address": "Kalayikkal Building, Govt. Hospital Road, Konni, Kerala 689691, India",
+            "start_location": {
+               "lat": 9.226736199999999,
+               "lng": 76.8497095
+            },
+            "steps": [{
+                  "distance": {
+                     "text": "12.5 km",
+                     "value": 12466
+                  },
+                  "duration": {
+                     "text": "19 mins",
+                     "value": 1144
+                  },
+                  "end_location": {
+                     "lat": 9.1235859,
+                     "lng": 76.8516305
+                  },
+                  "html_instructions": "Head <b>southeast</b> on <b>SH8</b><div style=\"font-size:0.9em\">Pass by Life insurance corporation of india ... LIC policy servicing nomination, pension plans, policy loan etc (on the right in 650&nbsp;m)</div>",
+                  "polyline": {
+                     "points": "cbiw@uu`tMBC\\]JKLMPOBCFEBADCHCFCFAHCHAJAJCLAJAH?V?T?|@?`@?RCV?PAF?HAXGh@M\\EXGVCVKj@UVKNENEJCFAFAJALA^?^?`A?pA@^Ab@AFCHAFCJEHEFCBCDCBCFGHMT_@HKFOt@o@h@c@VYFGJSLMDIFGHEJCPEVCJATBJ?LBJ@NBTDbAPbB`@xCp@PDVFTD^HVH`AXdCr@XHF@VHxCv@f@Lz@VjDz@j@N\\LPHRHPHZN|A`Ab@VZNJDJBJBNBj@@`@@ZFt@Tl@T\\L`Br@JF~@f@nAt@jBhAB@z@Xb@HVBLBX?d@C`@CnAKj@?l@?|B@~BG`@?R?RAV@T?NBhAHfCVlAHzATV@H?@?J@N?NAJADAFAFAHCLE@AdC}@|@[`AYf@Qj@O`A[PEXMlBwAx@q@vBeBv@m@RKXMh@Q\\KLE^M\\MhAa@l@Sr@[hCkAt@]fAe@j@WzAy@bCiBr@o@rAiAbAgAv@}@X]V_@Ta@Rc@@ETm@To@DKPc@JSR]NOVU@CXSZSb@]f@W`@OLELEf@Of@SVKb@W^W@A\\_@T[Z[d@c@?Aj@o@ZYf@a@XO^U@?n@[v@_@x@SjAUjDq@|A[n@Ob@Ih@OVGb@KbBc@b@KbAUREX?VB@@l@Jx@N|@HfAFh@Bh@Bj@Ax@GpBU`BOr@IXE^Al@@T@RBzA^n@NvA`@p@PLDn@R\\LXJTLTLb@TJHPH^RD@j@TbA`@PHTJTHRHHBLB^Hb@Jb@HFBTDXFRFn@RRFf@Nz@Vz@ZRHVFJBNBRBb@DH@NDTDt@Rt@PRBXFTFRDRFRHRJPJh@^bDtBRN\\Tz@f@n@ZbAVz@Rr@NlBPN@PBN@@@VDp@NjBb@hDx@dATZHfAVTDN@J@ZBV@F?hAB^BfAFfAH^DT@R@P@R@bA?dA?`@AB?\\A^A^CNAXELCPEh@SJCNEREXGZE|Ci@v@Kj@GJAJ?LAJ?P@T@P@h@DL@J@N?V@`@?RAN?NATAdCO~AIx@E~E]ZAL?H?H?H?H?H@F?PBNBHBHBtAd@HDHBHBJBF@H@R?j@J`@Fb@J`@Jt@Rb@Jx@RJBJ?J@N@H?V@~A?h@?Z?`@E\\El@KvB]|@OtAUNCLCRAPCZAVAT?tAD`BHh@Bn@DjBH@?h@BR@D?J?`@CZChBMRCzAIxBGXAj@Gv@Ip@KRE`AWRETIn@UnCaAPMBA~B{@RGHCJCPE@?HAJ?HAH?`@A~@?h@Af@?X@L?F?D?J@N@PBTB`@Fj@Jj@P`@HND~@PLBFBPDLDJDLDLFTLdBfAh@^^Xb@\\HFNDNFVFZF^D^D`@D@?\\@Z?J?H?H?FAPAHCLCRGd@Od@QPGPEDAFAJCNA`@AZA~B?b@?\\AXAh@E`@Cb@?ZBRDb@JbBf@VF\\J`@HnAXTHr@ThC~@FB|Ah@xBn@\\FTDXBf@DF@D?N@PBTDVDPFt@\\b@RRJRHJBNFZHb@LNDJBb@H`@Fv@H"
+                  },
+                  "start_location": {
+                     "lat": 9.226736199999999,
+                     "lng": 76.8497095
+                  },
+                  "travel_mode": "DRIVING"
+               },
+               {
+                  "distance": {
+                     "text": "0.4 km",
+                     "value": 360
+                  },
+                  "duration": {
+                     "text": "1 min",
+                     "value": 67
+                  },
+                  "end_location": {
+                     "lat": 9.1246925,
+                     "lng": 76.8487859
+                  },
+                  "html_instructions": "Turn <b>right</b> at Deva Stores",
+                  "maneuver": "turn-right",
+                  "polyline": {
+                     "points": "m}tv@uaatMGr@A\\CXENGPKNQPg@GIFAFAJGd@E`@UrA]tAEROh@IVALEPAJ"
+                  },
+                  "start_location": {
+                     "lat": 9.1235859,
+                     "lng": 76.8516305
+                  },
+                  "travel_mode": "DRIVING"
+               },
+               {
+                  "distance": {
+                     "text": "0.3 km",
+                     "value": 263
+                  },
+                  "duration": {
+                     "text": "1 min",
+                     "value": 50
+                  },
+                  "end_location": {
+                     "lat": 9.124708699999999,
+                     "lng": 76.84653159999999
+                  },
+                  "html_instructions": "Turn <b>left</b>",
+                  "maneuver": "turn-left",
+                  "polyline": {
+                     "points": "iduv@}o`tM@HJJTVBRATKVM^GTEP?T?@D\\L^BNA\\Gr@Eh@Ih@"
+                  },
+                  "start_location": {
+                     "lat": 9.1246925,
+                     "lng": 76.8487859
+                  },
+                  "travel_mode": "DRIVING"
+               },
+               {
+                  "distance": {
+                     "text": "1.0 km",
+                     "value": 954
+                  },
+                  "duration": {
+                     "text": "3 mins",
+                     "value": 192
+                  },
+                  "end_location": {
+                     "lat": 9.1280187,
+                     "lng": 76.83884019999999
+                  },
+                  "html_instructions": "Turn <b>right</b> onto <b>Elamannoor Rd</b>/<wbr/><b>Elamannoor – Kalanjoor – Padom Rd</b><div style=\"font-size:0.9em\">Pass by Saranya Metals And Garments (on the left)</div>",
+                  "maneuver": "turn-right",
+                  "polyline": {
+                     "points": "mduv@ya`tMg@`@i@h@w@p@e@^_Az@Y\\Ul@Qv@I^GXWlAA?E`@MhAC`@IrAO~BIlAALMjBCTA`@Mf@I\\Od@Qb@i@|Aa@x@MXUd@{@pA"
+                  },
+                  "start_location": {
+                     "lat": 9.124708699999999,
+                     "lng": 76.84653159999999
+                  },
+                  "travel_mode": "DRIVING"
+               },
+               {
+                  "distance": {
+                     "text": "3.9 km",
+                     "value": 3852
+                  },
+                  "duration": {
+                     "text": "7 mins",
+                     "value": 391
+                  },
+                  "end_location": {
+                     "lat": 9.133219799999999,
+                     "lng": 76.8090248
+                  },
+                  "html_instructions": "Continue straight onto <b>Elamannoor – Kalanjoor – Padom Rd</b><div style=\"font-size:0.9em\">Pass by General Store (on the right in 2.7&nbsp;km)</div>",
+                  "maneuver": "straight",
+                  "polyline": {
+                     "points": "cyuv@wq~sMcB~BaA|@_@TULy@^QBeAN_Bt@GDcB`AMHOTQ\\Uz@m@`Cg@bBiApCMd@QdACPs@vAo@xAQX?@_AvAc@~@K\\?@?n@Px@J`@DP@jA?x@FT\\h@BZEPOLQHi@Pa@JGBi@n@GFgAnBABm@r@WXA@I^EPWlAAtBVtCJ`ALfAD\\Bj@@`@Bb@Bv@QvAIj@OfCE\\UpAOvAKp@GLINSZUv@On@o@zBUj@O^}AfE?BKXQt@In@CtAATCz@EhBAj@@rADn@@BjAnAd@d@t@t@RRVVFFVVPTDF@BHTLj@?~@?j@Ox@?BGf@@DJz@JhADd@JbBBZBLBXBl@H~BDfC?x@Ed@?V?B@DBBBBF@D@F?N@lAB`@Dd@Jh@TNHVJTH"
+                  },
+                  "start_location": {
+                     "lat": 9.1280187,
+                     "lng": 76.83884019999999
+                  },
+                  "travel_mode": "DRIVING"
+               },
+               {
+                  "distance": {
+                     "text": "8.8 km",
+                     "value": 8795
+                  },
+                  "duration": {
+                     "text": "13 mins",
+                     "value": 802
+                  },
+                  "end_location": {
+                     "lat": 9.152776299999999,
+                     "lng": 76.7362141
+                  },
+                  "html_instructions": "Turn <b>right</b> at Panjayathu Jn Bus Stop onto <b>Kayamkulam - Punalur Rd</b><div style=\"font-size:0.9em\">Pass by Bella Mobiles &amp; Computers (on the left)</div>",
+                  "maneuver": "turn-right",
+                  "polyline": {
+                     "points": "syvv@kwxsMERAJ?LAN?@Cv@Eh@CN?@CFENEFUZGHKJc@\\i@`@KHEFQXg@|@s@zAU`@mAlBq@bAMPc@n@aAzAe@x@INEHEHCLCJCRIf@EVCJS^]l@c@h@KHMJoAx@qAx@aB~@i@\\IFEFC@ILEHIRM\\Ol@Qp@o@fBQl@?@G`@Y`B]tCGn@K`AWdBWfAa@hAg@dAk@|@Yb@A@S\\Yh@EJCNCRAPA|@GhAAb@GdACTAJ?@AH[lASt@S~@Gl@Ev@EnA?@@LBNBLFNPXHNP^FNDHHXFZFdAC`@Eb@If@Mb@KPUZQNIDYV[R]X]^i@h@KNiAtA]`@i@p@KLGHELOZIXQf@CLIJWf@MXYr@CNCLAP?D@JVfCV~Aj@pCBP?RALAJGXM`@WbAQr@EZEXE`@?@?X@HDRJ^JZHZH`@BLHXPh@NZXh@b@dAFRPf@TjALbAJl@BX@f@@|ADhAAf@?d@Ad@Gl@Gj@Kp@In@Mh@CLKTKP_@l@KNsCrCi@h@_@f@Wj@Sd@Ql@Qj@M`@I\\EVCZEVCf@G`@Er@?h@@X@VL|ARvBLvA@Z?d@ALCb@MfAMzACzBAzAA^?RHhB?V?RCXEh@MfAWrCCHCHEHCDIJIHoAx@yAx@EDm@\\OLURQTMTA@CFGRCJERCVEnA?L?@AFAHCHEPQ`@_@`AQ`@ABeAzBk@vAe@hAY|@GVERARGv@CXCj@?\\A\\A^Eh@?DEPIXQt@GRGRMl@CXCTEv@Az@G`BIv@Ih@ERADADGJO`@_@x@]t@i@lAGLELK^Mj@Qx@W|AEd@Ct@ErAAfA@X?X@PDb@Lx@J`ABRPxB?RAJ?HAPK~@CRERWdA_@nAEPGVCNAV?FAP?N?^?T?TAVAPAJAJCNOp@Op@S`AGVELA@KVa@`AIRi@hAo@lAm@nAm@rAk@lASpA?JADCPCJAFSjA?DUrDCh@?T?ZF`ARtDLjBBPDTHZ^rALr@Hp@@VATATKd@Sh@a@`AWl@KXUh@Mb@CJGZ?@L\\"
+                  },
+                  "start_location": {
+                     "lat": 9.133219799999999,
+                     "lng": 76.8090248
+                  },
+                  "travel_mode": "DRIVING"
+               },
+               {
+                  "distance": {
+                     "text": "0.9 km",
+                     "value": 882
+                  },
+                  "duration": {
+                     "text": "2 mins",
+                     "value": 105
+                  },
+                  "end_location": {
+                     "lat": 9.1462132,
+                     "lng": 76.7321697
+                  },
+                  "html_instructions": "At <b>Central Jct</b>, take the <b>1st</b> exit onto <b>NH 183A</b><div style=\"font-size:0.9em\">Pass by JK Tyre Steel Wheels, Grace Tyres (on the left)</div>",
+                  "maneuver": "roundabout-left",
+                  "polyline": {
+                     "points": "{szv@ipjsMFNFLJXLT^j@v@Xb@Rn@Vt@^d@N\\RRJFHTVd@j@d@r@FJDHPPNJXN^RtBj@H@`Cr@t@`@PJt@Zl@Xt@\\nAf@l@ZTLNDPDJCL?d@?N?"
+                  },
+                  "start_location": {
+                     "lat": 9.152776299999999,
+                     "lng": 76.7362141
+                  },
+                  "travel_mode": "DRIVING"
+               },
+               {
+                  "distance": {
+                     "text": "0.2 km",
+                     "value": 176
+                  },
+                  "duration": {
+                     "text": "1 min",
+                     "value": 24
+                  },
+                  "end_location": {
+                     "lat": 9.144763299999999,
+                     "lng": 76.73275339999999
+                  },
+                  "html_instructions": "At the roundabout, take the <b>1st</b> exit onto <b>NH183</b>/<wbr/><b>NH 183A</b><div style=\"font-size:0.9em\">Pass by SK Chicken Shop (on the left)</div>",
+                  "maneuver": "roundabout-left",
+                  "polyline": {
+                     "points": "yjyv@awisM?A@?@??A@?@?@A@?@??@@?@?@?j@KNCB?D?`A]rAk@TIZK"
+                  },
+                  "start_location": {
+                     "lat": 9.1462132,
+                     "lng": 76.7321697
+                  },
+                  "travel_mode": "DRIVING"
+               },
+               {
+                  "distance": {
+                     "text": "2.3 km",
+                     "value": 2282
+                  },
+                  "duration": {
+                     "text": "3 mins",
+                     "value": 205
+                  },
+                  "end_location": {
+                     "lat": 9.1330185,
+                     "lng": 76.7183393
+                  },
+                  "html_instructions": "Turn <b>right</b> at <b>Nellimootilpaddi Jct</b> onto <b>NH 183A</b><div style=\"font-size:0.9em\">Pass by TES Electric Scooter. (on the left)</div>",
+                  "maneuver": "turn-right",
+                  "polyline": {
+                     "points": "wayv@uzisMdCxBLJHDD@HDNBj@Pd@N^JNDRBZBF@`BAFA\\GNCN?J?H?L@PBTBj@Nt@F~@VRFRJRJRNBBf@b@\\\\TXJNX`@JRPXLLPLZT\\PB@ZN^Nb@P|ChAbDjA`AXdAl@NNJNPVJZHXFXLp@h@vCDf@Db@F|@@TDXDXPj@Ld@Hj@@V@X?^?|@@X@Z?BFl@b@nGRzAFj@D\\F\\J^NZXl@jBjETl@Xp@Tb@v@rAR^JPZj@V^"
+                  },
+                  "start_location": {
+                     "lat": 9.144763299999999,
+                     "lng": 76.73275339999999
+                  },
+                  "travel_mode": "DRIVING"
+               },
+               {
+                  "distance": {
+                     "text": "64 m",
+                     "value": 64
+                  },
+                  "duration": {
+                     "text": "1 min",
+                     "value": 11
+                  },
+                  "end_location": {
+                     "lat": 9.1326702,
+                     "lng": 76.71812679999999
+                  },
+                  "html_instructions": "Turn <b>left</b> at Nest hostel<div style=\"font-size:0.9em\">Restricted usage road</div><div style=\"font-size:0.9em\">Destination will be on the left</div>",
+                  "maneuver": "turn-left",
+                  "polyline": {
+                     "points": "kxvv@s`gsMPCPAN?F?D@BB@FA\\?B"
+                  },
+                  "start_location": {
+                     "lat": 9.1330185,
+                     "lng": 76.7183393
+                  },
+                  "travel_mode": "DRIVING"
+               }
+            ],
+            "traffic_speed_entry": [],
+            "via_waypoint": []
+         }],
+         "overview_polyline": {
+            "points": "cbiw@uu`tM|AwAjAYdEGz@CzBc@rBq@r@QtGE|@K`@SZ]|AkBzB_C`AOz@HfLbCrMnDzHpBtAj@xDxBr@PlABpA\\xD~A~FhDdCj@pDSvE@hEIfCNhIx@f@@jAUfMeEvI}GtBw@tCcA`HyCrB}@~EcDfCyBzBeCzAcCr@oB`AeBnAaAzBkAtBu@bBqAvA}AhC{BhCqAdPiDnFqAl@EXDfBZdCPrAFdBI`Hu@vBDtGbBtBr@~DpBlE|AvEjArDlAfARlFdApA^rFlD|ChB~Bj@`D`@r@H~IrB~D|@nAHjIb@rGAvAOvAc@fF}@zBUvCLxGS`Mo@pAPrBr@p@FrHbBnFDvKcBxAIvFRfERfAAtF_@vF[zCo@fFoBjEuAlFC`CRpFlAf@PrD|B|AdAbB\\|CLbD}@j@MlEEdCIdACn@H|DfAzDbAhJ|CtBVnBZ|EjB`BZv@HIpAIh@S`@QPg@GKNe@fD}@jDGt@`@b@@h@g@~ARtAKjCIh@g@`@aBzAeBzAo@jA{@~D_A|La@jEuAdEaCjEcB~BaA|@u@b@kAb@eANyEfCa@r@cA|DqBtF_@jByB|E_AxAo@|A?p@\\zANlD`@dAU^eBj@{BjDeAlAK`@]~AAtBv@|HLhDq@hHy@hF]j@e@fBsDnKg@bCOpGFrDdGlG^lA?jBO|@El@VdCXrDVnIEzBPNjBFfAPx@^l@TG^EvAMbAi@|@eBtAsBzDcDdFuCtESl@W~AaB`CoInFg@hAcBtF_AzGSpBo@lDiAnCeA`Bu@tA]fHGl@kApFIvC`@fAh@hAPt@BfBOjAYt@kAhAaCvB}CxDi@`Ai@zAcAdCCp@n@fFn@bDKfA}@tDKvA`A~D~AtD|@jERlE@|De@zDi@~Ak@|@}D|Dw@rAe@rAo@bCU|BAnCp@hIS~CQvECzBHhDo@~GQb@}DhCyAdAe@t@UjAGfBwCjHsBvFSxBGfCUzAo@jCObDQxCO|@[x@oBjEq@rC]bCIhC@lCb@rDNxCQnBcAzDMfAAvAEjAe@~Bc@hBaBvDwD~HYtBYdBYnGh@bJr@vCVdB?l@Mz@u@jBgAtCKf@L^h@lA^j@v@XrAj@lCnAhB`Cn@r@xDpAvDtAfAf@`FzBd@R\\@bA?BCJ?B?dAOfE_BbDlCjBj@~AXnCIt@C`BXtB^f@Rj@^fBjBdA|AnAv@|FzBdFdBtA|@r@|AdAjGTpCn@vCBnCJfBdAtL|@fCpDnIrBpDV^PC`@ARLA`@"
+         },
+         "summary": "SH8 and Kayamkulam - Punalur Rd",
+         "warnings": [],
+         "waypoint_order": []
+      },
+      {
+         "bounds": {
+            "northeast": {
+               "lat": 9.2427247,
+               "lng": 76.8497095
+            },
+            "southwest": {
+               "lat": 9.132660399999999,
+               "lng": 76.6791077
+            }
+         },
+         "copyrights": "Map data ©2020",
+         "legs": [{
+            "distance": {
+               "text": "35.9 km",
+               "value": 35910
+            },
+            "duration": {
+               "text": "56 mins",
+               "value": 3349
+            },
+            "end_address": "Adoor - Kollam Road, Manakala, Kerala 691551, India",
+            "end_location": {
+               "lat": 9.1326702,
+               "lng": 76.71812679999999
+            },
+            "start_address": "Kalayikkal Building, Govt. Hospital Road, Konni, Kerala 689691, India",
+            "start_location": {
+               "lat": 9.226736199999999,
+               "lng": 76.8497095
+            },
+            "steps": [{
+                  "distance": {
+                     "text": "8 m",
+                     "value": 8
+                  },
+                  "duration": {
+                     "text": "1 min",
+                     "value": 1
+                  },
+                  "end_location": {
+                     "lat": 9.226785899999999,
+                     "lng": 76.84966120000001
+                  },
+                  "html_instructions": "Head <b>northwest</b> on <b>SH8</b> toward <b>Kumbazha - Konni - Vettor Rd</b>",
+                  "polyline": {
+                     "points": "cbiw@uu`tMIH"
+                  },
+                  "start_location": {
+                     "lat": 9.226736199999999,
+                     "lng": 76.8497095
+                  },
+                  "travel_mode": "DRIVING"
+               },
+               {
+                  "distance": {
+                     "text": "9.4 km",
+                     "value": 9416
+                  },
+                  "duration": {
+                     "text": "16 mins",
+                     "value": 934
+                  },
+                  "end_location": {
+                     "lat": 9.2290586,
+                     "lng": 76.781823
+                  },
+                  "html_instructions": "Turn <b>left</b> at Bank of Baroda onto <b>Chandanappalli - Konni Rd</b>/<wbr/><b>Chandanappalli-Konni Road</b>/<wbr/><b>Kaipattoor - Konni Rd</b><div style=\"font-size:0.9em\">Continue to follow Kaipattoor - Konni Rd</div><div style=\"font-size:0.9em\">Pass by United Konni (on the right)</div>",
+                  "maneuver": "turn-left",
+                  "polyline": {
+                     "points": "mbiw@ku`tM\\h@JRDH?D?B?FAD?BABCBEBCBQJYJ_@NIDGFWPg@Zg@Z_Af@o@XeAr@e@\\GDw@h@}@h@gAt@k@d@a@b@MTYh@i@v@MVKXWrAi@zBSv@IRININKL_Az@IHo@h@e@ZOHMBSDU@[BW@ODIDKJABMT]lAUz@AF_@fA[x@Qf@]l@c@l@QXA@Yf@a@f@q@v@U^OZQf@K^ABG^ADMtACj@@^@HBb@@`@?FATEVId@If@Kf@Ib@Md@GPIXMVWp@Qb@S`@S\\GLELCJKZGRINGLIRA?MRQRSPSJIBG@G@M?G@]AO?G?G@K@KBGDC@CBQNk@`@UNKJGDCDGRAR?PAj@EvAC~@A^?N?NBR@PDZ@HF^BTDf@Df@BV@Z@l@@f@ALAJEHGFGDGDIBo@L]HQBIBw@Ps@NGBGFADCDAD?D?D@F@LDN@@BHFXDTBR?R?H?L@X@HBJDFDHJLXb@`@n@\\h@BBj@|@bA~A^r@LZLZ?BPf@Nn@@F@H?PAZAZAPAJAPCNI^GZCNCTGTSp@Sf@Sh@[n@MTINU\\QTQPQPKNSVQXKRGFEFQRKLOTa@r@OZSb@Wj@Wf@QZSXSZUZSZKNIPMZKTEHEHKPQVMPGHCDADAB?B@FBDFLTVHJDDDFBD@BDJBFBJ@BBTFVDR@DDR@H?H?F?DCDADEHUb@IRIPSj@ITITWz@Sr@Sv@EPEPIn@In@Iv@Kz@CLIl@Kh@Qh@Q`@Wb@Ub@Qb@MTIXIRETGVEXKp@O|@ANARA`@?xAAvA?z@?zB?t@?B?p@@v@AfA?zBA|A?|A?\\?~@?~A?V?VCV?HAHEZIZGZIXERCTAH?H?H?H@L?N@L@JBNBNBTDP?@BRFTBNDLLj@HVFTFRFNFLHNVXX\\HJDHDHDH?@DLFPLj@@HBFFNJNPH^HTDHD^LzAf@HDHDHDJHTT^`@VXRVTVPXLTHLHPHT@FBFBP@T@JBf@@HD^Fp@F`ABn@?D@D@DBBDDHDLBB@ZH|Bf@|A^\\FZHd@Hd@JRDPFJBHB~@`@PJZNTJLD^Jv@Rh@R`@NXHXLd@R^TNJRNLHLH`Ab@\\LPHFBBBLVBJDL@JBJBXDV@VClCANE^EVEPEPM`@CDEJIRIJIJWVWTSVEFEHEHCHERCRCZC^A^AP?@ALK|@CVEVE\\AD?FEd@CJGTITOZIRGJe@dAWn@CFAH?H?H@LBJBNDPNb@\\ZNNHLFLBJBL?R@T?H?JBZDZJz@BRFt@Dn@BXBVLvADV@DBFDHBDDDDDFDDBF@LBNBRDHBB@B@FD@DBDBNBNDb@BX@XDd@@VBJ@FFHFDHBD@T@jB?ZAZC^G`@Gb@ETAL?N?`@Bd@DRQl@pANl@b@f@TH`@L\\PLFLHVTr@x@t@r@RJBF@H?j@?^PtBVzAJhABnAEV"
+                  },
+                  "start_location": {
+                     "lat": 9.226785899999999,
+                     "lng": 76.84966120000001
+                  },
+                  "travel_mode": "DRIVING"
+               },
+               {
+                  "distance": {
+                     "text": "47 m",
+                     "value": 47
+                  },
+                  "duration": {
+                     "text": "1 min",
+                     "value": 6
+                  },
+                  "end_location": {
+                     "lat": 9.228777400000002,
+                     "lng": 76.78152009999999
+                  },
+                  "html_instructions": "Turn <b>left</b> at Ravindran Vegetable Store to stay on <b>Kaipattoor - Konni Rd</b>",
+                  "maneuver": "turn-left",
+                  "polyline": {
+                     "points": "spiw@kmssMBHDFDFFFDDDDDBHDBB"
+                  },
+                  "start_location": {
+                     "lat": 9.2290586,
+                     "lng": 76.781823
+                  },
+                  "travel_mode": "DRIVING"
+               },
+               {
+                  "distance": {
+                     "text": "0.2 km",
+                     "value": 192
+                  },
+                  "duration": {
+                     "text": "1 min",
+                     "value": 20
+                  },
+                  "end_location": {
+                     "lat": 9.227059299999999,
+                     "lng": 76.78142869999999
+                  },
+                  "html_instructions": "Turn <b>left</b> onto <b>Chandanappally-Konni Rd</b>/<wbr/><b>Kaipattoor - Konni Rd</b>",
+                  "maneuver": "turn-left",
+                  "polyline": {
+                     "points": "{niw@okssMTAlAFF?pBLb@?\\?NAf@?"
+                  },
+                  "start_location": {
+                     "lat": 9.228777400000002,
+                     "lng": 76.78152009999999
+                  },
+                  "travel_mode": "DRIVING"
+               },
+               {
+                  "distance": {
+                     "text": "1.2 km",
+                     "value": 1197
+                  },
+                  "duration": {
+                     "text": "3 mins",
+                     "value": 167
+                  },
+                  "end_location": {
+                     "lat": 9.2266467,
+                     "lng": 76.77139339999999
+                  },
+                  "html_instructions": "Turn <b>right</b> onto <b>Thazhoorkadavu-Mayalil Rd</b><div style=\"font-size:0.9em\">Pass by Pump House Vallicode @ Achenkovil (on the right)</div>",
+                  "maneuver": "turn-right",
+                  "polyline": {
+                     "points": "cdiw@}jssM@d@?j@@z@?BCv@I~@VVNT@DBBLb@JrA?n@?\\Ah@Cf@C^Ch@A`@Cf@WjAAB]b@AH[rAETQfAC`@Ej@QhCAVIl@If@Bb@\\Vx@^@@Lp@AP?@Sv@Dl@@TI`B?bAMj@?Ff@b@\\JZN^x@"
+                  },
+                  "start_location": {
+                     "lat": 9.227059299999999,
+                     "lng": 76.78142869999999
+                  },
+                  "travel_mode": "DRIVING"
+               },
+               {
+                  "distance": {
+                     "text": "2.2 km",
+                     "value": 2222
+                  },
+                  "duration": {
+                     "text": "4 mins",
+                     "value": 239
+                  },
+                  "end_location": {
+                     "lat": 9.230264399999999,
+                     "lng": 76.75409839999999
+                  },
+                  "html_instructions": "Turn <b>right</b> at Mayal Bus Stop onto <b>Kaipattoor - Konni Rd</b>/<wbr/><b>Vallicode - Kaipattor Rd</b><div style=\"font-size:0.9em\">Pass by Udaya stores (on the left)</div>",
+                  "maneuver": "turn-right",
+                  "polyline": {
+                     "points": "qaiw@elqsMu@f@g@h@_@`@k@n@]^oAjAKRq@tAg@fAKROz@Cb@yAf@{@TCB]p@Sd@Gh@Y|@]dAg@vAKjAMd@I\\CVIhAE~ABdALT~@Jr@TZTNP`BbB?@^t@@FRd@Dh@?d@B`@BX@H?ZD^J^X`@BR?L?R?f@VCBT@d@Ft@Dv@GdACXC^ARCNG`@G`@ETETITORQZWd@OVOTABIREJCHAREVOn@M\\INMVKRMb@A?EPETEj@A^AJEpACr@AL?BMxAM\\GRMXIRA@GRCHCHENAN"
+                  },
+                  "start_location": {
+                     "lat": 9.2266467,
+                     "lng": 76.77139339999999
+                  },
+                  "travel_mode": "DRIVING"
+               },
+               {
+                  "distance": {
+                     "text": "0.4 km",
+                     "value": 429
+                  },
+                  "duration": {
+                     "text": "1 min",
+                     "value": 49
+                  },
+                  "end_location": {
+                     "lat": 9.231317499999999,
+                     "lng": 76.7504551
+                  },
+                  "html_instructions": "Turn <b>right</b> at <b>Kaipattoor Kadav Junction</b> onto <b>NH 183A</b><div style=\"font-size:0.9em\">Pass by Kaipattoor Kadav Junction Bus Stop (on the left)</div>",
+                  "maneuver": "turn-right",
+                  "polyline": {
+                     "points": "cxiw@c`nsMSDE@IHEDCFMVYr@Wv@Or@I^EZUvAM|AAXGn@Cz@G^AL?BADALCd@AZ"
+                  },
+                  "start_location": {
+                     "lat": 9.230264399999999,
+                     "lng": 76.75409839999999
+                  },
+                  "travel_mode": "DRIVING"
+               },
+               {
+                  "distance": {
+                     "text": "69 m",
+                     "value": 69
+                  },
+                  "duration": {
+                     "text": "1 min",
+                     "value": 10
+                  },
+                  "end_location": {
+                     "lat": 9.231188699999999,
+                     "lng": 76.74984669999999
+                  },
+                  "html_instructions": "At the roundabout, take the <b>1st</b> exit<div style=\"font-size:0.9em\">Pass by R.B Bakery (on the left)</div>",
+                  "maneuver": "roundabout-left",
+                  "polyline": {
+                     "points": "w~iw@kimsM?@@??@@??@?@@??@?@?@?@FV@FBFBV@P?N?B?B"
+                  },
+                  "start_location": {
+                     "lat": 9.231317499999999,
+                     "lng": 76.7504551
+                  },
+                  "travel_mode": "DRIVING"
+               },
+               {
+                  "distance": {
+                     "text": "7.8 km",
+                     "value": 7835
+                  },
+                  "duration": {
+                     "text": "11 mins",
+                     "value": 643
+                  },
+                  "end_location": {
+                     "lat": 9.224043499999999,
+                     "lng": 76.6855776
+                  },
+                  "html_instructions": "At MK Tea Stall, continue onto <b>Pandalam - Kaippattoor Road</b><div style=\"font-size:0.9em\">Pass by Post Office Kaippatoor (on the left)</div>",
+                  "polyline": {
+                     "points": "}}iw@qemsM?D?D@D?J@H?@@V@N?J?JAPANANANCPGTIV?@KXWl@Wh@U\\IHGJ?@GJCFAHAH?T?b@?N?PCPCZCVCP?@Kb@On@?@CLCRAJ?l@Ar@?b@?r@?lA?nA?f@@LBLBHDN`@h@NNvAxABDPPHHLJbAt@LLDDp@r@@@h@p@LLPNXRb@ZRPr@r@DBX\\l@h@@@^Tt@ZTJNHhC~AXT^XhAv@\\NNHpAh@PF^Lb@Nl@XpA`@n@Vj@TNJj@VrBjAf@Th@TB@lBdAVZV`@BJHXXxA@@HXL|@Cv@GdACJUfBS`AGZId@EPSnBAZAVCr@Cx@?LAt@GtAA`AC|@At@Ev@CfAEv@E~@AD?X@TFn@@\\BVB\\@`ABf@@`@B`A@h@?d@BnB@d@Bt@BZDXF^L`@L`@Nd@\\x@HRJTFTFTHXDZNr@Nh@Vp@Xr@BFVf@HRJVPb@JTZ|@\\`AVv@@DDLHVBN@N?N?NCT?@?TC\\EZMt@Kj@CPEVI~@?TAHAD?Z?~@?^?T@D?P@FDt@Db@Bt@?BBz@Bl@?N?H?FCPETG\\CFC\\ADCXEj@CRARAT?HAHAj@Cj@?L?D?R?XAVATARE^CT?H?L?R@TBPDPDRL`@BLDLFLDLJXHXHZ@DFTH`@FRBTDd@@JB~@BLBXLz@BPDb@FXPv@BV@TCZ@Z?h@@N@\\@h@?L?b@?f@Ah@Ah@?X@VBd@B\\@\\@fAA`@?HAVANCPGVOr@Ql@KXKVKXKXSr@GRENOp@Mr@CTCFG^Gb@CRCP?LCXEb@A@ANCZGTI`@GR?BCL?@GXEXEZGZCNEHIVIPMZ[j@ADMTKTUl@Sl@Sj@Sh@Sr@CHQh@I\\KXIPGLMTCDIJUZQZCFs@jCCHGNKVILUXA@C@OPCBIHEHEHELCREZA`@AX@VB`@B`@LbAFh@Df@DZFh@Dl@Bj@H|B?V@XDj@RnBJt@AR@HDt@FT@FHR@FDNDPFl@BZFXLZFXBJBLBZ@Z?T?TAPCNGRGPM^C`@?@Ev@?`A?LHj@Bb@Cn@An@@r@An@KfAIZSn@GLSv@YrAQhAIjA@h@Jn@"
+                  },
+                  "start_location": {
+                     "lat": 9.231188699999999,
+                     "lng": 76.74984669999999
+                  },
+                  "travel_mode": "DRIVING"
+               },
+               {
+                  "distance": {
+                     "text": "0.4 km",
+                     "value": 445
+                  },
+                  "duration": {
+                     "text": "1 min",
+                     "value": 72
+                  },
+                  "end_location": {
+                     "lat": 9.2202234,
+                     "lng": 76.6846747
+                  },
+                  "html_instructions": "Turn <b>left</b> at <b>Kadakkad Jct</b><div style=\"font-size:0.9em\">Pass by Kadakkad-medical Mission Rd (on the right in 400&nbsp;m)</div>",
+                  "maneuver": "turn-left",
+                  "polyline": {
+                     "points": "gqhw@{s`sMD?x@GbA@vABl@DlABb@Rn@Z~Af@h@NdCp@~@R"
+                  },
+                  "start_location": {
+                     "lat": 9.224043499999999,
+                     "lng": 76.6855776
+                  },
+                  "travel_mode": "DRIVING"
+               },
+               {
+                  "distance": {
+                     "text": "0.6 km",
+                     "value": 625
+                  },
+                  "duration": {
+                     "text": "2 mins",
+                     "value": 96
+                  },
+                  "end_location": {
+                     "lat": 9.220564299999999,
+                     "lng": 76.6791077
+                  },
+                  "html_instructions": "Turn <b>right</b> at the 1st cross street<div style=\"font-size:0.9em\">Pass by Arshadhara Ayurvedic Hospital (on the left in 600&nbsp;m)</div>",
+                  "maneuver": "turn-right",
+                  "polyline": {
+                     "points": "kygw@en`sMU|AWbCUnBGn@?@ANAP?RD~@E~@Kh@YfAQdACf@?`@Hp@Lx@\\`BPlA"
+                  },
+                  "start_location": {
+                     "lat": 9.2202234,
+                     "lng": 76.6846747
+                  },
+                  "travel_mode": "DRIVING"
+               },
+               {
+                  "distance": {
+                     "text": "8.5 km",
+                     "value": 8494
+                  },
+                  "duration": {
+                     "text": "11 mins",
+                     "value": 666
+                  },
+                  "end_location": {
+                     "lat": 9.1615628,
+                     "lng": 76.72042119999999
+                  },
+                  "html_instructions": "Turn <b>left</b> at 4eyes Hi-Tech Optics onto <b>NH183</b><div style=\"font-size:0.9em\">Pass by koodaram charitable trust (on the left in 1.0&nbsp;km)</div>",
+                  "maneuver": "turn-left",
+                  "polyline": {
+                     "points": "o{gw@mk_sMtAU~@U\\KbAa@v@[r@]b@Wj@]TMz@i@bBiA~AgAx@i@\\WnBqA~B}AtAaAzE_D~AeAv@e@LIb@YhAy@TM^Yn@c@`@]VSXWXYVYd@k@BCtAwB~AeCT_@PUX]^_@j@]`@UhBu@`Bo@fAa@xAm@fAc@t@]ZQZYX[b@k@T[^i@RYTWPQFGb@i@~@o@h@_@LIj@]fAw@^WPOLMTYNUr@sAT]BEZ]PO\\WJGXMjCaAxBy@pDwAv@]TONKROZYHKJMHIJOJOJORa@HSP_@Pa@Tg@Zs@Ra@P[Xa@\\e@n@y@b@e@^a@h@c@|@q@`Aq@bAu@VUNIpBaBBC`@[h@a@f@]~@g@xA_ANKHIHKNSJUHSHUF[F]B]B_@Dc@LqARgBDo@@O@YBq@@i@?C@_@D]DWHa@Ni@JWL[JQJOPULMVWNM\\UPMPGl@Uj@O\\E\\CzDOpAGf@IREFCJCDA^QPKPMRST]DGFQPe@La@H]Le@HYPi@N[NWV]PU|@sAj@cAXa@TWPO?ARM^Sh@UBA~@YXKfBi@`@M`@Gf@IPABAj@Gj@C^CjAA|@Ax@?H@h@@bADRBf@FF@d@HVHb@JdA`@~At@t@XXHTDRBj@DV@v@@x@C`@?b@ARA`@E\\IRGDCLEf@Ux@e@BAd@[pBmAFE\\[f@i@NWv@eAZ_@\\Yd@Yp@YHEn@WjAc@fAc@n@]bAu@vAuAj@m@`@[VSDCDCHEVMDCr@YbC}@bA_@~@]`A_@PIf@Q\\ORKZSZ[f@m@NQT[t@eAd@o@PQn@c@`Ai@jAm@p@Yz@WjAc@VKTMVSTQTSVWTQtByA|@w@b@a@fAcAl@e@PKNIt@WDCzA_@l@Uv@a@^S@An@_@@AZO\\K\\Gb@CVAT?~C@|@?XGPGDCFEDEBGDIBI"
+                  },
+                  "start_location": {
+                     "lat": 9.220564299999999,
+                     "lng": 76.6791077
+                  },
+                  "travel_mode": "DRIVING"
+               },
+               {
+                  "distance": {
+                     "text": "0.3 km",
+                     "value": 291
+                  },
+                  "duration": {
+                     "text": "1 min",
+                     "value": 39
+                  },
+                  "end_location": {
+                     "lat": 9.1618213,
+                     "lng": 76.72299719999999
+                  },
+                  "html_instructions": "At the roundabout, take the <b>1st</b> exit and stay on <b>NH183</b><div style=\"font-size:0.9em\">Pass by Vaudyuthi Bhavanam Kseb Adoor (on the left)</div>",
+                  "maneuver": "roundabout-left",
+                  "polyline": {
+                     "points": "wj|v@smgsMAI?KAI?I?E@EIoAEOGYACe@uBG]AU?U@YC_@F[Je@BO@C"
+                  },
+                  "start_location": {
+                     "lat": 9.1615628,
+                     "lng": 76.72042119999999
+                  },
+                  "travel_mode": "DRIVING"
+               },
+               {
+                  "distance": {
+                     "text": "2.3 km",
+                     "value": 2294
+                  },
+                  "duration": {
+                     "text": "3 mins",
+                     "value": 191
+                  },
+                  "end_location": {
+                     "lat": 9.144763299999999,
+                     "lng": 76.73275339999999
+                  },
+                  "html_instructions": "Turn <b>right</b> to stay on <b>NH183</b><div style=\"font-size:0.9em\">Pass by SBS Institute of Facility Management and MEP (on the right)</div>",
+                  "maneuver": "turn-right",
+                  "polyline": {
+                     "points": "kl|v@w}gsMLBd@@R?R?N?L?JAJCNEJEPKh@WPGv@SRC@A\\Cb@?dABxABvAEvAMb@IPEbA[z@c@h@Yj@a@d@g@h@q@Zi@n@wAXu@To@`@y@P]JSLMl@q@v@q@`@UXQXIf@Qv@Oh@IZCXAf@A`C@\\GVGREPKXO\\YvC_ChA{@`BiAnBoAhAq@dCkAbAa@r@[zAy@NMpBwAd@a@TW?C@CDG~@cARU?A?AA??A?A?A?A?A@A?A@A?A@??A@?@??A@?@?@A@?@??@@?@?@?j@KNCB?D?`A]rAk@TIZK"
+                  },
+                  "start_location": {
+                     "lat": 9.1618213,
+                     "lng": 76.72299719999999
+                  },
+                  "travel_mode": "DRIVING"
+               },
+               {
+                  "distance": {
+                     "text": "2.3 km",
+                     "value": 2282
+                  },
+                  "duration": {
+                     "text": "3 mins",
+                     "value": 205
+                  },
+                  "end_location": {
+                     "lat": 9.1330185,
+                     "lng": 76.7183393
+                  },
+                  "html_instructions": "Turn <b>right</b> at <b>Nellimootilpaddi Jct</b> onto <b>NH 183A</b><div style=\"font-size:0.9em\">Pass by TES Electric Scooter. (on the left)</div>",
+                  "maneuver": "turn-right",
+                  "polyline": {
+                     "points": "wayv@uzisMdCxBLJHDD@HDNBj@Pd@N^JNDRBZBF@`BAFA\\GNCN?J?H?L@PBTBj@Nt@F~@VRFRJRJRNBBf@b@\\\\TXJNX`@JRPXLLPLZT\\PB@ZN^Nb@P|ChAbDjA`AXdAl@NNJNPVJZHXFXLp@h@vCDf@Db@F|@@TDXDXPj@Ld@Hj@@V@X?^?|@@X@Z?BFl@b@nGRzAFj@D\\F\\J^NZXl@jBjETl@Xp@Tb@v@rAR^JPZj@V^"
+                  },
+                  "start_location": {
+                     "lat": 9.144763299999999,
+                     "lng": 76.73275339999999
+                  },
+                  "travel_mode": "DRIVING"
+               },
+               {
+                  "distance": {
+                     "text": "64 m",
+                     "value": 64
+                  },
+                  "duration": {
+                     "text": "1 min",
+                     "value": 11
+                  },
+                  "end_location": {
+                     "lat": 9.1326702,
+                     "lng": 76.71812679999999
+                  },
+                  "html_instructions": "Turn <b>left</b> at Nest hostel<div style=\"font-size:0.9em\">Restricted usage road</div><div style=\"font-size:0.9em\">Destination will be on the left</div>",
+                  "maneuver": "turn-left",
+                  "polyline": {
+                     "points": "kxvv@s`gsMPCPAN?F?D@BB@FA\\?B"
+                  },
+                  "start_location": {
+                     "lat": 9.1330185,
+                     "lng": 76.7183393
+                  },
+                  "travel_mode": "DRIVING"
+               }
+            ],
+            "traffic_speed_entry": [],
+            "via_waypoint": []
+         }],
+         "overview_polyline": {
+            "points": "cbiw@uu`tMd@pAAV{Az@oHlEcDvBcDtC}ArC_BzG_BhBoBxAsAN}@XsCtIyE~Go@fB[fDHnBQzAeBnG_BzD]p@gAdAeBFmBdAm@f@KdB?xG`@pFA`A]\\gFhAMl@^`C^fBzFnJn@vB@~@a@fD{BdGiClDaCzD{F`KOXL^z@nA`@tBk@dBwBbHiAjI{BfF}@nFElb@q@hHrAhH`BdCn@xBrAh@nC`A`C~BxAlCb@xFF`A`@R`KzBjMtEpE`Cl@jB@lEWzAa@fAcAdAe@r@QlA_@nEs@dDuAzDNz@fA|ATbCx@zIh@fApAZ`@hCLpA^TxDCzBWdBHRQl@pAr@tAbBp@nClCVR@t@t@zHFxBXZtG`@l@Af@?@d@@fBCz@I~@VVPZ\\jDInCa@~D}@dCa@jDg@vF`@z@z@`@JbASx@AhFMr@dAn@z@hA}ApAyD|DqBdES~AuC|@}@dCw@bCs@bDe@dDAdDlA`@nAj@pBtBt@dBLjCRdB\\t@?`@?f@VCDz@@lEo@hEkBfDaAjDa@hAOlBKvCq@dDWr@IXUTYXoAvDiAvKIhBBD?FVrCC`CgBpEa@tAO~C_@bBG`CHbI|DpEtEnEtEbEhKnGtIdD`JjEdC`BZl@n@nCHtBKpA{@jFg@fJe@bOh@bT^vBdAtCbBfGdCfGlAtE_AdKVfMe@xDKhDOnDb@~C|@tCh@dFr@lGFvFHnHErAm@jCaBnFm@hEoAfI{EfMyAzCmAxDs@nAu@dAMjBV~Cn@fKt@tIl@hD\\nADbBm@bEL~CEbEq@`DiA`HLxA~@GvGN|EfBdEdAm@`F_@pDAdD{@~Et@nFPlAtAU|Aa@rEsBhO{JdUiOjFiE`IaLxPkHpAgAlBkCrA{AbDwBfCmBnBaDp@s@nEoBxJ_EhAaAhB}CvA_DxB}CxIeHrKuHn@_Ab@cBx@uJF_Cd@aCxB_DnBaAbHi@tC[bAc@`AgAp@wBx@eCvB_DlBmC|Ay@bIsBhIShDRhB`@tFzBlBPvDCfBYpGqDtF}FvD{AvBaAzCkCjBaBl@[tMaFrBiB`CcDnEmCpEaBzHcGjDwCfDeArFkCnBMhGMVWFi@Y}Co@_EP{BDSr@DdA?xDqAvAI~CFnDStDoAdDuCzBgFlAyB`DkCbDu@~EEzAa@xGeF`LwGbFeClDuCzAgBAKDGRClGoBbDlCjBj@~AXnCIvCT|Cr@j@^lDhElIrDdFdBtA|@r@|AzA|Kn@vCBnCpA|OnFvMrBpDh@Z`@ARLA`@"
+         },
+         "summary": "Kaipattoor - Konni Rd and NH183",
+         "warnings": [],
+         "waypoint_order": []
+      }
+   ],
    "status": "OK"
 }
