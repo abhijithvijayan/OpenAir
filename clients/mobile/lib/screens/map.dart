@@ -20,6 +20,7 @@ class _MapState extends State<Map> {
   static const LatLng _center = const LatLng(9.1530, 76.7356);
   LatLng _lastMapPosition = _center;
   Set<Polyline> _polylines = {};
+  Set<Marker> _markers = {};
   List<LatLng> polylineCoordinates = [];
 
   _onMapCreated(GoogleMapController controller) {
@@ -52,6 +53,27 @@ class _MapState extends State<Map> {
     }
   }
 
+  _getMarkers() {
+    final List<LatLng> _markerLocations = [
+      LatLng(9.2267362, 76.8497095),
+      LatLng(9.2290586, 76.781823),
+      LatLng(9.2108601, 76.76513940000001),
+      LatLng(9.1527763, 76.7362141),
+      LatLng(9.1326702, 76.7181268),
+    ];
+
+    for (LatLng markerLocation in _markerLocations) {
+      _markers.add(
+        Marker(
+            markerId:
+                MarkerId(_markerLocations.indexOf(markerLocation).toString()),
+            position: markerLocation,
+            infoWindow: InfoWindow(title: 'AQI', snippet: '80'),
+            icon: BitmapDescriptor.defaultMarkerWithHue(90)),
+      );
+    }
+  }
+
   _addPolyLine() {
     PolylineId id = PolylineId("poly");
     Polyline polyline = Polyline(
@@ -78,6 +100,7 @@ class _MapState extends State<Map> {
     super.initState();
 
     _getPolyline();
+    _getMarkers();
   }
 
   @override
@@ -85,11 +108,12 @@ class _MapState extends State<Map> {
     return Scaffold(
       body: Stack(children: <Widget>[
         GoogleMap(
-          initialCameraPosition: CameraPosition(target: _center, zoom: 10.0),
+          initialCameraPosition: CameraPosition(target: _center, zoom: 11.5),
           onMapCreated: _onMapCreated,
           onCameraMove: _onCameraMove,
           mapType: _currentMapType,
           polylines: _polylines,
+          markers: _markers,
         ),
         Positioned(
           top: 50,
