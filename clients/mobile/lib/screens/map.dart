@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:google_maps_webservice/places.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter_google_places/flutter_google_places.dart';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 
 class Map extends StatefulWidget {
   @override
@@ -13,11 +14,13 @@ class Map extends StatefulWidget {
 
 class _MapState extends State<Map> {
   Completer<GoogleMapController> _controller = Completer();
-
   MapType _currentMapType = MapType.normal;
+  PolylinePoints polylinePoints = PolylinePoints();
   // some native location
   static const LatLng _center = const LatLng(9.1530, 76.7356);
   LatLng _lastMapPosition = _center;
+  Set<Polyline> _polylines = {};
+  List<LatLng> polylineCoordinates = [];
 
   _onMapCreated(GoogleMapController controller) {
     _controller.complete(controller);
@@ -49,6 +52,34 @@ class _MapState extends State<Map> {
     }
   }
 
+  _addPolyLine() {
+    PolylineId id = PolylineId("poly");
+    Polyline polyline = Polyline(
+        polylineId: id, color: Colors.red, points: polylineCoordinates);
+    _polylines.add(polyline);
+    setState(() {});
+  }
+
+  _getPolyline() async {
+    List<PointLatLng> result = polylinePoints.decodePolyline(
+        "cbiw@uu`tMIH\\h@P\\AVKNoAj@qAz@}EpCcDvBsBzAo@x@}ArC_BzG_BhBoBxAsANg@FUPcAbDoApDuAvBcCfDo@fB[fDHnBQzAm@xCw@tB_BzD]p@gAdAeBFg@LeAv@m@f@KdBKfEJpA`@pFA`A]\\gFhAMR?XLh@PvABz@Zj@|A`C|ClFn@vB@~@a@fDs@dCgA~BiClDk@p@uAhCuAhCiAbB{ArCOXL^z@nA`@tBC\\g@fAwBbHiAjI{BfF}@nFElb@CpAY|AUlA@j@TrB|@tD`BdCn@xB\\Xt@NnC`A^T`BhB~@tAXv@b@xFF`A`@R`KzB~D~AjGtBpAz@~BdA\\j@N~@@lEWzAa@fAcAdAe@r@QlA_@nEMpAe@rAoAtCEd@Nz@l@~@X\\Nz@DfAx@zIPn@VVpAZP`@NfBLpA^TxDCzBWdBHRQl@pANl@b@f@v@Vj@XnClCVR@t@PtCb@dDAfBHPXZh@JjFTrCFlEDxEMxA?~BTdHz@vBr@rAdAbAd@x@j@hE`D|CpBd@r@LdAXnDZpCV~AtAnDh@`Br@rDr@xGlECvDtCb@l@dAlC|ArEtC`DXn@p@dAhBv@rBv@zDd@f@LHn@i@|Bm@bBKdALpAmDjBeAjFgAvEQbABhB`@jBR|@N`B_@|D_CjFSvASVsA`@G|@i@j@QtAJbCh@dDLxF@fBCt@TtAb@pBb@nEAfA]bBy@hCOz@Fp@El@e@fDRtBDzApHX|AJz@MrBIpGbA^DnAQdFaBbDa@dH`@tFdBhA`AVl@d@`A~Av@|C\\|Cd@pCDfETbBEpFs@rEUhDZrDHtCi@`Ae@z@}@n@Wp@ArCZbBLjEOpAFnFxAbDn@lBNdGOtP|@vDJbDlAtCdAnD|AlJ`DxJtBv@Pl@?n@IlAi@f@UbAOT?GvBBfAx@YxAa@vBYnEJvAc@pBA|CC|A@rAJtBZ~Cj@jEFfCDjBKrA]p@y@FiBLiAVUbEY`Ac@x@_@fA}@xAeAhBo@|@KtANj@JbAj@d@Vl@NtAHlDbAdCdAjB\\rCNr@VrAhCL`AZVtAb@dAnAR`@Aj@KfCNrBh@~@`@ZzDx@xA^`@p@j@x@bBx@zBx@a@bAYlAh@tAl@`AzAl@hDzAvAxAdAzAh@ZtC~@jCt@fAl@hFzBdBt@nACBCH?D?~@OpDsAZKdCxBVPjA\\hBd@lC@hAK~@H`BVrA^z@f@~A~AbA~AxAbAbBr@`ItCfCfAx@rAhA|FT~Cj@dCL|BBvBfAdMh@vBtDxIlBhDr@jAb@E`@D?h@");
+
+    if (result.isNotEmpty) {
+      result.forEach((PointLatLng point) {
+        polylineCoordinates.add(LatLng(point.latitude, point.longitude));
+      });
+    }
+
+    _addPolyLine();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    _getPolyline();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,6 +89,7 @@ class _MapState extends State<Map> {
           onMapCreated: _onMapCreated,
           onCameraMove: _onCameraMove,
           mapType: _currentMapType,
+          polylines: _polylines,
         ),
         Positioned(
           top: 50,

@@ -26,6 +26,7 @@ dependencies:
   http:
   google_maps_flutter:
   flutter_google_places:
+  flutter_polyline_points:
   google_maps_webservice:
 
 
