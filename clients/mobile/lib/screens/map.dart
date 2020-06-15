@@ -22,6 +22,8 @@ class _MapState extends State<Map> {
   Set<Polyline> _polylines = {};
   Set<Marker> _markers = {};
   List<LatLng> polylineCoordinates = [];
+  static const GoogleApiKey = "API_KEY_HERE";
+  GoogleMapsPlaces _places = GoogleMapsPlaces(apiKey: GoogleApiKey);
 
   _onMapCreated(GoogleMapController controller) {
     _controller.complete(controller);
@@ -95,6 +97,36 @@ class _MapState extends State<Map> {
     _addPolyLine();
   }
 
+  void onError(PlacesAutocompleteResponse response) {
+    print(response.errorMessage);
+  }
+
+  Future<void> _handlePressButton() async {
+    // show input autocomplete with selected mode
+    // then get the Prediction selected
+    Prediction p = await PlacesAutocomplete.show(
+        context: context,
+        apiKey: GoogleApiKey,
+        onError: onError,
+        mode: Mode.overlay, // Mode.fullscreen
+        language: "en",
+        components: [new Component(Component.country, "in")]);
+
+    displayPrediction(p);
+  }
+
+  Future<Null> displayPrediction(Prediction p) async {
+    if (p != null) {
+      // get detail (lat/lng)
+      PlacesDetailsResponse detail =
+          await _places.getDetailsByPlaceId(p.placeId);
+      final lat = detail.result.geometry.location.lat;
+      final lng = detail.result.geometry.location.lng;
+
+      print("${p.description} - $lat/$lng");
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -133,18 +165,7 @@ class _MapState extends State<Map> {
                         spreadRadius: 3)
                   ]),
               child: TextField(
-                  onTap: () async {
-                    const GoogleApiKey = "API_KEY_HERE";
-
-                    Prediction p = await PlacesAutocomplete.show(
-                        context: context,
-                        apiKey: GoogleApiKey,
-                        mode: Mode.overlay, // Mode.fullscreen
-                        language: "en",
-                        components: [new Component(Component.country, "in")]);
-
-                    if (p != null) {}
-                  },
+                  onTap: _handlePressButton,
                   controller: null,
                   cursorColor: Colors.blue.shade900,
                   decoration: InputDecoration(
@@ -181,6 +202,7 @@ class _MapState extends State<Map> {
                     ]),
                 child: TextField(
                     controller: null,
+                    onTap: _handlePressButton,
                     cursorColor: Colors.black,
                     decoration: InputDecoration(
                         icon: Container(
