@@ -1,5 +1,5 @@
-name: openair
-description: A new Flutter project.
+name: OpenAir
+description: Real-time Air Quality Monitoring and Navigation System
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `pub publish`. This is preferred for private packages.
@@ -24,6 +24,8 @@ dependencies:
   flutter:
     sdk: flutter
   google_maps_flutter:
+  flutter_google_places:
+  google_maps_webservice:
 
 
   # The following adds the Cupertino Icons font to your application.

@@ -1,7 +1,9 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
+
+import 'package:google_maps_webservice/places.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:flutter_google_places/flutter_google_places.dart';
 
 class Map extends StatefulWidget {
   @override
@@ -44,6 +46,18 @@ class _MapState extends State<Map> {
                         spreadRadius: 3)
                   ]),
               child: TextField(
+                  onTap: () async {
+                    const GoogleApiKey = "API_KEY_HERE";
+
+                    Prediction p = await PlacesAutocomplete.show(
+                        context: context,
+                        apiKey: GoogleApiKey,
+                        mode: Mode.overlay, // Mode.fullscreen
+                        language: "en",
+                        components: [new Component(Component.country, "in")]);
+
+                    if (p != null) {}
+                  },
                   controller: null,
                   cursorColor: Colors.blue.shade900,
                   decoration: InputDecoration(
