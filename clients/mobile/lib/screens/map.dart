@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:flutter/material.dart';
 
 import 'package:http/http.dart' as http;
@@ -6,6 +7,8 @@ import 'package:google_maps_webservice/places.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter_google_places/flutter_google_places.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
+
+import '../model/routes_api_response.dart';
 
 class Map extends StatefulWidget {
   @override
@@ -38,23 +41,32 @@ class _MapState extends State<Map> {
   bool loading = false;
 
   void getRoutes() async {
-    try {
-      var url = 'http://localhost:5001/api/v1/get_routes_data';
-      setState(() {
-        loading = true;
-      });
-      final response = await http.post(url, body: {
-        'start_location': {'lat': 9.2267063, 'lng': 76.8496779},
-        'end_location': {'lat': 9.1323982, 'lng': 76.718111}
-      });
-    } catch (err) {
-      //
-      print(err);
-    } finally {
-      setState(() {
-        loading = false;
-      });
+    var url = 'http://localhost:5001/api/v1/get_routes_data';
+
+    setState(() {
+      loading = true;
+    });
+    final response = await http.post(url, body: {
+      'start_location': {'lat': 9.2267063, 'lng': 76.8496779},
+      'end_location': {'lat': 9.1323982, 'lng': 76.718111}
+    }, headers: {
+      "Accept": "application/json"
+    });
+    setState(() {
+      loading = false;
+    });
+
+    if (response.statusCode == 200) {
+      ApiResponse data = ApiResponse.fromJson(json.decode(response.body));
+      _handleRouteGeneration(data.data.data);
+    } else {
+      throw Exception('An error occurred getting routes');
     }
+  }
+
+  _handleRouteGeneration(ResponseData data) {
+    List<dynamic> routes = data.routes;
+    print(routes);
   }
 
   _getMarkers() {
