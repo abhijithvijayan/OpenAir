@@ -73,6 +73,30 @@ class _MapState extends State<Map> {
     }
   }
 
+  BitmapDescriptor getColoredMarker(int aqi) {
+    if (aqi <= 50) {
+      // green
+      return BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen);
+    } else if (aqi >= 51 && aqi <= 100) {
+      // yellow
+      return BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueYellow);
+    } else if (aqi >= 101 && aqi <= 150) {
+      // orange
+      return BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueOrange);
+    } else if (aqi >= 151 && aqi <= 200) {
+      // red
+      return BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed);
+    } else if (aqi >= 201 && aqi <= 300) {
+      // purple(not available)
+      return BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueViolet);
+    } else if (aqi >= 301 && aqi <= 500) {
+      // maroon(not available)
+      return BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue);
+    }
+
+    return BitmapDescriptor.defaultMarkerWithHue(10);
+  }
+
   _handleRouteGeneration(ResponseData data) {
     List<Routes> routes = data.routes;
 
@@ -114,7 +138,7 @@ class _MapState extends State<Map> {
                 position: LatLng(step.location.lat, step.location.lng),
                 infoWindow:
                     InfoWindow(title: 'AQI', snippet: step.aqi.toString()),
-                icon: BitmapDescriptor.defaultMarkerWithHue(90)),
+                icon: getColoredMarker(step.aqi)),
           );
         }).toList();
       }).toList();
