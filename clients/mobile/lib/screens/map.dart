@@ -16,6 +16,8 @@ class _MapState extends State<Map> {
   Completer<GoogleMapController> _controller = Completer();
   MapType _currentMapType = MapType.normal;
   PolylinePoints polylinePoints = PolylinePoints();
+  TextEditingController sourceController = new TextEditingController();
+  TextEditingController destinationController = new TextEditingController();
   // some native location
   static const LatLng _center = const LatLng(9.1530, 76.7356);
   LatLng _lastMapPosition = _center;
@@ -101,30 +103,27 @@ class _MapState extends State<Map> {
     print(response.errorMessage);
   }
 
-  Future<void> _handlePressButton() async {
+  Future<Prediction> getPrediction() {
     // show input autocomplete with selected mode
-    // then get the Prediction selected
-    Prediction p = await PlacesAutocomplete.show(
+    return PlacesAutocomplete.show(
         context: context,
         apiKey: GoogleApiKey,
         onError: onError,
         mode: Mode.overlay, // Mode.fullscreen
         language: "en",
         components: [new Component(Component.country, "in")]);
-
-    displayPrediction(p);
   }
 
-  Future<Null> displayPrediction(Prediction p) async {
-    if (p != null) {
-      // get detail (lat/lng)
-      PlacesDetailsResponse detail =
-          await _places.getDetailsByPlaceId(p.placeId);
-      final lat = detail.result.geometry.location.lat;
-      final lng = detail.result.geometry.location.lng;
+  Future<Null> displayPrediction(Prediction p, TextEditingController t) async {
+    // get detail (lat/lng)
+    PlacesDetailsResponse detail = await _places.getDetailsByPlaceId(p.placeId);
+    final lat = detail.result.geometry.location.lat;
+    final lng = detail.result.geometry.location.lng;
 
-      print("${p.description} - $lat/$lng");
-    }
+    // ToDo: set lat/lng in state
+    print("${p.description} - $lat/$lng");
+    // update text input value
+    t.text = p.description;
   }
 
   @override
@@ -143,6 +142,7 @@ class _MapState extends State<Map> {
           initialCameraPosition: CameraPosition(target: _center, zoom: 11.5),
           onMapCreated: _onMapCreated,
           onCameraMove: _onCameraMove,
+          compassEnabled: true,
           mapType: _currentMapType,
           polylines: _polylines,
           markers: _markers,
@@ -165,8 +165,14 @@ class _MapState extends State<Map> {
                         spreadRadius: 3)
                   ]),
               child: TextField(
-                  onTap: _handlePressButton,
-                  controller: null,
+                  onTap: () async {
+                    Prediction p = await getPrediction();
+
+                    if (p != null) {
+                      displayPrediction(p, sourceController);
+                    }
+                  },
+                  controller: sourceController,
                   cursorColor: Colors.blue.shade900,
                   decoration: InputDecoration(
                       icon: Container(
@@ -201,8 +207,19 @@ class _MapState extends State<Map> {
                           spreadRadius: 3)
                     ]),
                 child: TextField(
-                    controller: null,
-                    onTap: _handlePressButton,
+                    onTap: () async {
+                      Prediction p = await getPrediction();
+
+                      if (p != null) {
+                        displayPrediction(p, destinationController);
+                      }
+                    },
+                    controller: destinationController,
+                    textInputAction: TextInputAction.go,
+                    onSubmitted: (value) {
+                      print('submitted $value');
+                      getRoutes();
+                    },
                     cursorColor: Colors.black,
                     decoration: InputDecoration(
                         icon: Container(

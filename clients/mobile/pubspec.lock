@@ -75,7 +75,7 @@ packages:
       name: flutter_google_places
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.2.5"
+    version: "0.2.3"
   flutter_plugin_android_lifecycle:
     dependency: transitive
     description:
@@ -192,7 +192,7 @@ packages:
       name: rxdart
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.24.1"
+    version: "0.22.6"
   sky_engine:
     dependency: transitive
     description: flutter
