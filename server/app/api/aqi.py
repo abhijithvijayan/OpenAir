@@ -101,8 +101,7 @@ def getRoutesAQI():
                                     'location': static_point["start_location" if pos ==
                                                              0 else "end_location"],
                                     'distance':
-                                        {'value': 0} if pos == 0 else leg["distance"],
-                                    'polyline': {},
+                                        {'value': 0} if pos == 0 else leg["distance"]
                                 }
                                 # Push point to array of aqi points
                                 nearest_aqi_points.append(point_on_map)
@@ -135,8 +134,7 @@ def getRoutesAQI():
                                         'location': selected_step["end_location"],
                                         'distance': {
                                             'value': selected_response["dist_from_selected"],
-                                        },
-                                        'polyline': selected_step["polyline"],
+                                        }
                                     }
                                     # Push to array of aqi points (before the last entry)
                                     nearest_aqi_points.insert(
@@ -154,12 +152,21 @@ def getRoutesAQI():
 
                     routes.append({
                         'legs': legs,
+                        'overview_polyline': current_route["overview_polyline"],
                         'summary': current_route["summary"]
                     })
 
         return {
-            'routes': routes,
-            'status': 'ok'
+            'response': {
+                'statusCode': 200,
+                'statusText': 'OK'
+            },
+            'data': {
+                'data': {
+                    'routes': routes
+                },
+                'status': True
+            }
         }
 
     return badrequest('Error opening the sample file')
