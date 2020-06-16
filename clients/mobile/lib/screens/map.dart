@@ -16,19 +16,20 @@ class Map extends StatefulWidget {
 }
 
 class _MapState extends State<Map> {
-  Completer<GoogleMapController> _controller = Completer();
-  MapType _currentMapType = MapType.normal;
-  PolylinePoints polylinePoints = PolylinePoints();
-  TextEditingController sourceController = new TextEditingController();
-  TextEditingController destinationController = new TextEditingController();
+  static const GoogleApiKey = "API_KEY_HERE";
   // some native location
   static const LatLng _center = const LatLng(9.1530, 76.7356);
+
+  PolylinePoints polylinePoints = new PolylinePoints();
+  Completer<GoogleMapController> _controller = new Completer();
+  GoogleMapsPlaces _places = new GoogleMapsPlaces(apiKey: GoogleApiKey);
+  TextEditingController sourceController = new TextEditingController();
+  TextEditingController destinationController = new TextEditingController();
+
   LatLng _lastMapPosition = _center;
+  MapType _currentMapType = MapType.normal;
   Set<Polyline> _polylines = {};
   Set<Marker> _markers = {};
-  List<LatLng> polylineCoordinates = [];
-  static const GoogleApiKey = "API_KEY_HERE";
-  GoogleMapsPlaces _places = GoogleMapsPlaces(apiKey: GoogleApiKey);
 
   _onMapCreated(GoogleMapController controller) {
     _controller.complete(controller);
@@ -41,12 +42,15 @@ class _MapState extends State<Map> {
   bool loading = false;
 
   void getRoutes(String value) async {
-    print('submitted $value');
     var url = 'http://10.0.2.2:5001/api/v1/get_routes_data';
     var body = {
       "start_location": {"lat": 9.2267063, "lng": 76.8496779},
       "end_location": {"lat": 9.1323982, "lng": 76.718111}
     };
+
+    // ToDo(fix): clear existing polylines and markers(if any)
+    _markers.clear();
+    _polylines.clear();
 
     setState(() {
       loading = true;
@@ -70,50 +74,55 @@ class _MapState extends State<Map> {
   }
 
   _handleRouteGeneration(ResponseData data) {
-    List<dynamic> routes = data.routes;
-    print(routes);
+    List<Routes> routes = data.routes;
+
+    routes.map((route) {
+      final legs = route.legs;
+      // generate polyline
+      List<PointLatLng> coordinates =
+          decodePolyline(route.overviewPolyline.points);
+
+      if (coordinates.isNotEmpty) {
+        List<LatLng> polylineCoordinates = [];
+        PolylineId pId =
+            PolylineId("polyline" + routes.indexOf(route).toString());
+
+        coordinates.forEach((PointLatLng point) {
+          polylineCoordinates.add(LatLng(point.latitude, point.longitude));
+        });
+
+        Polyline polyline = Polyline(
+            polylineId: pId, color: Colors.blue, points: polylineCoordinates);
+        // add to set
+        _polylines.add(polyline);
+      }
+
+      // generate markers
+      legs.map((leg) {
+        final steps = leg.steps;
+
+        steps.map((step) {
+          final markerUniqueId = MarkerId('marker' +
+              routes.indexOf(route).toString() +
+              legs.indexOf(leg).toString() +
+              steps.indexOf(step).toString());
+
+          // ToDo: source/destination might suffer duplication
+          _markers.add(
+            Marker(
+                markerId: markerUniqueId,
+                position: LatLng(step.location.lat, step.location.lng),
+                infoWindow:
+                    InfoWindow(title: 'AQI', snippet: step.aqi.toString()),
+                icon: BitmapDescriptor.defaultMarkerWithHue(90)),
+          );
+        }).toList();
+      }).toList();
+    }).toList();
   }
 
-  _getMarkers() {
-    final List<LatLng> _markerLocations = [
-      LatLng(9.2267362, 76.8497095),
-      LatLng(9.2290586, 76.781823),
-      LatLng(9.2108601, 76.76513940000001),
-      LatLng(9.1527763, 76.7362141),
-      LatLng(9.1326702, 76.7181268),
-    ];
-
-    for (LatLng markerLocation in _markerLocations) {
-      _markers.add(
-        Marker(
-            markerId:
-                MarkerId(_markerLocations.indexOf(markerLocation).toString()),
-            position: markerLocation,
-            infoWindow: InfoWindow(title: 'AQI', snippet: '80'),
-            icon: BitmapDescriptor.defaultMarkerWithHue(90)),
-      );
-    }
-  }
-
-  _addPolyLine() {
-    PolylineId id = PolylineId("poly");
-    Polyline polyline = Polyline(
-        polylineId: id, color: Colors.blue, points: polylineCoordinates);
-    _polylines.add(polyline);
-    setState(() {});
-  }
-
-  _getPolyline() async {
-    List<PointLatLng> result = polylinePoints.decodePolyline(
-        "cbiw@uu`tMIH\\h@P\\AVKNoAj@qAz@}EpCcDvBsBzAo@x@}ArC_BzG_BhBoBxAsANg@FUPcAbDoApDuAvBcCfDo@fB[fDHnBQzAm@xCw@tB_BzD]p@gAdAeBFg@LeAv@m@f@KdBKfEJpA`@pFA`A]\\gFhAMR?XLh@PvABz@Zj@|A`C|ClFn@vB@~@a@fDs@dCgA~BiClDk@p@uAhCuAhCiAbB{ArCOXL^z@nA`@tBC\\g@fAwBbHiAjI{BfF}@nFElb@CpAY|AUlA@j@TrB|@tD`BdCn@xB\\Xt@NnC`A^T`BhB~@tAXv@b@xFF`A`@R`KzB~D~AjGtBpAz@~BdA\\j@N~@@lEWzAa@fAcAdAe@r@QlA_@nEMpAe@rAoAtCEd@Nz@l@~@X\\Nz@DfAx@zIPn@VVpAZP`@NfBLpA^TxDCzBWdBHRQl@pANl@b@f@v@Vj@XnClCVR@t@PtCb@dDAfBHPXZh@JjFTrCFlEDxEMxA?~BTdHz@vBr@rAdAbAd@x@j@hE`D|CpBd@r@LdAXnDZpCV~AtAnDh@`Br@rDr@xGlECvDtCb@l@dAlC|ArEtC`DXn@p@dAhBv@rBv@zDd@f@LHn@i@|Bm@bBKdALpAmDjBeAjFgAvEQbABhB`@jBR|@N`B_@|D_CjFSvASVsA`@G|@i@j@QtAJbCh@dDLxF@fBCt@TtAb@pBb@nEAfA]bBy@hCOz@Fp@El@e@fDRtBDzApHX|AJz@MrBIpGbA^DnAQdFaBbDa@dH`@tFdBhA`AVl@d@`A~Av@|C\\|Cd@pCDfETbBEpFs@rEUhDZrDHtCi@`Ae@z@}@n@Wp@ArCZbBLjEOpAFnFxAbDn@lBNdGOtP|@vDJbDlAtCdAnD|AlJ`DxJtBv@Pl@?n@IlAi@f@UbAOT?GvBBfAx@YxAa@vBYnEJvAc@pBA|CC|A@rAJtBZ~Cj@jEFfCDjBKrA]p@y@FiBLiAVUbEY`Ac@x@_@fA}@xAeAhBo@|@KtANj@JbAj@d@Vl@NtAHlDbAdCdAjB\\rCNr@VrAhCL`AZVtAb@dAnAR`@Aj@KfCNrBh@~@`@ZzDx@xA^`@p@j@x@bBx@zBx@a@bAYlAh@tAl@`AzAl@hDzAvAxAdAzAh@ZtC~@jCt@fAl@hFzBdBt@nACBCH?D?~@OpDsAZKdCxBVPjA\\hBd@lC@hAK~@H`BVrA^z@f@~A~AbA~AxAbAbBr@`ItCfCfAx@rAhA|FT~Cj@dCL|BBvBfAdMh@vBtDxIlBhDr@jAb@E`@D?h@");
-
-    if (result.isNotEmpty) {
-      result.forEach((PointLatLng point) {
-        polylineCoordinates.add(LatLng(point.latitude, point.longitude));
-      });
-    }
-
-    _addPolyLine();
+  List<PointLatLng> decodePolyline(String polyline) {
+    return polylinePoints.decodePolyline(polyline);
   }
 
   void onError(PlacesAutocompleteResponse response) {
@@ -141,14 +150,6 @@ class _MapState extends State<Map> {
     print("${p.description} - $lat/$lng");
     // update text input value
     t.text = p.description;
-  }
-
-  @override
-  void initState() {
-    super.initState();
-
-    _getPolyline();
-    _getMarkers();
   }
 
   @override
