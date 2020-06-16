@@ -40,27 +40,32 @@ class _MapState extends State<Map> {
 
   bool loading = false;
 
-  void getRoutes() async {
-    var url = 'http://localhost:5001/api/v1/get_routes_data';
+  void getRoutes(String value) async {
+    print('submitted $value');
+    var url = 'http://10.0.2.2:5001/api/v1/get_routes_data';
+    var body = {
+      "start_location": {"lat": 9.2267063, "lng": 76.8496779},
+      "end_location": {"lat": 9.1323982, "lng": 76.718111}
+    };
 
     setState(() {
       loading = true;
     });
-    final response = await http.post(url, body: {
-      'start_location': {'lat': 9.2267063, 'lng': 76.8496779},
-      'end_location': {'lat': 9.1323982, 'lng': 76.718111}
-    }, headers: {
-      "Accept": "application/json"
-    });
+    final response = await http.post(url,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(body));
     setState(() {
       loading = false;
     });
 
     if (response.statusCode == 200) {
-      ApiResponse data = ApiResponse.fromJson(json.decode(response.body));
+      final _jsonResponse = json.decode(response.body);
+      ApiResponse data = ApiResponse.fromJson(_jsonResponse);
       _handleRouteGeneration(data.data.data);
     } else {
-      throw Exception('An error occurred getting routes');
+      throw Exception('An error occurred while getting routes');
     }
   }
 
@@ -228,10 +233,7 @@ class _MapState extends State<Map> {
                     },
                     controller: destinationController,
                     textInputAction: TextInputAction.go,
-                    onSubmitted: (value) {
-                      print('submitted $value');
-                      getRoutes();
-                    },
+                    onSubmitted: getRoutes,
                     cursorColor: Colors.black,
                     decoration: InputDecoration(
                         icon: Container(
