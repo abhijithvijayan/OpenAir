@@ -19,6 +19,7 @@ declare global {
       MQTT_SERVER_ADDRESS: string;
       MQTT_AUTH_ID: string;
       MQTT_AUTH_PASSWORD: string;
+      API_SERVER_URL: string;
     }
   }
 }
@@ -35,7 +36,11 @@ export const {MQTT_AUTH_PASSWORD} = process.env;
 /**
  *  Array of required fields
  */
-const requiredSecrets: string[] = ['MQTT_AUTH_ID', 'MQTT_AUTH_PASSWORD'];
+const requiredSecrets: string[] = [
+  'MQTT_AUTH_ID',
+  'MQTT_AUTH_PASSWORD',
+  'API_SERVER_URL',
+];
 
 for (const secret of requiredSecrets) {
   if (!process.env[secret]) {

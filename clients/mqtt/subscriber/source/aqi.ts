@@ -99,7 +99,7 @@ export function getCompoundAQI(
   const {aqi}: IResult = calculateAQI(testItemBody);
 
   return {
-    aqi,
+    aqi: Math.round(aqi),
     substance,
   };
 }

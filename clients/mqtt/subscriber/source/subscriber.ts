@@ -5,7 +5,20 @@ import {
   MQTT_AUTH_ID,
   MQTT_AUTH_PASSWORD,
 } from './config/secrets';
+import api from './api';
+import {ApiRoutes} from './api/constants';
 import {generateAqiDataPacket, PollutionDataProperties} from './parser';
+
+type SuccessResponse = {
+  data: {
+    message: string;
+    status: boolean;
+  };
+  response: {
+    statusCode: number;
+    statusText: string;
+  };
+};
 
 const startSubscriber = (): void => {
   const subscriberId = `SUBSCRIBER_${Math.random().toString(16).substr(2, 8)}`;
@@ -43,21 +56,34 @@ const startSubscriber = (): void => {
   /**
    *  Emitted when the mqtt client receives a published packet
    */
-  mqttClient.on('message', (_topic, message, _packet): void => {
-    const context: string = message.toString();
+  mqttClient.on(
+    'message',
+    async (_topic, message, _packet): Promise<void> => {
+      const context: string = message.toString();
 
-    // console.log(context, packet); // eslint-disable-line no-console
+      // console.log(context, packet); // eslint-disable-line no-console
 
-    /**
-     *  ToDo: based on type of topic
-     *  Communicate to IoT Server
-     */
-    const aqiDataPacket: PollutionDataProperties = generateAqiDataPacket(
-      context
-    );
-    // ToDo: inject timestamp to data packet
-    console.log(aqiDataPacket);
-  });
+      /**
+       *  ToDo: based on type of topic
+       *  Communicate to IoT Server
+       */
+      const aqiDataPacket: PollutionDataProperties = generateAqiDataPacket(
+        context
+      );
+      // ToDo: inject timestamp to data packet
+      try {
+        const response: any = await api({
+          key: ApiRoutes.SAVE_PLACE_DATA,
+          params: aqiDataPacket,
+        });
+
+        const {data}: SuccessResponse = response.data;
+        console.log(data.message);
+      } catch (err) {
+        console.log(`API Errored: ${err}`);
+      }
+    }
+  );
 
   /**
    *  Emitted when a mqtt reconnect starts.
