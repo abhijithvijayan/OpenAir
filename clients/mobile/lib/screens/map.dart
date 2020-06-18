@@ -97,6 +97,24 @@ class _MapState extends State<Map> {
     return BitmapDescriptor.defaultMarkerWithHue(10);
   }
 
+  String getHealthConcernLevel(int aqi) {
+    if (aqi <= 50) {
+      return 'Good';
+    } else if (aqi >= 51 && aqi <= 100) {
+      return 'Moderate';
+    } else if (aqi >= 101 && aqi <= 150) {
+      return 'Unhealthy for Sensitive groups';
+    } else if (aqi >= 151 && aqi <= 200) {
+      return 'Unhealthy';
+    } else if (aqi >= 201 && aqi <= 300) {
+      return 'Very Unhealthy';
+    } else if (aqi >= 301 && aqi <= 500) {
+      return 'Hazardous';
+    }
+
+    return 'You dare not stay here';
+  }
+
   _handleRouteGeneration(ResponseData data) {
     List<Routes> routes = data.routes;
 
@@ -130,14 +148,15 @@ class _MapState extends State<Map> {
               routes.indexOf(route).toString() +
               legs.indexOf(leg).toString() +
               steps.indexOf(step).toString());
+          final windowString =
+              '${step.aqi}: ${getHealthConcernLevel(step.aqi)}';
 
           // ToDo: source/destination might suffer duplication
           _markers.add(
             Marker(
                 markerId: markerUniqueId,
                 position: LatLng(step.location.lat, step.location.lng),
-                infoWindow:
-                    InfoWindow(title: step.name, snippet: step.aqi.toString()),
+                infoWindow: InfoWindow(title: step.name, snippet: windowString),
                 icon: getColoredMarker(step.aqi)),
           );
         }).toList();
