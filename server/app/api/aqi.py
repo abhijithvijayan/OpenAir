@@ -100,11 +100,12 @@ def get_routes_data():
                                     lat, lng)
                                 point_on_map = {
                                     'aqi': nearest_aqi_node["aqi"] if (nearest_aqi_node is not None) else None,
-                                    'updated_at': nearest_aqi_node["updated_at"] if (nearest_aqi_node is not None) else None,
                                     'location': static_point["start_location" if pos ==
                                                              0 else "end_location"],
+                                    'name': nearest_aqi_node["name"] if (nearest_aqi_node is not None) else None,
                                     'distance':
-                                        {'value': 0} if pos == 0 else leg["distance"]
+                                        {'value': 0} if pos == 0 else leg["distance"],
+                                    'updated_at': nearest_aqi_node["updated_at"] if (nearest_aqi_node is not None) else None
                                 }
                                 # Push point to array of aqi points
                                 nearest_aqi_points.append(point_on_map)
@@ -133,11 +134,12 @@ def get_routes_data():
                                     # Leg to draw on map with aqi values of 1500m near node
                                     new_point_on_map = {
                                         'aqi': nearest_aqi_node["aqi"] if (nearest_aqi_node is not None) else None,
-                                        'updated_at': nearest_aqi_node["updated_at"] if (nearest_aqi_node is not None) else None,
                                         'location': selected_step["end_location"],
+                                        'name': nearest_aqi_node["name"] if (nearest_aqi_node is not None) else None,
                                         'distance': {
                                             'value': selected_response["dist_from_selected"],
-                                        }
+                                        },
+                                        'updated_at': nearest_aqi_node["updated_at"] if (nearest_aqi_node is not None) else None
                                     }
                                     # Push to array of aqi points (before the last entry)
                                     nearest_aqi_points.insert(
