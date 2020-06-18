@@ -14,8 +14,9 @@ class Place(db.Model):
     __tablename__ = 'openair_place'
 
     uuid = db.Column(UUID(as_uuid=True),
-                     primary_key=True,
+                     unique=True,
                      server_default=text("uuid_generate_v4()"))
+    id = db.Column(db.Integer, index=True, primary_key=True)
     name = db.Column(db.String(80), nullable=False)
     type = db.Column(db.String(10), nullable=False)
     aqi = db.Column(db.Integer, nullable=False)
@@ -49,7 +50,7 @@ class Place(db.Model):
         geo_wkb = func.Geometry(geo_point)
 
         # ToDo: split into functions to iterate through multiple points in one session
-        print("New session for this single query")
+        # print("New session for this single query")
 
         # get closest point
         try:
