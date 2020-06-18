@@ -137,7 +137,7 @@ class _MapState extends State<Map> {
                 markerId: markerUniqueId,
                 position: LatLng(step.location.lat, step.location.lng),
                 infoWindow:
-                    InfoWindow(title: 'AQI', snippet: step.aqi.toString()),
+                    InfoWindow(title: step.name, snippet: step.aqi.toString()),
                 icon: getColoredMarker(step.aqi)),
           );
         }).toList();

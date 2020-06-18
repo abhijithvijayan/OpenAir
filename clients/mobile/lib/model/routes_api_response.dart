@@ -50,6 +50,7 @@ class ApiResponseData {
 
 class ResponseData {
   List<Routes> routes;
+  int total;
 
   ResponseData({this.routes});
 
@@ -60,6 +61,7 @@ class ResponseData {
         routes.add(new Routes.fromJson(v));
       });
     }
+    total = json['total'];
   }
 
   Map<String, dynamic> toJson() {
@@ -67,6 +69,7 @@ class ResponseData {
     if (this.routes != null) {
       data['routes'] = this.routes.map((v) => v.toJson()).toList();
     }
+    data['total'] = this.total;
     return data;
   }
 }
@@ -75,6 +78,7 @@ class Routes {
   List<Legs> legs;
   OverviewPolyline overviewPolyline;
   String summary;
+  int total;
 
   Routes({this.legs, this.overviewPolyline, this.summary});
 
@@ -89,6 +93,7 @@ class Routes {
         ? new OverviewPolyline.fromJson(json['overview_polyline'])
         : null;
     summary = json['summary'];
+    total = json['total'];
   }
 
   Map<String, dynamic> toJson() {
@@ -100,14 +105,16 @@ class Routes {
       data['overview_polyline'] = this.overviewPolyline.toJson();
     }
     data['summary'] = this.summary;
+    data['total'] = this.total;
     return data;
   }
 }
 
 class Legs {
   List<Steps> steps;
+  int total;
 
-  Legs({this.steps});
+  Legs({this.steps, this.total});
 
   Legs.fromJson(Map<String, dynamic> json) {
     if (json['steps'] != null) {
@@ -116,6 +123,7 @@ class Legs {
         steps.add(new Steps.fromJson(v));
       });
     }
+    total = json['total'];
   }
 
   Map<String, dynamic> toJson() {
@@ -123,6 +131,7 @@ class Legs {
     if (this.steps != null) {
       data['steps'] = this.steps.map((v) => v.toJson()).toList();
     }
+    data['total'] = this.total;
     return data;
   }
 }
@@ -131,6 +140,7 @@ class Steps {
   int aqi;
   Distance distance;
   Location location;
+  String name;
   String updatedAt;
 
   Steps({this.aqi, this.distance, this.location, this.updatedAt});
@@ -143,6 +153,7 @@ class Steps {
     location = json['location'] != null
         ? new Location.fromJson(json['location'])
         : null;
+    name = json['name'];
     updatedAt = json['updated_at'];
   }
 
@@ -156,6 +167,7 @@ class Steps {
       data['location'] = this.location.toJson();
     }
     data['updated_at'] = this.updatedAt;
+    data['name'] = this.name;
     return data;
   }
 }
