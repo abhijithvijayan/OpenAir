@@ -28,7 +28,7 @@ const HomePage: React.FC = () => {
 
   return (
     <>
-      <section tw="h-screen">
+      <section tw="flex bg-gray-200">
         <div tw="flex flex-col items-center justify-center h-full">
           <button
             type="button"
