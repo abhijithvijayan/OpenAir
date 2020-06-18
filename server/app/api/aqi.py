@@ -152,11 +152,13 @@ def get_routes_data():
                                 next_distant_point_pos += 1
 
                             legs.append({
-                                'steps': nearest_aqi_points
+                                'steps': nearest_aqi_points,
+                                'total': len(nearest_aqi_points)
                             })
 
                     routes.append({
                         'legs': legs,
+                        'total': len(legs),
                         'overview_polyline': current_route["overview_polyline"],
                         'summary': current_route["summary"]
                     })
@@ -168,7 +170,8 @@ def get_routes_data():
             },
             'data': {
                 'data': {
-                    'routes': routes
+                    'routes': routes,
+                    'total': len(routes)
                 },
                 'status': True
             }
