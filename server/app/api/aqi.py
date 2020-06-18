@@ -1,9 +1,12 @@
 from flask import request, current_app as flask_app
+from sqlalchemy.exc import SQLAlchemyError
+from sqlalchemy.sql import func
 import googlemaps
 import json
 
 from app.api.errors import badrequest
-from app.models import Place
+from app.extensions import db
+from app.models import *
 from app.api import bp
 
 
@@ -50,7 +53,7 @@ def select_next_min_distant_point(distances, selected_step_pos):
 
 
 @bp.route('/api/v1/get_routes_data', methods=['POST'])
-def getRoutesAQI():
+def get_routes_data():
     data = request.get_json()
     GOOGLE_MAPS_API_KEY = flask_app.config["GOOGLE_MAPS_API_KEY"]
     gmaps = googlemaps.Client(key=GOOGLE_MAPS_API_KEY)
@@ -170,3 +173,62 @@ def getRoutesAQI():
         }
 
     return badrequest('Error opening the sample file')
+
+
+def get_place_by_spatial_data(location):
+    place = Place.query.filter(
+        func.ST_Equals(Place.geometric_point, location)).first()
+    if not place:
+        return None
+
+    return place
+
+
+@bp.route('/api/v1/save_place_data', methods=['POST'])
+def save_place_data():
+    data = request.get_json()
+    try:
+        coordinates = data["location"]['coordinates']
+        # create geometric point (lng, lat) order
+        geo_point = func.ST_SetSRID(func.ST_MakePoint(
+            coordinates['lng'], coordinates['lat']), 4326)
+        data = {
+            'name': data["name"],
+            'aqi': data["pollution"]["aqi"],
+            'type': data["location"]["type"],
+            'location': coordinates,  # JSON
+            'geometric_point': geo_point
+            # ToDo: update `updated_at` field
+        }
+
+        place_exists = None
+        # update or save new entry
+        place = get_place_by_spatial_data(geo_point)
+        if not place:
+            place_exists = False
+            place = Place()
+        else:
+            place_exists = True
+
+        place.from_dict(data)
+        if not place_exists:
+            db.session.add(place)
+        db.session.commit()
+
+        return {
+            'response': {
+                'statusCode': 201 if not place_exists else 200,
+                'statusText': 'OK'
+            },
+            'data': {
+                'status': True,
+                'message': 'Air quality data for place saved.',
+            }
+        }
+    except SQLAlchemyError as e:
+        db.session.rollback()
+        print(e)
+        return badrequest('Saving to database failed')
+    except Exception as e:
+        print(e)
+        return badrequest('Check body content')

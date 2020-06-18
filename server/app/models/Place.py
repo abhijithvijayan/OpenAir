@@ -2,8 +2,8 @@ from sqlalchemy.dialects.postgresql import UUID, JSON
 from geoalchemy2.comparator import Comparator
 from flask import current_app as flask_app
 from sqlalchemy.exc import SQLAlchemyError
-from sqlalchemy.sql import func, cast
 from geoalchemy2 import Geometry
+from sqlalchemy.sql import func
 from datetime import datetime
 from sqlalchemy import text
 
@@ -36,6 +36,11 @@ class Place(db.Model):
     # method tells Python how to print objects of this class
     def __repr__(self):
         return '<Place {}>'.format(self.name)
+
+    def from_dict(self, data):
+        for field in ['name', 'type', 'aqi', 'ref_id', 'location', 'geometric_point']:
+            if field in data:
+                setattr(self, field, data[field])
 
     def get_nearby_aqi_node(lat, lng):
         # ToDo: Refactor to be more precise: https://stackoverflow.com/a/20936147
