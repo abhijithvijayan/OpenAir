@@ -21,7 +21,7 @@ type SuccessResponse = {
 };
 
 const startSubscriber = (): void => {
-  const subscriberId = `SUBSCRIBER_${Math.random().toString(16).substr(2, 8)}`;
+  const subscriberId = `SUBSCRIBER-${Math.random().toString(16).substr(2, 8)}`;
 
   /**
    *  Connection Options

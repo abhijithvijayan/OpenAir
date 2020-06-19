@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/camelcase */
 import io from 'socket.io';
 import aedes, {
   Aedes,
@@ -65,6 +66,7 @@ const startServer = (): void => {
       const connectedClient = {
         id: clientId,
         type,
+        connected_at: new Date().getTime(),
         closed,
         connecting,
         connected,
