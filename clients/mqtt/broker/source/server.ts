@@ -16,6 +16,13 @@ import {
 const startServer = (): void => {
   const port = 1883;
 
+  /**
+   *  mqtt Authentication Middleware
+   *  Called when a new client connects
+   *
+   *  Return code: 4 - Bad user name or password
+   */
+
   const authenticate: AuthenticateHandler = (
     _client,
     username,
@@ -48,21 +55,26 @@ const startServer = (): void => {
   const eventSocket: io.Server = io.listen(SOCKET_SERVER_PORT);
 
   /**
-   *  mqtt Authentication Middleware
-   *  Called when a new client connects
-   *
-   *  Return code: 4 - Bad user name or password
-   */
-
-  /**
    *  Fired when a mqtt client connects
    */
   broker.on('client', (client: Client) => {
-    const cId = client ? client.id : null;
-    console.log(`> MQTT Client Connected: \x1b[33m${cId}\x1b[0m`); // eslint-disable-line no-console
+    if (client) {
+      const {id, connected, connecting, closed, version, clean} = client;
+      console.log(`> MQTT Client Connected: \x1b[33m${id}\x1b[0m`); // eslint-disable-line no-console
+      const [type, clientId] = client.id.split('-');
+      const connectedClient = {
+        id: clientId,
+        type,
+        closed,
+        connecting,
+        connected,
+        clean,
+        version,
+      };
 
-    // Sending to all clients
-    eventSocket.emit('echo', 'hello can you hear me?', 1, 2, 'abc');
+      // Sending to all websocket clients
+      eventSocket.emit('client', connectedClient);
+    }
   });
 
   /**
@@ -71,7 +83,7 @@ const startServer = (): void => {
   eventSocket.on('connect', (ioClient: io.Socket) => {
     console.log(`> Socket Client Connected: \x1b[33m$${ioClient.id}\x1b[0m`); // eslint-disable-line no-console
     // send something to the client
-    eventSocket.to(ioClient.id).emit('nice', "let's play a game");
+    eventSocket.to(ioClient.id).emit('echo', 'you listening?');
 
     ioClient.on('some-event', (data): void => {
       console.log(data); // eslint-disable-line no-console
@@ -93,7 +105,7 @@ const startServer = (): void => {
     );
 
     // Sending to all clients
-    eventSocket.emit('echo', 'something is happening?', 1, 2, 'abc');
+    eventSocket.emit('echo', 'Published something');
   });
 
   /**
