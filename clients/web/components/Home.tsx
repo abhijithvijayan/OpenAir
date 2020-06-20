@@ -16,13 +16,17 @@ const HomePage: React.FC = () => {
     const socket = io('http://localhost:8000');
 
     // console.dir(socket);
-    socket.on('client', (payload: MqttClient) => {
+    socket.on('mqtt-client', (payload: MqttClient) => {
       dispatch({type: MqttClientsActionTypes.ADD_MQTT_CLIENT, payload});
     });
 
     socket.on('echo', (payload: string) => {
       console.log(`Socket server echoes: ${payload}`); // eslint-disable-line no-console
     });
+
+    return (): void => {
+      socket.disconnect();
+    };
   }, [dispatch]);
 
   // const handleClick = (): SocketIOClient.Socket => {

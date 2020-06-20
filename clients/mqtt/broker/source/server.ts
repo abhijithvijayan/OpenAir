@@ -75,7 +75,7 @@ const startServer = (): void => {
       };
 
       // Sending to all websocket clients
-      eventSocket.emit('client', connectedClient);
+      eventSocket.emit('mqtt-client', connectedClient);
     }
   });
 
