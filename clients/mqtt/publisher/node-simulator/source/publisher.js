@@ -1,5 +1,5 @@
 /**
- *  @openair/publisher
+ *  @openair/publisher(simulator)
  *
  *  @author   abhijithvijayan <abhijithvijayan.in>
  *  @license  GNU GPLv3 License

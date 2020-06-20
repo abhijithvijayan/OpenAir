@@ -1,7 +1,9 @@
-/*
-  OpenAirSensors.h - Library for OpenAir Project.
-  Created by Abhijith Vijayan, Decemeber 26, 2019.
-*/
+/**
+ *  OpenAirSensors.h - Library for OpenAir Project.
+ *
+ *  @author   abhijithvijayan <abhijithvijayan.in>
+ *  @license  GNU GPLv3 License
+ */
 
 #include "Arduino.h"
 

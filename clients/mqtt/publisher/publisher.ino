@@ -1,12 +1,14 @@
 /**
- *  author:       abhijithvijayan
- *  created:      23 Dec 2019
- *  title:        CD74HC4051 Analog / Digital Multiplexing with MQTT Publisher
- * Client in ESP8266 NodeMCU
+ *  @openair/publisher
+ *
+ *  @author   abhijithvijayan <abhijithvijayan.in>
+ *  @license  GNU GPLv3 License
+ *  @title:  CD74HC4051 Analog / Digital Multiplexing with MQTT Publisher
+ *            Client in ESP8266 NodeMCU
  *
  *  This sketch reads analog values from 3 sensors and publish
  *  the sensor data as JSON to a topic using mqtt protocol with
- * async-mqtt-client
+ *  async-mqtt-client
  *
  *  The following pins must be connected(customize accordingly):
  *

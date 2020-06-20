@@ -1,3 +1,8 @@
+///  @openair/mobile
+///
+///  @author   abhijithvijayan <abhijithvijayan.in>
+///  @license  GNU GPLv3 License
+
 import 'package:flutter/material.dart';
 
 import './screens/map.dart';

@@ -26,9 +26,11 @@ netstat -an4 | grep 1883 | grep LISTEN
 2. Update Credentials
 
    1. Get RPi Local IP with
+
       ```
       hostname -I
       ```
+
    1. Update WiFi ssid & password
 
 3. Flash to NodeMCU
@@ -39,11 +41,11 @@ netstat -an4 | grep 1883 | grep LISTEN
 
 ### 1. Arduno IDE
 
-Download from https://www.arduino.cc/download_handler.php
+Download from <https://www.arduino.cc/download_handler.php>
 
 ### 2. MQTTBox
 
-Download from http://workswithweb.com/html/mqttbox/downloads.html
+Download from <http://workswithweb.com/html/mqttbox/downloads.html>
 
 <hr />
 
@@ -51,7 +53,7 @@ Download from http://workswithweb.com/html/mqttbox/downloads.html
 
 #### 1. AsyncMqttClient
 
-http://marvinroger.viewdocs.io/async-mqtt-client/1.-Getting-started/
+<http://marvinroger.viewdocs.io/async-mqtt-client/1.-Getting-started/>
 <!-- 
 #### 1. PubSubClient
 1. Read the documentation [here](https://pubsubclient.knolleary.net/api.html)
@@ -81,6 +83,7 @@ http://marvinroger.viewdocs.io/async-mqtt-client/1.-Getting-started/
 		``` -->
 
 #### 2. ESP8266 Addon
+
 1. In your Arduino IDE, go to `File > Preferences`
 2. Enter `https://arduino.esp8266.com/stable/package_esp8266com_index.json` into the `Additional Boards Manager URLs` field. Then, click the `OK` button
 3. Open the Boards Manager. Go to `Tools > Board > Boards Manager`
@@ -89,12 +92,15 @@ http://marvinroger.viewdocs.io/async-mqtt-client/1.-Getting-started/
 6. Choose board as `NodeMCU 1.0` and set erase to `ALL FLASH CONTENTS`. That’s it.
 
 #### 3. OpenAirSensors
+
 Make a softlink to libraries path
+
 ```
 ln -s ~/workspace/OpenAir/lib/OpenAirSensors ~/Arduino/libraries
 ```
 
 #### 4. Other Libraries
+
 1. Open the Libraries Manager. Go to `Tools > Manage Libraries`
 2. Search for `ArduinoJson` and press install
 
@@ -110,47 +116,52 @@ sudo ufw allow 1883
 
 ### 6. Fix Permissions
 
-https://playground.arduino.cc/Linux/All/#Permission
+<https://playground.arduino.cc/Linux/All/#Permission>
 
 ### 7. VSCODE
+
 1. Install `arduino` extension
 2. Follow [this](https://github.com/microsoft/vscode-arduino/issues/791#issuecomment-476089760) instruction to fix arduino path
 
 <hr />
 
-
 ### Sample JSON Output
 
 How to compute the JsonDocument size?
-https://arduinojson.org/v6/assistant/
+<https://arduinojson.org/v6/assistant/>
 
 ```
 {
-	"location": {
-		"lat": "41.1575516563445",
-		"lng": "-8.4637882545675"
-	},
-	"name": "Worlds Largest National Park of Tigers",
-	"type": "station",
-	"air": [
-		{
-			"id": "GS_e3HS9do",
-			"type": "mq2",
-			"compound": "smoke",
-			"value": 0.192757
-		},
-		{
-			"id": "GS_ji3dJSn",
-			"type": "mq7",
-			"compound": "CO",
-			"value": 0.875972
-		},
-		{
-			"id": "GS_k99jsGs",
-			"type": "mq135",
-			"compound": "NO2",
-			"value": 0
-		}
-	]
+  "name": "College of Engineering, Adoor",
+  "location": {
+    "type": "point",
+    "coordinates": {
+      "lat": "9.1323982",
+      "lng": "76.7159223"
+    }
+  },
+  "readings": [
+    {
+      "id": "sensor-mq-001",
+      "type": "mq2",
+      "unit": "PPM",
+      "compound": "smoke",
+      "value": 16.10838
+    },
+    {
+      "id": "sensor-mq-002",
+      "type": "mq7",
+      "unit": "PPM",
+      "compound": "CO",
+      "value": 5.274735
+    },
+    {
+      "id": "sensor-mq-003",
+      "type": "mq135",
+      "unit": "PPM",
+      "compound": "NOx",
+      "value": 0
+    }
+  ]
 }
 ```
