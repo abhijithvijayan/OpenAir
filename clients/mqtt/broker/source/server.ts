@@ -62,7 +62,7 @@ const startServer = (): void => {
     if (client) {
       const {id, connected, connecting, closed, version, clean} = client;
       console.log(`> MQTT Client Connected: \x1b[33m${id}\x1b[0m`); // eslint-disable-line no-console
-      const [type, clientId] = client.id.split('-');
+      const [type, clientId] = client.id.split('_');
       const connectedClient = {
         id: clientId,
         type,
@@ -99,7 +99,7 @@ const startServer = (): void => {
     // eslint-disable-next-line no-console
     console.log(
       `> Client \x1b[31m${
-        client ? client.id : `BROKER_${broker}`
+        client ? client.id : `BROKER-${broker.id}`
       }\x1b[0m has published`,
       packet.payload.toString(),
       'on',

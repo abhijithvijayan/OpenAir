@@ -24,11 +24,13 @@
     "axios": "^0.19.2",
     "dotenv": "^8.2.0",
     "mqtt": "^4.1.0",
+    "uuid": "^8.1.0",
     "winston": "^3.2.1"
   },
   "devDependencies": {
     "@abhijithvijayan/tsconfig": "^1.2.0",
     "@types/node": "^14.0.10",
+    "@types/uuid": "^8.0.0",
     "nodemon": "^2.0.4",
     "typescript": "^3.9.5"
   }

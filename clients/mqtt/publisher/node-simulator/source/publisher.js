@@ -8,12 +8,13 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 require('dotenv').config();
 const mqtt = require('mqtt');
+const {v4: uuidv4} = require('uuid');
 
 const mqttServerAddress = process.env.MQTT_SERVER_ADDRESS;
 const username = process.env.MQTT_AUTH_ID;
 const password = process.env.MQTT_AUTH_PASSWORD;
 
-const publisherId = `PUBLISHER-${Math.random().toString(16).substr(2, 8)}`;
+const publisherId = `PUBLISHER_${uuidv4()}`;
 
 /**
  *  Connection Options

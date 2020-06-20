@@ -1,4 +1,5 @@
 import mqtt from 'mqtt';
+import {v4} from 'uuid';
 
 import {
   MQTT_SERVER_ADDRESS,
@@ -21,7 +22,7 @@ type SuccessResponse = {
 };
 
 const startSubscriber = (): void => {
-  const subscriberId = `SUBSCRIBER-${Math.random().toString(16).substr(2, 8)}`;
+  const subscriberId = `SUBSCRIBER_${v4()}`;
 
   /**
    *  Connection Options
