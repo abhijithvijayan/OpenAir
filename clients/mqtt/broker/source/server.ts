@@ -96,18 +96,26 @@ const startServer = (): void => {
    *  Fired when a message is received
    */
   broker.on('publish', async (packet, client: Client) => {
+    const id = client ? client.id : `BROKER-${broker.id}`;
     // eslint-disable-next-line no-console
     console.log(
-      `> Client \x1b[31m${
-        client ? client.id : `BROKER-${broker.id}`
-      }\x1b[0m has published`,
+      `> Client \x1b[31m${id}\x1b[0m has published`,
       packet.payload.toString(),
       'on',
       packet.topic
     );
 
-    // Sending to all clients
-    eventSocket.emit('echo', 'Published something');
+    if (client) {
+      console.log(packet.topic);
+      // According to topic, emit to websocket
+      if (packet.topic === 'openair/places') {
+        // Sending to all clients
+        eventSocket.emit('mqtt-publish', {
+          id: client.id.split('_')[1],
+          data: JSON.parse(packet.payload.toString()),
+        });
+      }
+    }
   });
 
   /**
