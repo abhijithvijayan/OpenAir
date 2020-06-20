@@ -1,11 +1,15 @@
 import React from 'react';
 
 import SettingsIcon from './Settings';
+import ArrowRight from './ArrowRight';
+import ArrowLeft from './ArrowLeft';
 import SignOutIcon from './SignOut';
 import InboxIcon from './Inbox';
 import BellIcon from './Bell';
 
 const icons = {
+  'arrow-left': ArrowLeft,
+  'arrow-right': ArrowRight,
   bell: BellIcon,
   inbox: InboxIcon,
   settings: SettingsIcon,

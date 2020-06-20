@@ -9,6 +9,8 @@ import {
 } from '../contexts/mqtt-clients-context';
 import {formatTime} from '../util/date';
 
+import Icon from './Icon';
+
 const HomePage: React.FC = () => {
   const [state, dispatch] = useMqttClients();
 
@@ -38,90 +40,63 @@ const HomePage: React.FC = () => {
   return (
     <>
       <section tw="flex bg-gray-200">
-        <div tw="sm:px-8 container px-4 mx-auto">
-          <div tw="py-8">
-            <div>
-              <h2 tw="text-2xl font-semibold leading-tight">Nodes</h2>
+        <div tw="sm:px-8 container px-4 my-6 mx-auto">
+          <div tw="bg-white pb-4 px-4 rounded-md w-full">
+            <div tw="pt-6">
+              <p tw="text-2xl font-semibold leading-tight ml-3">Clients</p>
             </div>
 
-            <div tw="sm:-mx-8 sm:px-8 px-4 py-4 -mx-4 overflow-x-auto">
-              <div tw="inline-block min-w-full overflow-hidden rounded-lg shadow">
-                <table tw="min-w-full leading-normal">
-                  <thead>
-                    <tr>
-                      <th tw="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
-                        ID
-                      </th>
-                      <th tw="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
-                        Type
-                      </th>
-                      <th tw="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
-                        Connected at
-                      </th>
-                      <th tw="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
-                        Status
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {state.clients.map((client) => {
-                      return (
-                        <tr key={client.id}>
-                          <td tw="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                            <div tw="flex items-center">
-                              <div>
-                                <p tw="text-gray-900 whitespace-no-wrap">
-                                  {client.id}
-                                </p>
-                              </div>
-                            </div>
-                          </td>
-                          <td tw="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                            <p tw="text-gray-900 whitespace-no-wrap">
-                              {client.type.toUpperCase()}
-                            </p>
-                          </td>
-                          <td tw="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                            <p tw="text-gray-900 whitespace-no-wrap">
-                              {formatTime(client.connected_at)}
-                            </p>
-                          </td>
-                          <td tw="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                            <span tw="relative inline-block px-3 py-1 font-semibold leading-tight text-green-900">
-                              <span
-                                aria-hidden
-                                tw="absolute inset-0 bg-green-200 rounded-full opacity-50"
-                              />
-                              <span tw="relative">
-                                {!client.closed ? 'Active' : 'Inactive'}
-                              </span>
+            <div tw="overflow-x-auto mt-6">
+              <table tw="table-auto border-collapse w-full">
+                <thead>
+                  <tr tw="rounded-lg text-sm font-medium text-gray-700 text-left">
+                    <th tw="px-4 py-2 bg-gray-200 uppercase">ID</th>
+                    <th tw="px-4 py-2 bg-gray-200 uppercase">Role</th>
+                    <th tw="px-4 py-2 bg-gray-200 uppercase">Connected At</th>
+                    <th tw="px-4 py-2 bg-gray-200 uppercase">Status</th>
+                  </tr>
+                </thead>
+                <tbody tw="text-sm font-normal text-gray-700">
+                  {state.clients.map((client) => {
+                    return (
+                      <tr tw="hover:bg-gray-100 border-gray-200">
+                        <td tw="px-4 py-4">{client.id}</td>
+                        <td tw="px-4 py-4">{client.type.toUpperCase()}</td>
+                        <td tw="px-4 py-4">
+                          {formatTime(client.connected_at)}
+                        </td>
+                        <td>
+                          <span tw="relative inline-block px-3 py-1 font-semibold leading-tight text-green-900">
+                            <span
+                              aria-hidden
+                              tw="absolute inset-0 bg-green-200 rounded-full opacity-50"
+                            />
+                            <span tw="relative">
+                              {!client.closed ? 'Active' : 'Inactive'}
                             </span>
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
-                <div tw="sm:flex-row sm:justify-between flex flex-col items-center px-5 py-5 bg-white border-t">
-                  <span tw="sm:text-sm text-xs text-gray-900">
-                    Showing {state.clients.length} Entries
-                  </span>
-                  <div tw="sm:mt-0 inline-flex mt-2">
-                    <button
-                      type="button"
-                      tw="hover:bg-gray-400 px-4 py-2 text-sm font-semibold text-gray-800 bg-gray-300 rounded-l"
-                    >
-                      Prev
-                    </button>
-                    <button
-                      type="button"
-                      tw="hover:bg-gray-400 px-4 py-2 text-sm font-semibold text-gray-800 bg-gray-300 rounded-r"
-                    >
-                      Next
-                    </button>
-                  </div>
-                </div>
-              </div>
+                          </span>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+            <div tw="w-full flex justify-center border-t border-gray-100 pt-4 items-center">
+              <Icon name="arrow-left" />
+              <p tw="leading-relaxed cursor-pointer mx-2 mb-0 text-blue-600 hover:text-blue-600 text-sm">
+                1
+              </p>
+              <p tw="leading-relaxed cursor-pointer mx-2 mb-0 text-sm hover:text-blue-600">
+                2
+              </p>
+              <p tw="leading-relaxed cursor-pointer mx-2 mb-0 text-sm hover:text-blue-600">
+                3
+              </p>
+              <p tw="leading-relaxed cursor-pointer mx-2 mb-0 text-sm hover:text-blue-600">
+                4
+              </p>
+              <Icon name="arrow-right" />
             </div>
           </div>
         </div>

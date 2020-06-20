@@ -22,7 +22,7 @@ const IndexPage: React.FC = () => {
               <Sidebar />
             </aside>
 
-            <div tw="relative flex flex-col flex-1">
+            <div tw="relative flex flex-col flex-1 overflow-x-auto">
               <Home />
             </div>
           </div>
