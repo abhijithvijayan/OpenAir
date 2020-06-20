@@ -2,7 +2,7 @@
   "name": "openair",
   "version": "1.0.0",
   "private": true,
-  "description": "Real-time Air Quality Monitoring and Navigation System",
+  "description": "Real-time Air Quality Monitoring and Navigation System based on IoT",
   "license": "GNU GPLv3",
   "engines": {
     "node": ">=10.0.0"

@@ -1,6 +1,6 @@
 # OpenAir
 
-Real-time Air Quality Monitoring and Navigation System
+Real-time Air Quality Monitoring and Navigation System based on IoT
 
 #### Uses
 
@@ -19,9 +19,9 @@ Real-time Air Quality Monitoring and Navigation System
                         |         |           |
                         |  web-socket(server) |
                         |_____________________|
- __________________     |         |           |      __________________      ______________     _______________
- | mqtt publisher | --> |     mqtt broker     | <--> | mqtt subscriber | --> | API server | --> | Android App |
- |________________|     |_____________________|      |_________________|     |____________|     |_____________|
+ __________________     |         |           |      __________________      ______________      _______________
+ | mqtt publisher | --> |     mqtt broker     | <--> | mqtt subscriber | --> | API server | <--> | Android App |
+ |________________|     |_____________________|      |_________________|     |____________|      |_____________|
                    mqtt                         mqtt                    http                http
-                protocol                    protocol               protocol           protocol
+                 protocol                     protocol                protocol            protocol
 ```
