@@ -13,7 +13,7 @@ const mqttServerAddress = process.env.MQTT_SERVER_ADDRESS;
 const username = process.env.MQTT_AUTH_ID;
 const password = process.env.MQTT_AUTH_PASSWORD;
 
-const publisherId = `PUBLISHER_${Math.random().toString(16).substr(2, 8)}`;
+const publisherId = `PUBLISHER-${Math.random().toString(16).substr(2, 8)}`;
 
 /**
  *  Connection Options
@@ -37,24 +37,44 @@ const mqttPublisher = mqtt.connect(mqttServerAddress, mqttOptions);
  *  Emitted on successful (re)connection (i.e. connack rc=0).
  */
 mqttPublisher.on('connect', () => {
+  mqttPublisher.publish('test/echo', 'hello world');
+
   setInterval(() => {
-    const sampleData = {
-      name: 'Adoor, Kerala, India',
+    const sampleDataPacket = {
+      name: 'College of Engineering, Adoor',
       location: {
-        type: 'Town',
-        coordinates: {lat: '9.151239499999999', lng: '76.73076630000003'},
+        type: 'point',
+        coordinates: {lat: '9.1323982', lng: '76.7159223'},
       },
       readings: [
-        {id: '........', type: 'mq2', compound: 'smoke', value: 3.130643},
-        {id: '........', type: 'mq7', compound: 'CO', value: 0.122789},
-        {id: '........', type: 'mq135', compound: 'NO2', value: 0},
+        {
+          id: 'sensor-mq-001',
+          type: 'mq2',
+          unit: 'PPM',
+          compound: 'smoke',
+          value: 16.10838,
+        },
+        {
+          id: 'sensor-mq-002',
+          type: 'mq7',
+          unit: 'PPM',
+          compound: 'CO',
+          value: 5.274735,
+        },
+        {
+          id: 'sensor-mq-003',
+          type: 'mq135',
+          unit: 'PPM',
+          compound: 'NOx',
+          value: 0,
+        },
       ],
     };
 
-    mqttPublisher.publish('openair/places', JSON.stringify(sampleData));
+    mqttPublisher.publish('openair/places', JSON.stringify(sampleDataPacket));
 
-    console.log('Message Sent'); // eslint-disable-line no-console
-  }, 10000);
+    console.log('Packet Published'); // eslint-disable-line no-console
+  }, 20000);
 });
 
 /**
