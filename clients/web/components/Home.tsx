@@ -3,8 +3,9 @@ import io from 'socket.io-client';
 import React, {useEffect} from 'react';
 
 import {
-  useMqttClients,
   MqttClient,
+  useMqttClients,
+  PublishedPacket,
   MqttClientsActionTypes,
 } from '../contexts/mqtt-clients-context';
 import {formatTime} from '../util/date';
@@ -19,11 +20,12 @@ const HomePage: React.FC = () => {
 
     // console.dir(socket);
     socket.on('mqtt-client', (payload: MqttClient) => {
-      dispatch({type: MqttClientsActionTypes.ADD_MQTT_CLIENT, payload});
+      dispatch({type: MqttClientsActionTypes.NEW_MQTT_CLIENT, payload});
     });
 
-    socket.on('echo', (payload: string) => {
-      console.log(`Socket server echoes: ${payload}`); // eslint-disable-line no-console
+    socket.on('mqtt-publish', (payload: PublishedPacket) => {
+      dispatch({type: MqttClientsActionTypes.NEW_PACKET_PUBLISH, payload});
+      console.log(`Socket server echoes: ${payload.id}`); // eslint-disable-line no-console
     });
 
     return (): void => {
@@ -54,18 +56,22 @@ const HomePage: React.FC = () => {
                     <th tw="px-4 py-2 bg-gray-200 uppercase">Role</th>
                     <th tw="px-4 py-2 bg-gray-200 uppercase">Connected At</th>
                     <th tw="px-4 py-2 bg-gray-200 uppercase">Status</th>
+                    <th tw="px-4 py-2 bg-gray-200 uppercase">Actions</th>
                   </tr>
                 </thead>
                 <tbody tw="text-sm font-normal text-gray-700">
                   {state.clients.map((client) => {
                     return (
-                      <tr tw="hover:bg-gray-100 border-gray-200">
+                      <tr
+                        key={client.id}
+                        tw="hover:bg-gray-100 border-gray-200"
+                      >
                         <td tw="px-4 py-4">{client.id}</td>
                         <td tw="px-4 py-4">{client.type.toUpperCase()}</td>
                         <td tw="px-4 py-4">
                           {formatTime(client.connected_at)}
                         </td>
-                        <td>
+                        <td tw="px-4 py-4">
                           <span tw="relative inline-block px-3 py-1 font-semibold leading-tight text-green-900">
                             <span
                               aria-hidden
@@ -75,6 +81,9 @@ const HomePage: React.FC = () => {
                               {!client.closed ? 'Active' : 'Inactive'}
                             </span>
                           </span>
+                        </td>
+                        <td tw="px-4 py-4 flex justify-center">
+                          <Icon name="arrow-down" />
                         </td>
                       </tr>
                     );

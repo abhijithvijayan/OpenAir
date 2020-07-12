@@ -11,9 +11,36 @@ export type MqttClient = {
   version: number;
 };
 
+type DataPacket = {
+  name: string;
+  location: {
+    type: string;
+    coordinates: {lat: string; lng: string};
+  };
+  readings: {
+    id: string;
+    type: string;
+    unit: string;
+    compound: string;
+    value: number;
+  }[];
+};
+
+// datatype of the packet received by socket client
+export type PublishedPacket = {
+  id: string;
+  data: DataPacket;
+};
+
+type ClientPacketCollection = {
+  id: string;
+  packets: DataPacket[];
+};
+
 export enum MqttClientsActionTypes {
   SET_LOADING = 'set-loading',
-  ADD_MQTT_CLIENT = 'add-mqtt-client',
+  NEW_MQTT_CLIENT = 'new-mqtt-client',
+  NEW_PACKET_PUBLISH = 'new-packet-publish',
 }
 
 type SET_LOADING = {
@@ -21,21 +48,28 @@ type SET_LOADING = {
   payload: boolean;
 };
 
-type ADD_MQTT_CLIENT = {
-  type: MqttClientsActionTypes.ADD_MQTT_CLIENT;
+type NEW_MQTT_CLIENT = {
+  type: MqttClientsActionTypes.NEW_MQTT_CLIENT;
   payload: MqttClient;
 };
 
-type Action = SET_LOADING | ADD_MQTT_CLIENT;
+type NEW_PACKET_PUBLISH = {
+  type: MqttClientsActionTypes.NEW_PACKET_PUBLISH;
+  payload: PublishedPacket;
+};
+
+type Action = SET_LOADING | NEW_MQTT_CLIENT | NEW_PACKET_PUBLISH;
 
 type InitialValues = {
   loading: boolean;
   clients: MqttClient[];
+  published: ClientPacketCollection[];
 };
 
 const initialValues: InitialValues = {
   loading: false,
   clients: [],
+  published: [],
 };
 
 type State = InitialValues;
@@ -52,8 +86,36 @@ function mqttClientsReducer(state: State, action: Action): State {
       return {...state, loading: action.payload};
     }
 
-    case MqttClientsActionTypes.ADD_MQTT_CLIENT: {
+    case MqttClientsActionTypes.NEW_MQTT_CLIENT: {
       return {...state, clients: [...state.clients, action.payload]};
+    }
+
+    case MqttClientsActionTypes.NEW_PACKET_PUBLISH: {
+      const existingPublishedPacketCollection: ClientPacketCollection[] =
+        state.published;
+      const {
+        id: newPacketClientId,
+        data: newPacketData,
+      }: PublishedPacket = action.payload;
+
+      // ToDo: verify
+      const updatedPacketCollection: ClientPacketCollection[] = existingPublishedPacketCollection.filter(
+        ({id: existingPacketClientId, packets: existingClientPackets}) =>
+          newPacketClientId === existingPacketClientId
+            ? [
+                ...existingPublishedPacketCollection,
+                {
+                  id: existingPacketClientId,
+                  packets: [...existingClientPackets, newPacketData],
+                },
+              ]
+            : existingPublishedPacketCollection.push({
+                id: newPacketClientId,
+                packets: [newPacketData],
+              })
+      );
+
+      return {...state, published: updatedPacketCollection};
     }
 
     default:

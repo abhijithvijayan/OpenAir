@@ -4,11 +4,15 @@ import SettingsIcon from './Settings';
 import ArrowRight from './ArrowRight';
 import ArrowLeft from './ArrowLeft';
 import SignOutIcon from './SignOut';
+import ArrowDown from './ArrowDown';
+import ArrowUp from './ArrowUp';
 import InboxIcon from './Inbox';
 import BellIcon from './Bell';
 
 const icons = {
   'arrow-left': ArrowLeft,
+  'arrow-down': ArrowDown,
+  'arrow-up': ArrowUp,
   'arrow-right': ArrowRight,
   bell: BellIcon,
   inbox: InboxIcon,

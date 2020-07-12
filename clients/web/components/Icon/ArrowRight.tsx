@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ArrowLeft: React.FC = () => {
+const ArrowRight: React.FC = () => {
   return (
     <>
       <svg
@@ -20,4 +20,4 @@ const ArrowLeft: React.FC = () => {
     </>
   );
 };
-export default React.memo(ArrowLeft);
+export default React.memo(ArrowRight);
