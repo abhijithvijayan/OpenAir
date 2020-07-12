@@ -2,6 +2,8 @@ import React from 'react';
 import Link from 'next/link';
 import 'twin.macro';
 
+import Icon from './Icon';
+
 import {useMqttClients, MqttClient} from '../contexts/mqtt-clients-context';
 import {formatTime} from '../util/date';
 
@@ -14,8 +16,9 @@ const Card: React.FC<{client: MqttClient}> = ({client}) => {
           <span tw="text-gray-700 font-medium text-base">{client.id}</span>
 
           <Link href="/client/id/activity">
-            <a tw="text-gray-700 text-sm hover:text-gray-600 border-b pb-1 border-gray-300 hover:border-gray-500 cursor-pointer">
+            <a tw="text-gray-700 text-sm hover:text-gray-600 border-b pb-1 border-gray-300 hover:border-gray-500 cursor-pointer inline-flex items-center">
               View Activity
+              <Icon name="arrow-right" tw="ml-1" />
             </a>
           </Link>
         </div>

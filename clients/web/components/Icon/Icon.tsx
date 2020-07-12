@@ -8,6 +8,8 @@ import ArrowLeftIcon from './ArrowLeft';
 import ChevronUpIcon from './ChevronUp';
 import SettingsIcon from './Settings';
 import LogOutIcon from './LogOut';
+import SearchIcon from './Search';
+import BurgerIcon from './Burger';
 import InboxIcon from './Inbox';
 import BellIcon from './Bell';
 
@@ -15,13 +17,15 @@ const icons = {
   'arrow-left': ArrowLeftIcon,
   'arrow-right': ArrowRightIcon,
   bell: BellIcon,
+  burger: BurgerIcon,
   'check-circle': CheckCircleIcon,
   'chevron-down': ChevronDownIcon,
   'chevron-up': ChevronUpIcon,
   'cross-circle': CrossCircleIcon,
   inbox: InboxIcon,
-  settings: SettingsIcon,
   'log-out': LogOutIcon,
+  search: SearchIcon,
+  settings: SettingsIcon,
 };
 
 export type Icons = keyof typeof icons;
