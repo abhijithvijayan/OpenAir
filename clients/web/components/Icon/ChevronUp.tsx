@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Inbox: React.FC = () => {
+const ChevronUp: React.FC = () => {
   return (
     <>
       <svg
@@ -12,12 +12,12 @@ const Inbox: React.FC = () => {
         strokeWidth={1.5}
         strokeLinecap="round"
         strokeLinejoin="round"
-        className="inbox_svg__feather inbox_svg__feather-inbox"
+        className="chevron-up_svg__feather chevron-up_svg__feather-chevron-up"
       >
-        <path d="M22 12h-6l-2 3h-4l-2-3H2" />
-        <path d="M5.45 5.11L2 12v6a2 2 0 002 2h16a2 2 0 002-2v-6l-3.45-6.89A2 2 0 0016.76 4H7.24a2 2 0 00-1.79 1.11z" />
+        <path d="M18 15l-6-6-6 6" />
       </svg>
     </>
   );
 };
-export default React.memo(Inbox);
+
+export default React.memo(ChevronUp);

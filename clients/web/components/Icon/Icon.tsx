@@ -1,23 +1,27 @@
 import React from 'react';
 
+import ChevronDownIcon from './ChevronDown';
+import CheckCircleIcon from './CheckCircle';
+import CrossCircleIcon from './CrossCircle';
+import ArrowRightIcon from './ArrowRight';
+import ArrowLeftIcon from './ArrowLeft';
+import ChevronUpIcon from './ChevronUp';
 import SettingsIcon from './Settings';
-import ArrowRight from './ArrowRight';
-import ArrowLeft from './ArrowLeft';
-import SignOutIcon from './SignOut';
-import ArrowDown from './ArrowDown';
-import ArrowUp from './ArrowUp';
+import LogOutIcon from './LogOut';
 import InboxIcon from './Inbox';
 import BellIcon from './Bell';
 
 const icons = {
-  'arrow-left': ArrowLeft,
-  'arrow-down': ArrowDown,
-  'arrow-up': ArrowUp,
-  'arrow-right': ArrowRight,
+  'arrow-left': ArrowLeftIcon,
+  'arrow-right': ArrowRightIcon,
   bell: BellIcon,
+  'check-circle': CheckCircleIcon,
+  'chevron-down': ChevronDownIcon,
+  'chevron-up': ChevronUpIcon,
+  'cross-circle': CrossCircleIcon,
   inbox: InboxIcon,
   settings: SettingsIcon,
-  'sign-out': SignOutIcon,
+  'log-out': LogOutIcon,
 };
 
 export type Icons = keyof typeof icons;

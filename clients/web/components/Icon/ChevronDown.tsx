@@ -1,23 +1,22 @@
 import React from 'react';
 
-const ArrowLeft: React.FC = () => {
+const ChevronDown: React.FC = () => {
   return (
     <>
       <svg
         width={20}
         height={20}
-        viewBox="0 0 24 24"
         fill="none"
         stroke="currentColor"
         strokeWidth={1.5}
         strokeLinecap="round"
         strokeLinejoin="round"
-        className="arrow-left_svg__feather arrow-left_svg__feather-arrow-left"
+        className="chevron-down_svg__feather chevron-down_svg__feather-chevron-down"
       >
-        <path d="M19 12H5M12 19l-7-7 7-7" />
+        <path d="M6 9l6 6 6-6" />
       </svg>
     </>
   );
 };
 
-export default React.memo(ArrowLeft);
+export default React.memo(ChevronDown);
