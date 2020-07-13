@@ -2,8 +2,11 @@ import React, {createContext, useReducer, useContext} from 'react';
 
 export type MqttClient = {
   id: string;
+  uuid: string;
+  prefix: string;
   type: string;
-  connected_at: Date;
+  category: string;
+  connected_at: number;
   closed: boolean;
   connecting: boolean;
   connected: boolean;

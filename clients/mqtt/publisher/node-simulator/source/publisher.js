@@ -14,7 +14,7 @@ const mqttServerAddress = process.env.MQTT_SERVER_ADDRESS;
 const username = process.env.MQTT_AUTH_ID;
 const password = process.env.MQTT_AUTH_PASSWORD;
 
-const publisherId = `PUBLISHER_${uuidv4()}`;
+const publisherId = `CLIENT_T1_${uuidv4()}`;
 
 /**
  *  Connection Options

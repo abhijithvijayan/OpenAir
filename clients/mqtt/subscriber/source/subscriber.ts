@@ -21,8 +21,12 @@ type SuccessResponse = {
   };
 };
 
+/**
+ *  CLIENT_T1_ prefix for Publisher
+ *  CLIENT_T2_ prefix for Subscriber
+ */
 const startSubscriber = (): void => {
-  const subscriberId = `SUBSCRIBER_${v4()}`;
+  const subscriberId = `CLIENT_T2_${v4()}`;
 
   /**
    *  Connection Options

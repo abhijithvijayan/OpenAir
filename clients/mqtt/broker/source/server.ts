@@ -14,6 +14,28 @@ import {
   MQTT_AUTH_PASSWORD,
 } from './config/secrets';
 
+enum ClientType {
+  PUBLISHER_CODE = 'T1',
+  SUBSCRIBER_CODE = 'T2',
+  PUBLISHER = 'PUBLISHER',
+  SUBSCRIBER = 'SUBSCRIBER',
+  UNKNOWN = 'UNKNOWN',
+}
+
+type MqttConnectedClient = {
+  id: string;
+  uuid: string;
+  prefix: string;
+  type: string;
+  category: string;
+  connected_at: number;
+  closed: boolean;
+  connecting: boolean;
+  connected: boolean;
+  clean: boolean;
+  version: number;
+};
+
 const startServer = (): void => {
   const port = 1883;
 
@@ -60,12 +82,36 @@ const startServer = (): void => {
    */
   broker.on('client', (client: Client) => {
     if (client) {
-      const {id, connected, connecting, closed, version, clean} = client;
-      console.log(`> MQTT Client Connected: \x1b[33m${id}\x1b[0m`); // eslint-disable-line no-console
-      const [type, clientId] = client.id.split('_');
-      const connectedClient = {
+      const {
         id: clientId,
-        type,
+        connected,
+        connecting,
+        closed,
+        version,
+        clean,
+      } = client;
+      console.log(`> MQTT Client Connected: \x1b[33m${clientId}\x1b[0m`); // eslint-disable-line no-console
+      /**
+       *  CLIENT_T1_ prefix for Publisher
+       *  CLIENT_T2_ prefix for Subscriber
+       *
+       *  eg: CLIENT_T2_ee9c1708-6c7e-457c-989f-d635236740c8
+       */
+
+      const [clientPrefix, clientTypeCode, clientUUID] = clientId.split('_');
+      const clientCategory: string =
+        (clientTypeCode === ClientType.PUBLISHER_CODE &&
+          ClientType.PUBLISHER) ||
+        (clientTypeCode === ClientType.SUBSCRIBER_CODE &&
+          ClientType.SUBSCRIBER) ||
+        ClientType.UNKNOWN;
+
+      const connectedClient: MqttConnectedClient = {
+        id: clientId,
+        uuid: clientUUID,
+        prefix: clientPrefix,
+        type: clientTypeCode,
+        category: clientCategory,
         connected_at: new Date().getTime(),
         closed,
         connecting,
