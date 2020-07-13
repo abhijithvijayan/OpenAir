@@ -1,5 +1,11 @@
 import React, {createContext, useReducer, useContext} from 'react';
 
+export enum ActivityType {
+  CLIENT_CONNECTED = 1,
+  CLIENT_DISCONNECTED = 2,
+  CLIENT_PUBLISHED = 3,
+}
+
 export type MqttClient = {
   id: string;
   uuid: string;
@@ -40,10 +46,17 @@ type ClientPacketCollection = {
   packets: DataPacket[];
 };
 
+export type ClientActivityProps = {
+  clientId: string;
+  type: number;
+  timestamp: number;
+};
+
 export enum MqttClientsActionTypes {
   SET_LOADING = 'set-loading',
   NEW_MQTT_CLIENT = 'new-mqtt-client',
   NEW_PACKET_PUBLISH = 'new-packet-publish',
+  NEW_CLIENT_ACTIVITY = 'new-client-activity',
 }
 
 type SET_LOADING = {
@@ -61,18 +74,29 @@ type NEW_PACKET_PUBLISH = {
   payload: PublishedPacket;
 };
 
-type Action = SET_LOADING | NEW_MQTT_CLIENT | NEW_PACKET_PUBLISH;
+type NEW_CLIENT_ACTIVITY = {
+  type: MqttClientsActionTypes.NEW_CLIENT_ACTIVITY;
+  payload: ClientActivityProps;
+};
+
+type Action =
+  | SET_LOADING
+  | NEW_MQTT_CLIENT
+  | NEW_PACKET_PUBLISH
+  | NEW_CLIENT_ACTIVITY;
 
 type InitialValues = {
   loading: boolean;
   clients: MqttClient[];
   published: ClientPacketCollection[];
+  activity: ClientActivityProps[];
 };
 
 const initialValues: InitialValues = {
   loading: false,
   clients: [],
   published: [],
+  activity: [],
 };
 
 type State = InitialValues;
@@ -119,6 +143,10 @@ function mqttClientsReducer(state: State, action: Action): State {
       );
 
       return {...state, published: updatedPacketCollection};
+    }
+
+    case MqttClientsActionTypes.NEW_CLIENT_ACTIVITY: {
+      return {...state, activity: [...state.activity, action.payload]};
     }
 
     default:

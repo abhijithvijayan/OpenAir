@@ -4,6 +4,7 @@ import React, {useEffect} from 'react';
 
 import {
   MqttClient,
+  ActivityType,
   useMqttClients,
   PublishedPacket,
   MqttClientsActionTypes,
@@ -22,12 +23,31 @@ const DashboardPage: React.FC = () => {
 
     // console.dir(socket);
     socket.on('mqtt-client', (payload: MqttClient) => {
+      // new activity
+      dispatch({
+        type: MqttClientsActionTypes.NEW_CLIENT_ACTIVITY,
+        payload: {
+          type: ActivityType.CLIENT_CONNECTED,
+          clientId: payload.id,
+          timestamp: new Date().getTime(), // ToDo: get from packet itself
+        },
+      });
+      // add client to collection
       dispatch({type: MqttClientsActionTypes.NEW_MQTT_CLIENT, payload});
     });
 
     socket.on('mqtt-publish', (payload: PublishedPacket) => {
+      // new activity
+      dispatch({
+        type: MqttClientsActionTypes.NEW_CLIENT_ACTIVITY,
+        payload: {
+          type: ActivityType.CLIENT_PUBLISHED,
+          clientId: payload.id,
+          timestamp: new Date().getTime(), // ToDo: get from packet itself
+        },
+      });
+      // ToDo:
       dispatch({type: MqttClientsActionTypes.NEW_PACKET_PUBLISH, payload});
-      console.log(`Socket server echoes: ${payload.id}`); // eslint-disable-line no-console
     });
 
     return (): void => {
