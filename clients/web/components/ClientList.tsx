@@ -5,7 +5,7 @@ import 'twin.macro';
 import Icon from './Icon';
 
 import {useMqttClients, MqttClient} from '../contexts/mqtt-clients-context';
-import {formatTime} from '../util/date';
+import {formatTimeDistance} from '../util/date';
 
 const Card: React.FC<{client: MqttClient}> = ({client}) => {
   return (
@@ -34,7 +34,7 @@ const Card: React.FC<{client: MqttClient}> = ({client}) => {
                 {client.category.toUpperCase()}
               </p>
               <p tw="text-gray-500 text-sm mb-0">
-                Last activity {formatTime(client.connected_at)} ago
+                Last activity {formatTimeDistance(client.connected_at)} ago
               </p>
             </div>
           </div>

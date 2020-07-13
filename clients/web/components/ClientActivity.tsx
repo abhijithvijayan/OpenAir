@@ -2,7 +2,7 @@ import Link from 'next/link';
 import React from 'react';
 import 'twin.macro';
 
-import Icon from './Icon';
+import Icon, {Icons} from './Icon';
 
 import {formatTimeDistance} from '../util/date';
 import {getClientUUID} from '../util/client';
@@ -28,6 +28,22 @@ function getActivityMessage(type: number): string {
   return 'Something went wrong';
 }
 
+function getActivityIcon(type: number): Icons {
+  if (type === ActivityType.CLIENT_CONNECTED) {
+    return 'activity';
+  }
+
+  if (type === ActivityType.CLIENT_DISCONNECTED) {
+    return 'frown-face';
+  }
+
+  if (type === ActivityType.CLIENT_PUBLISHED) {
+    return 'hash';
+  }
+
+  return 'alert-circle';
+}
+
 const ActivityCard: React.FC<{activity: ClientActivityProps}> = ({
   activity,
 }) => {
@@ -35,7 +51,10 @@ const ActivityCard: React.FC<{activity: ClientActivityProps}> = ({
     <>
       <div tw="max-w-4xl border-b px-8 py-4">
         <div tw="flex">
-          <Icon tw="pr-3 flex items-center" name="check-circle" />
+          <Icon
+            tw="pr-3 flex items-center"
+            name={getActivityIcon(activity.type)}
+          />
           <div tw="w-full">
             <div tw="flex justify-between items-center">
               <span tw="text-gray-700 font-semibold text-sm pr-1">
@@ -43,7 +62,7 @@ const ActivityCard: React.FC<{activity: ClientActivityProps}> = ({
               </span>
 
               <p tw="text-gray-500 text-sm mb-0">
-                {formatTimeDistance(activity.timestamp)}
+                {formatTimeDistance(activity.timestamp)} ago
               </p>
             </div>
             <div tw="flex justify-between items-center mt-1">
@@ -70,9 +89,11 @@ const ClientActivity: React.FC = () => {
       </div>
 
       <div>
-        {state.activity.map((activity) => (
-          <ActivityCard activity={activity} />
-        ))}
+        {state.activity.map((activity, index) => {
+          const key: string = activity.clientId + index;
+
+          return <ActivityCard key={key} activity={activity} />;
+        })}
       </div>
 
       <div>
