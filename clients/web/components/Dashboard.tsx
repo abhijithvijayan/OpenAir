@@ -16,7 +16,9 @@ const DashboardPage: React.FC = () => {
   const dispatch = useMqttClients()[1];
 
   useEffect(() => {
-    const socket = io('http://localhost:8000');
+    const socket = io(
+      process.env.NEXT_PUBLIC_WEBSOCKET_SERVER_URL || 'http://localhost:8000'
+    );
 
     // console.dir(socket);
     socket.on('mqtt-client', (payload: MqttClient) => {
