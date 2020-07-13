@@ -30,7 +30,6 @@
 #include <string.h>
 
 // MQTT Device Credentials
-#define MQTT_DEVICE_ID "........"
 #define CLIENT_AUTH_ID "........"
 #define CLIENT_AUTH_CREDENTIAL "........"
 #define LATITUDE "........"
@@ -297,6 +296,10 @@ char *generateMqttPacket(String airDataPacketBuffer) {
  *   will only run once, after each powerup or reset of the board.
  */
 void setup() {
+    char _clientId[22 + 1]; // CLIENT_T1_abcdef123456
+    // decimal to hex conversion
+    sprintf(_clientId, "CLIENT_T1_%06x", ESP.getChipId());
+
     pinMode(BUILTIN_LED, OUTPUT); // Initialize the BUILTIN_LED pin as an output
 
     // initialize serial for debugging
@@ -309,7 +312,7 @@ void setup() {
     mqttClient.onConnect(onMqttConnect);
     mqttClient.onDisconnect(onMqttDisconnect);
     mqttClient.onPublish(onMqttPublish);
-    // mqttClient.setClientId(MQTT_DEVICE_ID);
+    mqttClient.setClientId(_clientId);
     // mqttClient.setKeepAlive(120);
     // mqttClient.setCleanSession(true);
     mqttClient.setCredentials(CLIENT_AUTH_ID, CLIENT_AUTH_CREDENTIAL);
