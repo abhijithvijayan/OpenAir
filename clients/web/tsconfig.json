@@ -16,6 +16,8 @@
   },
   "include": [
     "next-env.d.ts",
+    "cssprop.d.ts",
+    "twin.d.ts",
     "**/*.ts",
     "**/*.tsx"
   ]
