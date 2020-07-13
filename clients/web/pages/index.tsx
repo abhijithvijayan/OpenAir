@@ -5,7 +5,6 @@ import BodyWrapper from '../components/BodyWrapper';
 import DashboardPage from '../components/Dashboard';
 import Sidebar from '../components/Sidebar';
 import Header from '../components/Header';
-import Footer from '../components/Footer';
 
 import {MqttClientsProvider} from '../contexts/mqtt-clients-context';
 import {SidebarContextProvider} from '../contexts/sidebar-context';
@@ -21,11 +20,9 @@ const IndexPage: React.FC = () => {
             <div tw="flex flex-col flex-1 overflow-hidden">
               <Header />
 
-              <main tw="flex-1 overflow-x-hidden overflow-y-auto bg-gray-200">
+              <main tw="flex flex-col flex-1 overflow-x-hidden overflow-y-auto bg-gray-200">
                 <DashboardPage />
               </main>
-
-              <Footer />
             </div>
           </div>
         </BodyWrapper>
