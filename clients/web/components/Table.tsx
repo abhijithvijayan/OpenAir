@@ -7,19 +7,19 @@ const Table: React.FC = () => {
       <table tw="min-w-full">
         <thead>
           <tr>
-            <th tw="bg-gray-50 px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200">
+            <th tw="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200">
               Name
             </th>
-            <th tw="bg-gray-50 px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200">
+            <th tw="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200">
               Title
             </th>
-            <th tw="bg-gray-50 px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200">
+            <th tw="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200">
               Status
             </th>
-            <th tw="bg-gray-50 px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200">
+            <th tw="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200">
               Role
             </th>
-            <th tw="bg-gray-50 px-6 py-3 border-b border-gray-200" />
+            <th tw="px-6 py-3 border-b border-gray-200" />
           </tr>
         </thead>
 

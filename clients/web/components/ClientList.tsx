@@ -1,5 +1,5 @@
-import React from 'react';
 import Link from 'next/link';
+import React from 'react';
 import 'twin.macro';
 
 import Icon from './Icon';
@@ -22,7 +22,7 @@ const Card: React.FC<{client: MqttClient}> = ({client}) => {
                 {client.uuid}
               </span>
 
-              <Link href="/client/id/activity">
+              <Link href={`/clients/${client.uuid}/activity`}>
                 <a tw="text-gray-700 text-sm hover:text-gray-600 border-b pb-1 border-gray-300 hover:border-gray-500 cursor-pointer inline-flex items-center">
                   View activity
                   <Icon name="arrow-right" tw="ml-1" />

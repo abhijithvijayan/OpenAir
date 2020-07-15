@@ -1,5 +1,5 @@
-import 'twin.macro';
 import React from 'react';
+import 'twin.macro';
 
 const Loader: React.FC = () => {
   return (

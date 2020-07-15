@@ -1,5 +1,5 @@
-import 'twin.macro';
 import React from 'react';
+import 'twin.macro';
 
 const BodyWrapper: React.FC = ({children}) => {
   return (

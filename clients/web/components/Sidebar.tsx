@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
+import Link from 'next/link';
 import tw from 'twin.macro';
 import React from 'react';
-import Link from 'next/link';
 
 import Icon from './Icon';
 
