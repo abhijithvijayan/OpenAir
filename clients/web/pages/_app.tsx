@@ -14,6 +14,8 @@ import {ThemeProvider} from 'styled-components';
 // common styles
 import '../styles/main.scss';
 
+import {WebSocketProvider} from '../contexts/web-socket-context';
+
 // ToDo: types
 // eslint-disable-next-line @typescript-eslint/no-var-requires, import/no-webpack-loader-syntax, import/no-unresolved
 const theme = require('sass-extract-loader?{"plugins": ["sass-extract-js"]}!../styles/base/_variables.scss'); // extract sass variables
@@ -35,8 +37,10 @@ function App({Component, pageProps}: AppProps): JSX.Element {
         <title>OpenAir | Dashboard</title>
       </Head>
       <ThemeProvider theme={theme}>
-        {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-        <Component {...pageProps} />
+        <WebSocketProvider>
+          {/* eslint-disable-next-line react/jsx-props-no-spreading */}
+          <Component {...pageProps} />
+        </WebSocketProvider>
       </ThemeProvider>
     </>
   );

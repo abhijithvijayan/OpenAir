@@ -6,12 +6,11 @@ import DashboardPage from '../components/Dashboard';
 import Sidebar from '../components/Sidebar';
 import Header from '../components/Header';
 
-import {WebSocketProvider} from '../contexts/web-socket-context';
 import {SidebarContextProvider} from '../contexts/sidebar-context';
 
 const IndexPage: React.FC = () => {
   return (
-    <WebSocketProvider>
+    <>
       <SidebarContextProvider>
         <BodyWrapper>
           <div tw="flex h-screen bg-gray-200">
@@ -27,7 +26,7 @@ const IndexPage: React.FC = () => {
           </div>
         </BodyWrapper>
       </SidebarContextProvider>
-    </WebSocketProvider>
+    </>
   );
 };
 

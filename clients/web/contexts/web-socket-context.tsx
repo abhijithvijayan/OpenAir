@@ -1,4 +1,5 @@
-import React, {createContext, useReducer, useContext} from 'react';
+import React, {createContext, useEffect, useReducer, useContext} from 'react';
+import io from 'socket.io-client';
 
 export enum ActivityType {
   CLIENT_CONNECTED = 1,
@@ -190,6 +191,47 @@ type WebSocketProviderProps = {
 
 const WebSocketProvider: React.FC<WebSocketProviderProps> = ({children}) => {
   const [state, dispatch] = useReducer(webSocketReducer, initialValues);
+
+  // Web socket connection
+  useEffect(() => {
+    // ToDo: Enable loader while connecting
+    const socket: SocketIOClient.Socket = io(
+      process.env.NEXT_PUBLIC_WEBSOCKET_SERVER_URL || 'http://localhost:8000'
+    );
+
+    // console.dir(socket);
+    socket.on('mqtt-client', (payload: MqttClient) => {
+      // new activity
+      dispatch({
+        type: MqttClientsActionTypes.NEW_CLIENT_ACTIVITY,
+        payload: {
+          type: ActivityType.CLIENT_CONNECTED,
+          clientId: payload.id,
+          timestamp: new Date().getTime(), // ToDo: get from packet itself
+        },
+      });
+      // add client to collection
+      dispatch({type: MqttClientsActionTypes.NEW_MQTT_CLIENT, payload});
+    });
+
+    socket.on('mqtt-publish', (payload: PublishedPacket) => {
+      // new activity
+      dispatch({
+        type: MqttClientsActionTypes.NEW_CLIENT_ACTIVITY,
+        payload: {
+          type: ActivityType.CLIENT_PUBLISHED,
+          clientId: payload.id,
+          timestamp: new Date().getTime(), // ToDo: get from packet itself
+        },
+      });
+      // ToDo:
+      dispatch({type: MqttClientsActionTypes.NEW_PACKET_PUBLISH, payload});
+    });
+
+    return (): void => {
+      socket.disconnect();
+    };
+  }, [dispatch]);
 
   return (
     <>
