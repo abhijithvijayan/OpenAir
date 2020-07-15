@@ -4,7 +4,7 @@ import 'twin.macro';
 
 import Icon from './Icon';
 
-import {useMqttClients, MqttClient} from '../contexts/mqtt-clients-context';
+import {useWebSocket, MqttClient} from '../contexts/web-socket-context';
 import {formatTimeDistance} from '../util/date';
 
 const Card: React.FC<{client: MqttClient}> = ({client}) => {
@@ -45,7 +45,7 @@ const Card: React.FC<{client: MqttClient}> = ({client}) => {
 };
 
 const ClientList: React.FC = () => {
-  const [state] = useMqttClients();
+  const [state] = useWebSocket();
 
   return (
     <>

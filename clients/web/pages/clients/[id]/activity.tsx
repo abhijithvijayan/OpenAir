@@ -6,12 +6,12 @@ import TablePage from '../../../components/Table';
 import Sidebar from '../../../components/Sidebar';
 import Header from '../../../components/Header';
 
-import {MqttClientsProvider} from '../../../contexts/mqtt-clients-context';
+import {WebSocketProvider} from '../../../contexts/web-socket-context';
 import {SidebarContextProvider} from '../../../contexts/sidebar-context';
 
 const IndexPage: React.FC = () => {
   return (
-    <MqttClientsProvider>
+    <WebSocketProvider>
       <SidebarContextProvider>
         <BodyWrapper>
           <div tw="flex h-screen bg-gray-200">
@@ -27,7 +27,7 @@ const IndexPage: React.FC = () => {
           </div>
         </BodyWrapper>
       </SidebarContextProvider>
-    </MqttClientsProvider>
+    </WebSocketProvider>
   );
 };
 

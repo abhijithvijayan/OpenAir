@@ -5,18 +5,19 @@ import React, {useEffect} from 'react';
 import {
   MqttClient,
   ActivityType,
-  useMqttClients,
+  useWebSocket,
   PublishedPacket,
   MqttClientsActionTypes,
-} from '../contexts/mqtt-clients-context';
+} from '../contexts/web-socket-context';
 
 import ClientActivity from './ClientActivity';
 import ClientList from './ClientList';
 
 const DashboardPage: React.FC = () => {
-  const dispatch = useMqttClients()[1];
+  const dispatch = useWebSocket()[1];
 
   useEffect(() => {
+    // ToDo: Enable loader while connecting
     const socket = io(
       process.env.NEXT_PUBLIC_WEBSOCKET_SERVER_URL || 'http://localhost:8000'
     );

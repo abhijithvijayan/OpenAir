@@ -52,15 +52,18 @@ export type ClientActivityProps = {
   timestamp: number;
 };
 
-export enum MqttClientsActionTypes {
+export enum WebSocketActionTypes {
   SET_LOADING = 'set-loading',
+}
+
+export enum MqttClientsActionTypes {
   NEW_MQTT_CLIENT = 'new-mqtt-client',
   NEW_PACKET_PUBLISH = 'new-packet-publish',
   NEW_CLIENT_ACTIVITY = 'new-client-activity',
 }
 
 type SET_LOADING = {
-  type: MqttClientsActionTypes.SET_LOADING;
+  type: WebSocketActionTypes.SET_LOADING;
   payload: boolean;
 };
 
@@ -102,14 +105,12 @@ const initialValues: InitialValues = {
 type State = InitialValues;
 type Dispatch = (action: Action) => void;
 
-const MqttClientsStateContext = createContext<State | undefined>(undefined);
-const MqttClientsDispatchContext = createContext<Dispatch | undefined>(
-  undefined
-);
+const WebSocketStateContext = createContext<State | undefined>(undefined);
+const WebSocketDispatchContext = createContext<Dispatch | undefined>(undefined);
 
-function mqttClientsReducer(state: State, action: Action): State {
+function webSocketReducer(state: State, action: Action): State {
   switch (action.type) {
-    case MqttClientsActionTypes.SET_LOADING: {
+    case WebSocketActionTypes.SET_LOADING: {
       return {...state, loading: action.payload};
     }
 
@@ -154,53 +155,51 @@ function mqttClientsReducer(state: State, action: Action): State {
   }
 }
 
-function useMqttClientsState(): State {
-  const context = useContext(MqttClientsStateContext);
+function useWebSocketState(): State {
+  const context = useContext(WebSocketStateContext);
 
   if (context === undefined) {
     throw new Error(
-      'useMqttClientsState must be used within a MqttClientsProvider'
+      'useWebSocketState must be used within a WebSocketProvider'
     );
   }
 
   return context;
 }
 
-function useMqttClientsDispatch(): Dispatch {
-  const context = useContext(MqttClientsDispatchContext);
+function useWebSocketDispatch(): Dispatch {
+  const context = useContext(WebSocketDispatchContext);
 
   if (context === undefined) {
     throw new Error(
-      'useMqttClientsDispatch must be used within a MqttClientsProvider'
+      'useWebSocketDispatch must be used within a WebSocketProvider'
     );
   }
 
   return context;
 }
 
-function useMqttClients(): [State, Dispatch] {
-  // To access const [state, dispatch] = useMqttClients()
-  return [useMqttClientsState(), useMqttClientsDispatch()];
+function useWebSocket(): [State, Dispatch] {
+  // To access const [state, dispatch] = useWebSocket()
+  return [useWebSocketState(), useWebSocketDispatch()];
 }
 
-type MqttClientsProviderProps = {
+type WebSocketProviderProps = {
   children: React.ReactNode;
 };
 
-const MqttClientsProvider: React.FC<MqttClientsProviderProps> = ({
-  children,
-}) => {
-  const [state, dispatch] = useReducer(mqttClientsReducer, initialValues);
+const WebSocketProvider: React.FC<WebSocketProviderProps> = ({children}) => {
+  const [state, dispatch] = useReducer(webSocketReducer, initialValues);
 
   return (
     <>
-      <MqttClientsStateContext.Provider value={state}>
-        <MqttClientsDispatchContext.Provider value={dispatch}>
+      <WebSocketStateContext.Provider value={state}>
+        <WebSocketDispatchContext.Provider value={dispatch}>
           {children}
-        </MqttClientsDispatchContext.Provider>
-      </MqttClientsStateContext.Provider>
+        </WebSocketDispatchContext.Provider>
+      </WebSocketStateContext.Provider>
     </>
   );
 };
 
-export {MqttClientsProvider, useMqttClients};
+export {WebSocketProvider, useWebSocket};

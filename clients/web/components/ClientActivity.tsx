@@ -8,9 +8,9 @@ import {formatTimeDistance} from '../util/date';
 import {getClientUUID} from '../util/client';
 import {
   ActivityType,
-  useMqttClients,
+  useWebSocket,
   ClientActivityProps,
-} from '../contexts/mqtt-clients-context';
+} from '../contexts/web-socket-context';
 
 function getActivityMessage(type: number): string {
   if (type === ActivityType.CLIENT_CONNECTED) {
@@ -78,7 +78,7 @@ const ActivityCard: React.FC<{activity: ClientActivityProps}> = ({
 };
 
 const ClientActivity: React.FC = () => {
-  const [state] = useMqttClients();
+  const [state] = useWebSocket();
 
   return (
     <>
