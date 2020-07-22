@@ -34,16 +34,17 @@ type DataPacket = {
     compound: string;
     value: number;
   }[];
+  timestamp: number;
 };
 
 // datatype of the packet received by socket client
 export type PublishedPacket = {
-  id: string;
+  clientId: string;
   data: DataPacket;
 };
 
 type ClientPacketCollection = {
-  id: string;
+  clientId: string;
   packets: DataPacket[];
 };
 
@@ -115,6 +116,10 @@ function webSocketReducer(state: State, action: Action): State {
       return {...state, loading: action.payload};
     }
 
+    case MqttClientsActionTypes.NEW_CLIENT_ACTIVITY: {
+      return {...state, activity: [...state.activity, action.payload]};
+    }
+
     case MqttClientsActionTypes.NEW_MQTT_CLIENT: {
       return {...state, clients: [...state.clients, action.payload]};
     }
@@ -124,13 +129,13 @@ function webSocketReducer(state: State, action: Action): State {
         state.published;
 
       const {
-        id: newPacketClientId,
+        clientId: newPacketClientId,
         data: newPacketData,
       }: PublishedPacket = action.payload;
 
       // Check if client has existing packets
       const existingIndex: number = publishedPacketCollection.findIndex(
-        (existing) => existing.id === newPacketClientId
+        (existing) => existing.clientId === newPacketClientId
       );
 
       if (existingIndex !== -1) {
@@ -144,16 +149,12 @@ function webSocketReducer(state: State, action: Action): State {
         };
       } else {
         publishedPacketCollection.push({
-          id: newPacketClientId,
+          clientId: newPacketClientId,
           packets: [newPacketData],
         });
       }
 
       return {...state, published: publishedPacketCollection};
-    }
-
-    case MqttClientsActionTypes.NEW_CLIENT_ACTIVITY: {
-      return {...state, activity: [...state.activity, action.payload]};
     }
 
     default:
@@ -204,32 +205,36 @@ const WebSocketProvider: React.FC<WebSocketProviderProps> = ({children}) => {
       process.env.NEXT_PUBLIC_WEBSOCKET_SERVER_URL || 'http://localhost:8000'
     );
 
-    // console.dir(socket);
+    // ********************************************* //
+    // **** NEW MQTT CLIENT CONNECTED TO BROKER **** //
+    // ********************************************* //
     socket.on('mqtt-client', (payload: MqttClient) => {
       // new activity
       dispatch({
         type: MqttClientsActionTypes.NEW_CLIENT_ACTIVITY,
         payload: {
           type: ActivityType.CLIENT_CONNECTED,
-          clientId: payload.id, // ToDo: fix this id payload getting lost on receiving
-          timestamp: new Date().getTime(), // ToDo: get from packet itself
+          clientId: payload.id,
+          timestamp: payload.connected_at,
         },
       });
       // add client to collection
       dispatch({type: MqttClientsActionTypes.NEW_MQTT_CLIENT, payload});
     });
 
+    // ******************************************* //
+    // **** MQTT CLIENT PUBLISHED DATA PACKET **** //
+    // ******************************************* //
     socket.on('mqtt-publish', (payload: PublishedPacket) => {
       // new activity
       dispatch({
         type: MqttClientsActionTypes.NEW_CLIENT_ACTIVITY,
         payload: {
           type: ActivityType.CLIENT_PUBLISHED,
-          clientId: payload.id,
-          timestamp: new Date().getTime(), // ToDo: get from packet itself
+          clientId: payload.clientId,
+          timestamp: payload.data.timestamp,
         },
       });
-      // ToDo:
       dispatch({type: MqttClientsActionTypes.NEW_PACKET_PUBLISH, payload});
     });
 
