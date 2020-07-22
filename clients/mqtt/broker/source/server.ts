@@ -36,6 +36,22 @@ type MqttConnectedClient = {
   version: number;
 };
 
+type DataPacket = {
+  name: string;
+  location: {
+    type: string;
+    coordinates: {lat: string; lng: string};
+  };
+  readings: {
+    id: string;
+    type: string;
+    unit: string;
+    compound: string;
+    value: number;
+  }[];
+  timestamp: number;
+};
+
 const startServer = (): void => {
   const port = 1883;
 
@@ -145,20 +161,23 @@ const startServer = (): void => {
     const id = client ? client.id : `BROKER-${broker.id}`;
     // eslint-disable-next-line no-console
     console.log(
-      `> Client \x1b[31m${id}\x1b[0m has published`,
-      packet.payload.toString(),
-      'on',
-      packet.topic
+      `> Client \x1b[31m${id}\x1b[0m has published on ${packet.topic}`
     );
 
     if (client) {
       console.log(packet.topic);
+
       // According to topic, emit to websocket
       if (packet.topic === 'openair/places') {
+        const dataPacket: DataPacket = {
+          ...JSON.parse(packet.payload.toString()),
+          timestamp: new Date().getTime(),
+        };
+
         // Sending to all clients
         eventSocket.emit('mqtt-publish', {
-          id: client.id.split('_')[1],
-          data: JSON.parse(packet.payload.toString()),
+          clientId: client.id,
+          data: dataPacket,
         });
       }
     }
