@@ -117,11 +117,11 @@ function webSocketReducer(state: State, action: Action): State {
     }
 
     case MqttClientsActionTypes.NEW_CLIENT_ACTIVITY: {
-      return {...state, activity: [...state.activity, action.payload]};
+      return {...state, activity: [action.payload, ...state.activity]};
     }
 
     case MqttClientsActionTypes.NEW_MQTT_CLIENT: {
-      return {...state, clients: [...state.clients, action.payload]};
+      return {...state, clients: [action.payload, ...state.clients]};
     }
 
     case MqttClientsActionTypes.NEW_PACKET_PUBLISH: {
@@ -143,8 +143,8 @@ function webSocketReducer(state: State, action: Action): State {
         publishedPacketCollection[existingIndex] = {
           ...publishedPacketCollection[existingIndex],
           packets: [
-            ...publishedPacketCollection[existingIndex].packets,
             newPacketData,
+            ...publishedPacketCollection[existingIndex].packets,
           ],
         };
       } else {

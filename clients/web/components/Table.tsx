@@ -84,7 +84,7 @@ const Table: React.FC<{clientUUId: string}> = ({clientUUId}) => {
         <tbody tw="bg-white">
           {clientPacketCollection.packets.map((packet) => {
             return (
-              <tr>
+              <tr key={packet.timestamp}>
                 <td tw="px-6 py-4 whitespace-no-wrap border-b border-gray-300">
                   <div tw="text-sm font-medium leading-5 text-gray-700">
                     Published {formatTimeDistance(packet.timestamp)} ago
