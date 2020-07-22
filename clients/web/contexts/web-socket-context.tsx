@@ -92,7 +92,7 @@ type Action =
 type InitialValues = {
   loading: boolean;
   clients: MqttClient[];
-  published: ClientPacketCollection[];
+  published: ClientPacketCollection[]; // array of objects of array
   activity: ClientActivityProps[];
 };
 
@@ -120,31 +120,36 @@ function webSocketReducer(state: State, action: Action): State {
     }
 
     case MqttClientsActionTypes.NEW_PACKET_PUBLISH: {
-      const existingPublishedPacketCollection: ClientPacketCollection[] =
+      const publishedPacketCollection: ClientPacketCollection[] =
         state.published;
+
       const {
         id: newPacketClientId,
         data: newPacketData,
       }: PublishedPacket = action.payload;
 
-      // ToDo: verify
-      const updatedPacketCollection: ClientPacketCollection[] = existingPublishedPacketCollection.filter(
-        ({id: existingPacketClientId, packets: existingClientPackets}) =>
-          newPacketClientId === existingPacketClientId
-            ? [
-                ...existingPublishedPacketCollection,
-                {
-                  id: existingPacketClientId,
-                  packets: [...existingClientPackets, newPacketData],
-                },
-              ]
-            : existingPublishedPacketCollection.push({
-                id: newPacketClientId,
-                packets: [newPacketData],
-              })
+      // Check if client has existing packets
+      const existingIndex: number = publishedPacketCollection.findIndex(
+        (existing) => existing.id === newPacketClientId
       );
 
-      return {...state, published: updatedPacketCollection};
+      if (existingIndex !== -1) {
+        // Append to existing array in object
+        publishedPacketCollection[existingIndex] = {
+          ...publishedPacketCollection[existingIndex],
+          packets: [
+            ...publishedPacketCollection[existingIndex].packets,
+            newPacketData,
+          ],
+        };
+      } else {
+        publishedPacketCollection.push({
+          id: newPacketClientId,
+          packets: [newPacketData],
+        });
+      }
+
+      return {...state, published: publishedPacketCollection};
     }
 
     case MqttClientsActionTypes.NEW_CLIENT_ACTIVITY: {
@@ -206,7 +211,7 @@ const WebSocketProvider: React.FC<WebSocketProviderProps> = ({children}) => {
         type: MqttClientsActionTypes.NEW_CLIENT_ACTIVITY,
         payload: {
           type: ActivityType.CLIENT_CONNECTED,
-          clientId: payload.id,
+          clientId: payload.id, // ToDo: fix this id payload getting lost on receiving
           timestamp: new Date().getTime(), // ToDo: get from packet itself
         },
       });
