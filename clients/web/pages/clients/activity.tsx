@@ -1,14 +1,18 @@
-import 'twin.macro';
+import {useRouter} from 'next/router';
 import React from 'react';
+import 'twin.macro';
 
-import BodyWrapper from '../../../components/BodyWrapper';
-import TablePage from '../../../components/Table';
-import Sidebar from '../../../components/Sidebar';
-import Header from '../../../components/Header';
+import BodyWrapper from '../../components/BodyWrapper';
+import TablePage from '../../components/Table';
+import Sidebar from '../../components/Sidebar';
+import Header from '../../components/Header';
 
-import {SidebarContextProvider} from '../../../contexts/sidebar-context';
+import {SidebarContextProvider} from '../../contexts/sidebar-context';
 
 const IndexPage: React.FC = () => {
+  const router = useRouter();
+  const {id}: {id: string} = router.query;
+
   return (
     <>
       <SidebarContextProvider>
