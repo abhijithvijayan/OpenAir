@@ -12,9 +12,11 @@ import ActivityIcon from './Activity';
 import SettingsIcon from './Settings';
 import LogOutIcon from './LogOut';
 import SearchIcon from './Search';
+import MapPinIcon from './MapPin';
 import BurgerIcon from './Burger';
 import InboxIcon from './Inbox';
 import BellIcon from './Bell';
+import CastIcon from './Cast';
 import HashIcon from './Hash';
 
 const icons = {
@@ -24,6 +26,7 @@ const icons = {
   'arrow-right': ArrowRightIcon,
   bell: BellIcon,
   burger: BurgerIcon,
+  cast: CastIcon,
   'check-circle': CheckCircleIcon,
   'chevron-down': ChevronDownIcon,
   'chevron-up': ChevronUpIcon,
@@ -32,6 +35,7 @@ const icons = {
   hash: HashIcon,
   inbox: InboxIcon,
   'log-out': LogOutIcon,
+  'map-pin': MapPinIcon,
   search: SearchIcon,
   settings: SettingsIcon,
 };
