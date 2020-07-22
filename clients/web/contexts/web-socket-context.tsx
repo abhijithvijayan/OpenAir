@@ -43,7 +43,7 @@ export type PublishedPacket = {
   data: DataPacket;
 };
 
-type ClientPacketCollection = {
+export type ClientPacketCollection = {
   clientId: string;
   packets: DataPacket[];
 };

@@ -58,9 +58,11 @@ const ClientList: React.FC = () => {
         <p tw="text-xl font-semibold leading-tight px-10 mb-0">Clients</p>
       </div>
 
-      {state.clients.map((client) => (
-        <Card key={client.id} client={client} />
-      ))}
+      {state.clients.length <= 0 ? (
+        <p tw="py-4 font-medium px-10">No mqtt clients connected!</p>
+      ) : (
+        state.clients.map((client) => <Card key={client.id} client={client} />)
+      )}
     </>
   );
 };

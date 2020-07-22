@@ -38,7 +38,7 @@ const mqttPublisher = mqtt.connect(mqttServerAddress, mqttOptions);
  *  Emitted on successful (re)connection (i.e. connack rc=0).
  */
 mqttPublisher.on('connect', () => {
-  mqttPublisher.publish('test/echo', 'hello world');
+  console.log('publisher ready');
 
   setInterval(() => {
     const sampleDataPacket = {
@@ -51,7 +51,7 @@ mqttPublisher.on('connect', () => {
         {
           id: 'sensor-mq-001',
           type: 'mq2',
-          unit: 'PPM',
+          unit: 'ug/m3',
           compound: 'smoke',
           value: 16.10838,
         },
@@ -65,8 +65,8 @@ mqttPublisher.on('connect', () => {
         {
           id: 'sensor-mq-003',
           type: 'mq135',
-          unit: 'PPM',
-          compound: 'NOx',
+          unit: 'PPB',
+          compound: 'NO2',
           value: 0,
         },
       ],

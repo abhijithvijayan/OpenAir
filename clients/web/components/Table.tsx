@@ -1,13 +1,48 @@
+import Link from 'next/link';
 import React from 'react';
 import 'twin.macro';
 
 import Icon from './Icon';
 
-const Table: React.FC = () => {
+import {formatTimeDistance} from '../util/date';
+import {getClientUUID} from '../util/client';
+import {
+  useWebSocket,
+  ClientPacketCollection,
+} from '../contexts/web-socket-context';
+
+const Table: React.FC<{clientUUId: string}> = ({clientUUId}) => {
+  const [state] = useWebSocket();
+  const clientPacketCollection: ClientPacketCollection = state.published.filter(
+    (_published) => getClientUUID(_published.clientId) === clientUUId
+  )[0];
+
+  if (!clientPacketCollection) {
+    return (
+      <>
+        <p tw="pt-4 font-medium px-10">No client activity reported yet!</p>
+        <div tw="px-10">
+          <Link href="/">
+            <a tw="text-gray-700 text-sm hover:text-gray-600 border-b pb-1 border-gray-300 hover:border-gray-500 cursor-pointer inline-flex items-center mt-4">
+              <Icon name="arrow-left" tw="mr-1" />
+              Go Home
+            </a>
+          </Link>
+        </div>
+      </>
+    );
+  }
+
   return (
     <>
-      <div tw="py-4 bg-white border-b">
-        <p tw="text-xl font-semibold leading-tight px-6 mb-0">
+      <div tw="py-4 bg-white border-b flex">
+        <Link href="/">
+          <a tw="text-gray-700 text-sm hover:text-gray-600 hover:border-b hover:border-gray-300 cursor-pointer inline-flex items-center">
+            <Icon name="arrow-left" tw="ml-1" />
+          </a>
+        </Link>
+
+        <p tw="text-xl font-semibold leading-tight px-3 mb-0">
           Client Activity
         </p>
       </div>
@@ -16,12 +51,12 @@ const Table: React.FC = () => {
         <div tw="flex items-center px-6 py-2 mt-4 text-gray-900 cursor-pointer">
           <Icon name="cast" />
 
-          <span tw="mx-3">Publisher ID</span>
+          <span tw="mx-3">{clientUUId}</span>
         </div>
         <div tw="flex items-center px-6 py-2 mt-4 text-gray-900 cursor-pointer">
           <Icon name="map-pin" />
 
-          <span tw="mx-3">College of Engineering Adoor</span>
+          <span tw="mx-3">{clientPacketCollection.packets[0].name}</span>
         </div>
       </div>
 
@@ -47,49 +82,53 @@ const Table: React.FC = () => {
         </thead>
 
         <tbody tw="bg-white">
-          <tr>
-            <td tw="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-              <div tw="text-sm font-medium leading-5 text-gray-900">
-                2 hours ago
-              </div>
-            </td>
+          {clientPacketCollection.packets.map((packet) => {
+            return (
+              <tr>
+                <td tw="px-6 py-4 whitespace-no-wrap border-b border-gray-300">
+                  <div tw="text-sm font-medium leading-5 text-gray-700">
+                    Published {formatTimeDistance(packet.timestamp)} ago
+                  </div>
+                </td>
 
-            <td tw="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-gray-600 capitalize">
-              <div tw="flex flex-col">
-                <span>Sensor</span>
-                <span tw="mt-2 text-black">Aero treck</span>
-                <span tw="text-black">Grass Max</span>
-                <span tw="text-black">Mental</span>
-              </div>
-            </td>
+                <td tw="px-6 py-4 whitespace-no-wrap border-b border-gray-300 text-gray-600 capitalize">
+                  <div tw="flex flex-col">
+                    <span tw="mb-2">Sensor</span>
+                    {packet.readings.map(({type}) => (
+                      <span tw="text-gray-900 uppercase">{type}</span>
+                    ))}
+                  </div>
+                </td>
 
-            <td tw="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-gray-600 capitalize">
-              <div tw="flex flex-col">
-                <span>Compound</span>
-                <span tw="mt-2 text-black">Aero treck</span>
-                <span tw="text-black">Grass Max</span>
-                <span tw="text-black">Mental</span>
-              </div>
-            </td>
+                <td tw="px-6 py-4 whitespace-no-wrap border-b border-gray-300 text-gray-600 capitalize">
+                  <div tw="flex flex-col">
+                    <span tw="mb-2">Compound</span>
+                    {packet.readings.map(({compound}) => (
+                      <span tw="text-gray-900">{compound}</span>
+                    ))}
+                  </div>
+                </td>
 
-            <td tw="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-gray-600 capitalize">
-              <div tw="flex flex-col">
-                <span>Value</span>
-                <span tw="mt-2 text-black">Aero treck</span>
-                <span tw="text-black">Grass Max</span>
-                <span tw="text-black">Mental</span>
-              </div>
-            </td>
+                <td tw="px-6 py-4 whitespace-no-wrap border-b border-gray-300 text-gray-600 capitalize">
+                  <div tw="flex flex-col">
+                    <span tw="mb-2">Value</span>
+                    {packet.readings.map(({value}) => (
+                      <span tw="text-gray-900">{value}</span>
+                    ))}
+                  </div>
+                </td>
 
-            <td tw="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-gray-600 capitalize">
-              <div tw="flex flex-col">
-                <span>Unit</span>
-                <span tw="mt-2 text-black">Aero treck</span>
-                <span tw="text-black">Grass Max</span>
-                <span tw="text-black">Mental</span>
-              </div>
-            </td>
-          </tr>
+                <td tw="px-6 py-4 whitespace-no-wrap border-b border-gray-300 text-gray-600 capitalize">
+                  <div tw="flex flex-col">
+                    <span tw="mb-2">Unit</span>
+                    {packet.readings.map(({unit}) => (
+                      <span tw="text-gray-900 uppercase">{unit}</span>
+                    ))}
+                  </div>
+                </td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
     </>
