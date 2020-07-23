@@ -121,7 +121,26 @@ function webSocketReducer(state: State, action: Action): State {
     }
 
     case MqttClientsActionTypes.NEW_MQTT_CLIENT: {
-      return {...state, clients: [action.payload, ...state.clients]};
+      // Check if client already exist
+      const existingIndex: number = state.clients.findIndex(
+        (existing) => existing.uuid === action.payload.uuid
+      );
+
+      // not found
+      if (existingIndex === -1) {
+        return {...state, clients: [action.payload, ...state.clients]};
+      }
+
+      // replace with new entry
+      return {
+        ...state,
+        clients: [
+          action.payload,
+          ...state.clients.filter(
+            (_client) => _client.uuid !== action.payload.uuid
+          ),
+        ],
+      };
     }
 
     case MqttClientsActionTypes.NEW_PACKET_PUBLISH: {
