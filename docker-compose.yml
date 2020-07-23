@@ -19,7 +19,7 @@ services:
       context: ./server
       dockerfile: Dockerfile
     # run boot.sh as docker ENTRYPOINT command
-    entrypoint: ./server/boot.sh
+    entrypoint: ./boot.sh
     env_file: ./server/.env
     volumes:
       # Relative path map to listen to directory changes
