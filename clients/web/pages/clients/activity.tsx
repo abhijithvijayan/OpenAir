@@ -32,7 +32,7 @@ const IndexPage: React.FC = () => {
                 -1 ? (
                   <TablePage clientUUId={uuid} />
                 ) : (
-                  <div tw="p-4">
+                  <div tw="py-4 px-10">
                     <p tw="font-bold">Oops!</p>
                     <p>Client not connected</p>
                     <div>

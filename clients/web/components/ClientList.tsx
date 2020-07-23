@@ -39,7 +39,7 @@ const Card: React.FC<{client: MqttClient}> = ({client}) => {
                 {client.category.toUpperCase()}
               </p>
               <p tw="text-gray-500 text-sm mb-0">
-                Last connected {formatTimeDistance(client.connected_at)} ago
+                Last active {formatTimeDistance(client.connected_at)} ago
               </p>
             </div>
           </div>

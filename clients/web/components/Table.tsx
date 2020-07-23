@@ -20,7 +20,7 @@ const Table: React.FC<{clientUUId: string}> = ({clientUUId}) => {
   if (!clientPacketCollection) {
     return (
       <>
-        <p tw="pt-4 font-medium px-10">No client activity reported yet!</p>
+        <p tw="pt-4 font-medium px-10">No client activity yet reported!</p>
         <div tw="px-10">
           <Link href="/">
             <a tw="text-gray-700 text-sm hover:text-gray-600 border-b pb-1 border-gray-300 hover:border-gray-500 cursor-pointer inline-flex items-center mt-4">

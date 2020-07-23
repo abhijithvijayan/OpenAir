@@ -137,7 +137,7 @@ const startServer = (): void => {
       };
 
       // Sending to all websocket clients
-      eventSocket.emit('mqtt-client', connectedClient);
+      eventSocket.emit('mqtt-client-connects', connectedClient);
     }
   });
 
@@ -175,7 +175,7 @@ const startServer = (): void => {
         };
 
         // Sending to all clients
-        eventSocket.emit('mqtt-publish', {
+        eventSocket.emit('mqtt-client-publishes', {
           clientId: client.id,
           data: dataPacket,
         });
@@ -258,8 +258,42 @@ const startServer = (): void => {
    *  Fired when client ping
    */
   broker.on('ping', (_packet, client): void => {
-    const cId = client ? client.id : null;
-    console.log(`> Client Pings: \x1b[33m${cId}\x1b[0m`); // eslint-disable-line no-console
+    if (client) {
+      const {
+        id: clientId,
+        connected,
+        connecting,
+        closed,
+        version,
+        clean,
+      } = client;
+      console.log(`> MQTT Client Pings: \x1b[33m${clientId}\x1b[0m`); // eslint-disable-line no-console
+
+      const [clientPrefix, clientTypeCode, clientUUID] = clientId.split('_');
+      const clientCategory: string =
+        (clientTypeCode === ClientType.PUBLISHER_CODE &&
+          ClientType.PUBLISHER) ||
+        (clientTypeCode === ClientType.SUBSCRIBER_CODE &&
+          ClientType.SUBSCRIBER) ||
+        ClientType.UNKNOWN;
+
+      const connectedClient: MqttConnectedClient = {
+        id: clientId,
+        uuid: clientUUID,
+        prefix: clientPrefix,
+        type: clientTypeCode,
+        category: clientCategory,
+        connected_at: new Date().getTime(),
+        closed,
+        connecting,
+        connected,
+        clean,
+        version,
+      };
+
+      // Sending to all websocket clients
+      eventSocket.emit('mqtt-client-pings', connectedClient);
+    }
   });
 
   /**

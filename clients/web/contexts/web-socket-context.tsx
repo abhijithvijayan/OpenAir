@@ -227,7 +227,7 @@ const WebSocketProvider: React.FC<WebSocketProviderProps> = ({children}) => {
     // ********************************************* //
     // **** NEW MQTT CLIENT CONNECTED TO BROKER **** //
     // ********************************************* //
-    socket.on('mqtt-client', (payload: MqttClient) => {
+    socket.on('mqtt-client-connects', (payload: MqttClient) => {
       // new activity
       dispatch({
         type: MqttClientsActionTypes.NEW_CLIENT_ACTIVITY,
@@ -244,7 +244,7 @@ const WebSocketProvider: React.FC<WebSocketProviderProps> = ({children}) => {
     // ******************************************* //
     // **** MQTT CLIENT PUBLISHED DATA PACKET **** //
     // ******************************************* //
-    socket.on('mqtt-publish', (payload: PublishedPacket) => {
+    socket.on('mqtt-client-publishes', (payload: PublishedPacket) => {
       // new activity
       dispatch({
         type: MqttClientsActionTypes.NEW_CLIENT_ACTIVITY,
@@ -255,6 +255,14 @@ const WebSocketProvider: React.FC<WebSocketProviderProps> = ({children}) => {
         },
       });
       dispatch({type: MqttClientsActionTypes.NEW_PACKET_PUBLISH, payload});
+    });
+
+    // *************************** //
+    // **** MQTT CLIENT PINGS **** //
+    // *************************** //
+    socket.on('mqtt-client-pings', (payload: MqttClient) => {
+      // add client to collection
+      dispatch({type: MqttClientsActionTypes.NEW_MQTT_CLIENT, payload});
     });
 
     return (): void => {
