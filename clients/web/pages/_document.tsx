@@ -19,6 +19,7 @@ class AppDocument extends Document {
       ctx.renderPage = (): ReturnType<typeof ctx.renderPage> =>
         originalRenderPage({
           // useful for wrapping the whole react tree
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           enhanceApp: (App) => (props): any =>
             // eslint-disable-next-line react/jsx-props-no-spreading
             sheet.collectStyles(<App {...props} />),

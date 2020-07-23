@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading, @typescript-eslint/no-explicit-any */
 import React from 'react';
 
 import ChevronDownIcon from './ChevronDown';
@@ -51,8 +52,8 @@ type Props = {
   hoverStroke?: string;
   strokeWidth?: string;
   className?: string;
-  style?: unknown;
-  onClick?: (e?: unknown) => void;
+  style?: any;
+  onClick?: (e?: any) => void;
 };
 
 const Icon: React.FC<Props> = ({name, ...rest}) => {

@@ -14,7 +14,9 @@ import {useWebSocket} from '../../contexts/web-socket-context';
 
 const IndexPage: React.FC = () => {
   const router = useRouter();
-  const {id: uuid}: {uuid: string} = router.query;
+  const {id} = router.query;
+  const uuid = id as string;
+
   const [state] = useWebSocket();
 
   return (
