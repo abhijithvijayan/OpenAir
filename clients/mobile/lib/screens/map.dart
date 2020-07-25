@@ -199,61 +199,19 @@ class _MapState extends State<Map> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(children: <Widget>[
-        GoogleMap(
-          initialCameraPosition:
-              CameraPosition(target: _lastMapPosition, zoom: 11.5),
-          onMapCreated: _onMapCreated,
-          onCameraMove: _onCameraMove,
-          compassEnabled: true,
-          mapType: _currentMapType,
-          polylines: _polylines,
-          markers: _markers,
-        ),
-        Positioned(
-          top: 45,
-          left: 15,
-          right: 15,
-          child: Container(
-              height: 50,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(3.0),
-                  boxShadow: [
-                    BoxShadow(
-                        color: Colors.grey,
-                        offset: Offset(1.0, 5.0),
-                        blurRadius: 10,
-                        spreadRadius: 3)
-                  ]),
-              child: TextField(
-                  onTap: () async {
-                    Prediction p = await getPrediction();
-
-                    if (p != null) {
-                      displayPrediction(p, sourceController);
-                    }
-                  },
-                  controller: sourceController,
-                  cursorColor: Colors.blue.shade900,
-                  decoration: InputDecoration(
-                      icon: Container(
-                        child: Icon(
-                          Icons.location_on,
-                          color: Colors.blue.shade900,
-                        ),
-                        margin: EdgeInsets.only(left: 20, top: 4, bottom: 16),
-                        width: 10,
-                        height: 10,
-                      ),
-                      border: InputBorder.none,
-                      contentPadding:
-                          EdgeInsets.only(left: 15, top: 16, bottom: 15),
-                      hintText: 'Select your starting point'))),
-        ),
-        Positioned(
-            top: 103,
+        body: Stack(children: <Widget>[
+          GoogleMap(
+            initialCameraPosition:
+                CameraPosition(target: _lastMapPosition, zoom: 11.5),
+            onMapCreated: _onMapCreated,
+            onCameraMove: _onCameraMove,
+            compassEnabled: true,
+            mapType: _currentMapType,
+            polylines: _polylines,
+            markers: _markers,
+          ),
+          Positioned(
+            top: 45,
             left: 15,
             right: 15,
             child: Container(
@@ -274,17 +232,15 @@ class _MapState extends State<Map> {
                       Prediction p = await getPrediction();
 
                       if (p != null) {
-                        displayPrediction(p, destinationController);
+                        displayPrediction(p, sourceController);
                       }
                     },
-                    controller: destinationController,
-                    textInputAction: TextInputAction.go,
-                    onSubmitted: getRoutes,
-                    cursorColor: Colors.black,
+                    controller: sourceController,
+                    cursorColor: Colors.blue.shade900,
                     decoration: InputDecoration(
                         icon: Container(
                           child: Icon(
-                            Icons.local_taxi,
+                            Icons.location_on,
                             color: Colors.blue.shade900,
                           ),
                           margin: EdgeInsets.only(left: 20, top: 4, bottom: 16),
@@ -294,8 +250,73 @@ class _MapState extends State<Map> {
                         border: InputBorder.none,
                         contentPadding:
                             EdgeInsets.only(left: 15, top: 16, bottom: 15),
-                        hintText: 'Select your destination point'))))
-      ]),
-    );
+                        hintText: 'Select your starting point'))),
+          ),
+          Positioned(
+              top: 103,
+              left: 15,
+              right: 15,
+              child: Container(
+                  height: 50,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(3.0),
+                      boxShadow: [
+                        BoxShadow(
+                            color: Colors.grey,
+                            offset: Offset(1.0, 5.0),
+                            blurRadius: 10,
+                            spreadRadius: 3)
+                      ]),
+                  child: TextField(
+                      onTap: () async {
+                        Prediction p = await getPrediction();
+
+                        if (p != null) {
+                          displayPrediction(p, destinationController);
+                        }
+                      },
+                      controller: destinationController,
+                      textInputAction: TextInputAction.go,
+                      onSubmitted: getRoutes,
+                      cursorColor: Colors.black,
+                      decoration: InputDecoration(
+                          icon: Container(
+                            child: Icon(
+                              Icons.local_taxi,
+                              color: Colors.blue.shade900,
+                            ),
+                            margin:
+                                EdgeInsets.only(left: 20, top: 4, bottom: 16),
+                            width: 10,
+                            height: 10,
+                          ),
+                          border: InputBorder.none,
+                          contentPadding:
+                              EdgeInsets.only(left: 15, top: 16, bottom: 15),
+                          hintText: 'Select your destination point'))))
+        ]),
+        bottomNavigationBar: BottomNavigationBar(
+            iconSize: 20,
+            currentIndex: 0,
+            selectedFontSize: 13,
+            selectedIconTheme: IconThemeData(color: Colors.deepPurple),
+            unselectedItemColor: Colors.black54,
+            fixedColor: Colors.black,
+            showUnselectedLabels: true,
+            items: const <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.explore), title: Text('Explore')),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.home), title: Text('Saved')),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.account_circle), title: Text('Account')),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.notifications_active),
+                  title: Text('Alerts')),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.help), title: Text('Help')),
+            ]));
   }
 }
