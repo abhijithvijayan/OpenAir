@@ -18,7 +18,7 @@ class Map extends StatefulWidget {
 class _MapState extends State<Map> {
   static const GoogleApiKey = "API_KEY_HERE";
   // some native location
-  static const LatLng _center = const LatLng(9.1530, 76.7356);
+  static const LatLng _defaultMapLocation = const LatLng(9.1530, 76.7356);
 
   PolylinePoints polylinePoints = new PolylinePoints();
   Completer<GoogleMapController> _controller = new Completer();
@@ -26,7 +26,7 @@ class _MapState extends State<Map> {
   TextEditingController sourceController = new TextEditingController();
   TextEditingController destinationController = new TextEditingController();
 
-  LatLng _lastMapPosition = _center;
+  LatLng _lastMapPosition = _defaultMapLocation;
   MapType _currentMapType = MapType.normal;
   Set<Polyline> _polylines = {};
   Set<Marker> _markers = {};
@@ -184,6 +184,7 @@ class _MapState extends State<Map> {
   }
 
   Future<Null> displayPrediction(Prediction p, TextEditingController t) async {
+    // ToDo: show an input spinner
     // get detail (lat/lng)
     PlacesDetailsResponse detail = await _places.getDetailsByPlaceId(p.placeId);
     final lat = detail.result.geometry.location.lat;
@@ -191,7 +192,7 @@ class _MapState extends State<Map> {
 
     // ToDo: set lat/lng in state
     print("${p.description} - $lat/$lng");
-    // update text input value
+    // update user-typed text with prediction text
     t.text = p.description;
   }
 
@@ -200,7 +201,8 @@ class _MapState extends State<Map> {
     return Scaffold(
       body: Stack(children: <Widget>[
         GoogleMap(
-          initialCameraPosition: CameraPosition(target: _center, zoom: 11.5),
+          initialCameraPosition:
+              CameraPosition(target: _lastMapPosition, zoom: 11.5),
           onMapCreated: _onMapCreated,
           onCameraMove: _onCameraMove,
           compassEnabled: true,
