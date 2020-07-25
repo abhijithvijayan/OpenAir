@@ -11,19 +11,19 @@ Real-time Air Quality Monitoring and Navigation System based on IoT
 </div>
 
 <div>
-   <img width="250" src="./.github/screenshots/android-1.png" alt="Android Screen 1" />
+   <img width="230" src="./.github/screenshots/android-1.png" alt="Android Screen 1" />
   <div>_</div>
-  <img width="250" src="./.github/screenshots/android-2.png" alt="Android Screen 2" />
+  <img width="230" src="./.github/screenshots/android-2.png" alt="Android Screen 2" />
   <div>_</div>
-  <img width="250" src="./.github/screenshots/android-3.png" alt="Android Screen 3" />
+  <img width="230" src="./.github/screenshots/android-3.png" alt="Android Screen 3" />
 </div>
 
 <div>
-  <img width="250" src="./.github/screenshots/android-4.png" alt="Android Screen 4" />
+  <img width="230" src="./.github/screenshots/android-4.png" alt="Android Screen 4" />
   <div>_</div>
-  <img width="250" src="./.github/screenshots/android-5.png" alt="Android Screen 5" />
+  <img width="230" src="./.github/screenshots/android-5.png" alt="Android Screen 5" />
     <div>_</div>
-  <img width="250" src="./.github/screenshots/android-6.png" alt="Android Screen 6" />
+  <img width="230" src="./.github/screenshots/android-6.png" alt="Android Screen 6" />
 </div>
 
 <hr />
