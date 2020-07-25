@@ -2,7 +2,28 @@
 
 Real-time Air Quality Monitoring and Navigation System based on IoT
 
-#### Uses
+## Screenshots
+
+<div>
+  <img src="./.github/screenshots/dashboard-clients.png" alt="Dashboard Clients" />
+  <div>_</div>
+  <img src="./.github/screenshots/dashboard-client-activity.png" alt="Dashboard Client Activity" />
+  <img width="250" src="./.github/screenshots/android-1.png" alt="Android Screen 1" />
+  <div>_</div>
+  <img width="330" src="./.github/screenshots/android-2.png" alt="Android Screen 2" />
+  <div>_</div>
+  <img width="330" src="./.github/screenshots/android-3.png" alt="Android Screen 3" />
+  <div>_</div>
+  <img width="330" src="./.github/screenshots/android-4.png" alt="Android Screen 4" />
+  <div>_</div>
+  <img width="330" src="./.github/screenshots/android-5.png" alt="Android Screen 5" />
+  <div>_</div>
+  <img width="330" src="./.github/screenshots/android-6.png" alt="Android Screen 6" />
+</div>
+
+<hr />
+
+## Uses
 
 - MQTT
 - Websockets
